@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/RedditReader/RedditReader.iml" filepath="$PROJECT_DIR$/RedditReader/RedditReader.iml" />
       <module fileurl="file://$PROJECT_DIR$/RedditReaderProject.iml" filepath="$PROJECT_DIR$/RedditReaderProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/reddit-reader.iml" filepath="$PROJECT_DIR$/reddit-reader.iml" />
     </modules>
   </component>
 </project>

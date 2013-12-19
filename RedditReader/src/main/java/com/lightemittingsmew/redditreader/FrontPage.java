@@ -41,14 +41,15 @@ public class FrontPage extends ActionBarActivity {
             JSONArray jsonArrayStories = stories.getJSONObject("data").getJSONArray("children");
 
             for(int i=0;i<jsonArrayStories.length();i++){
-                JSONObject currentStory = jsonArrayStories.getJSONObject(0).getJSONObject("data");
+                JSONObject currentStory = jsonArrayStories.getJSONObject(i).getJSONObject("data");
                 listStories.add(currentStory);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        //ArrayAdapter aa = new ArrayAdapter(this, listViewStories, listStories);
+        ArrayAdapter aa = new ArticleArrayAdapter(this, R.layout.list_article, listStories);
+        listViewStories.setAdapter(aa);
     }
 
     @Override
