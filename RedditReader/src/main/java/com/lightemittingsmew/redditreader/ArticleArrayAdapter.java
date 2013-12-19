@@ -7,13 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.toolbox.ImageRequest;
-import com.android.volley.toolbox.Volley;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,42 +33,42 @@ public class ArticleArrayAdapter extends ArrayAdapter<JSONObject> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        RequestQueue queue = Volley.newRequestQueue(thisContext);
-
         LayoutInflater inflater = (LayoutInflater) thisContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View rowView = inflater.inflate(R.layout.list_article, parent, false);
-        final ImageView imageView = (ImageView) rowView.findViewById(R.id.imageViewThumbnail);
+        View rowView = inflater.inflate(R.layout.list_article, parent, false);
         TextView textView = (TextView) rowView.findViewById(R.id.textViewTitle);
+        String title = "Could not find title";
+        String thumbnailUrl = "default";
 
-        String title;
-        String thumbNailUrl = "default";
         try {
             title = articles.get(position).getString("title");
-            thumbNailUrl = articles.get(position).getString("thumbnail");
+            thumbnailUrl = articles.get(position).getString("thumbnail");
         } catch (JSONException e) {
             e.printStackTrace();
-            title = "Could not find title";
         }
         textView.setText(title);
 
-        if(thumbNailUrl.equals("default") || thumbNailUrl.equals("")){}
-        if(thumbNailUrl.equals("self")){}
-        if(thumbNailUrl.equals("nsfw")){}
-        else{
-            try {
-                ImageRequest ir = new ImageRequest(thumbNailUrl, new Response.Listener<Bitmap>() {
-                    @Override
-                    public void onResponse(Bitmap response) {
-                        imageView.setImageBitmap(response);
-                    }
-                }, 0, 0, null, null);
+        ImageLoader imageLoader = new ImageLoader(FrontPage.queue, new ImageLoader.ImageCache() {
+            @Override
+            public void putBitmap(String key, Bitmap value) { }
 
-                queue.add(ir);
+            @Override
+            public Bitmap getBitmap(String key) {
+                return null;
             }
-            catch (NullPointerException e){
+        });
+
+        if(thumbnailUrl.equals("default") || thumbnailUrl.equals("")){}
+        else if(thumbnailUrl.equals("self")){}
+        else if(thumbnailUrl.equals("nsfw")){}
+        else{
+            NetworkImageView imageViewThumbnail = (NetworkImageView)rowView.findViewById(R.id.imageViewThumbnail);
+            try{
+                imageViewThumbnail.setImageUrl(thumbnailUrl, imageLoader);
+            }
+            catch(NullPointerException e){
                 e.printStackTrace();
-                Log.e("Problem URL", thumbNailUrl);
+                Log.e("URL", thumbnailUrl);
             }
         }
 
