@@ -1,5 +1,6 @@
 package com.lightemittingsmew.redditreader;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -8,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -27,6 +29,7 @@ import java.util.ArrayList;
 public class FrontPage extends ActionBarActivity {
 
     public static RequestQueue queue;
+    public static final String COMMENT_URL = "com.lightemittingsmew.redditreader.COMMENT_URL";
 
     private void displayStories(JSONObject stories){
         ListView listViewStories = (ListView)findViewById(R.id.listViewStories);
@@ -45,6 +48,25 @@ public class FrontPage extends ActionBarActivity {
 
         ArrayAdapter aa = new ArticleArrayAdapter(this, R.layout.list_article, listStories);
         listViewStories.setAdapter(aa);
+
+        listViewStories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view,
+                                    int position, long id) {
+                JSONObject item = (JSONObject)parent.getItemAtPosition(position);
+                String url = "nope";
+                try {
+                    url = item.getString("permalink");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Intent intent = new Intent(getApplicationContext(), Comments.class);
+                intent.putExtra(COMMENT_URL, url);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
