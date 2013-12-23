@@ -1,17 +1,16 @@
 package com.lightemittingsmew.redditreader;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -19,19 +18,29 @@ import com.android.volley.toolbox.JsonArrayRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Comments extends ActionBarActivity {
 
-    TextView ti;
+    ListView listViewComments;
 
     private void parseComments(JSONArray response){
+        List<JSONObject> listComments = new ArrayList<JSONObject>();
         try {
             JSONArray comments = response.getJSONObject(1).getJSONObject("data").getJSONArray("children");
-            String comment1 = comments.getJSONObject(0).getJSONObject("data").getString("body");
-            ti.setText(comment1);
+            //String comment1 = comments.getJSONObject(0).getJSONObject("data").getString("body");
+            for(int i=0;i<comments.length();i++){
+                listComments.add(comments.getJSONObject(i));
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        ArrayAdapter commentAdapter = new ArrayAdapter(this, R.layout.list_comment, listComments);
+        listViewComments.setAdapter(commentAdapter);
     }
 
     @Override
@@ -45,7 +54,7 @@ public class Comments extends ActionBarActivity {
                     .commit();
         }
 
-        ti = (TextView)findViewById(R.id.textViewHi);
+        listViewComments = (ListView)findViewById(R.id.listViewComments);
 
         Intent intent = getIntent();
         final String url = "http://www.reddit.com" + intent.getStringExtra(FrontPage.COMMENT_URL) + ".json";

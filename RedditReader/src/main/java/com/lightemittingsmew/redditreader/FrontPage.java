@@ -46,8 +46,8 @@ public class FrontPage extends ActionBarActivity {
             e.printStackTrace();
         }
 
-        ArrayAdapter aa = new ArticleArrayAdapter(this, R.layout.list_article, listStories);
-        listViewStories.setAdapter(aa);
+        ArrayAdapter articleAdapter = new ArticleArrayAdapter(this, R.layout.list_article, listStories);
+        listViewStories.setAdapter(articleAdapter);
 
         listViewStories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
