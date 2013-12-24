@@ -28,10 +28,10 @@ public class Comments extends ActionBarActivity {
     ListView listViewComments;
 
     private void parseComments(JSONArray response){
-        List<JSONObject> listComments = new ArrayList<JSONObject>();
+        ArrayList<JSONObject> listComments = new ArrayList<JSONObject>();
+
         try {
             JSONArray comments = response.getJSONObject(1).getJSONObject("data").getJSONArray("children");
-            //String comment1 = comments.getJSONObject(0).getJSONObject("data").getString("body");
             for(int i=0;i<comments.length();i++){
                 listComments.add(comments.getJSONObject(i));
             }
@@ -39,7 +39,7 @@ public class Comments extends ActionBarActivity {
             e.printStackTrace();
         }
 
-        ArrayAdapter commentAdapter = new ArrayAdapter(this, R.layout.list_comment, listComments);
+        ArrayAdapter commentAdapter = new CommentArrayAdapter(this, R.layout.list_comment, listComments);
         listViewComments.setAdapter(commentAdapter);
     }
 
