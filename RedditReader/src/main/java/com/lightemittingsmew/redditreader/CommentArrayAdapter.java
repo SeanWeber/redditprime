@@ -7,11 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -37,12 +39,23 @@ public class CommentArrayAdapter extends ArrayAdapter<JSONObject> {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.list_comment, parent, false);
 
+        ArrayList<JSONObject> listReplies = new ArrayList<JSONObject>();
         TextView textView = (TextView) rowView.findViewById(R.id.textViewComment);
+        ListView listViewReplies = (ListView)rowView.findViewById(R.id.listViewReplies);
+
         try {
-            textView.setText(articles.get(position).getJSONObject("data").getString("body"));
+            JSONObject comment = articles.get(position).getJSONObject("data");
+            JSONArray replies = comment.getJSONObject("replies").getJSONObject("data").getJSONArray("children");
+            for(int i=0;i<replies.length();i++){
+                listReplies.add(replies.getJSONObject(i));
+            }
+            textView.setText(comment.getString("body"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        ArrayAdapter commentAdapter = new CommentArrayAdapter(thisContext, R.layout.list_comment, listReplies);
+        listViewReplies.setAdapter(commentAdapter);
 
         return rowView;
     }
