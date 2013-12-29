@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 
 import com.android.volley.Request;
@@ -29,10 +30,9 @@ import java.util.ArrayList;
 public class FrontPage extends ActionBarActivity {
 
     public static RequestQueue queue;
-    public static final String COMMENT_URL = "com.lightemittingsmew.redditreader.COMMENT_URL";
 
     private void displayStories(JSONObject stories){
-        ListView listViewStories = (ListView)findViewById(R.id.listViewStories);
+        ExpandableListView listViewStories = (ExpandableListView) findViewById(R.id.listViewStories);
         ArrayList<JSONObject> listStories = new ArrayList<JSONObject>();
 
         try {
@@ -46,27 +46,8 @@ public class FrontPage extends ActionBarActivity {
             e.printStackTrace();
         }
 
-        ArrayAdapter articleAdapter = new ArticleArrayAdapter(this, R.layout.list_article, listStories);
+        ArticleArrayAdapter articleAdapter = new ArticleArrayAdapter(this, R.layout.list_article, listStories);
         listViewStories.setAdapter(articleAdapter);
-
-        listViewStories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, final View view,
-                                    int position, long id) {
-                JSONObject item = (JSONObject)parent.getItemAtPosition(position);
-                String url = "nope";
-                try {
-                    url = item.getString("permalink");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                Intent intent = new Intent(getApplicationContext(), Comments.class);
-                intent.putExtra(COMMENT_URL, url);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override
