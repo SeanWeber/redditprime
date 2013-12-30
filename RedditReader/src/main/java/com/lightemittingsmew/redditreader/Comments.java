@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ExpandableListView;
 import android.widget.ListView;
 
 import com.android.volley.Response;
@@ -26,7 +25,7 @@ import java.util.List;
 
 public class Comments extends ActionBarActivity {
 
-    ExpandableListView listViewComments;
+    ListView listViewComments;
 
     private void parseComments(JSONArray response){
         ArrayList<JSONObject> listComments = new ArrayList<JSONObject>();
@@ -55,7 +54,7 @@ public class Comments extends ActionBarActivity {
                     .commit();
         }
 
-        listViewComments = (ExpandableListView)findViewById(R.id.listViewComments);
+        listViewComments = (ListView)findViewById(R.id.listViewComments);
 
         Intent intent = getIntent();
         final String url = "http://www.reddit.com" + intent.getStringExtra(ArticleArrayAdapter.COMMENT_URL) + ".json";

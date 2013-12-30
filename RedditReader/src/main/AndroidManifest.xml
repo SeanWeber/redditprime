@@ -28,6 +28,10 @@
             android:name="com.lightemittingsmew.redditreader.Comments"
             android:label="@string/title_activity_comments" >
         </activity>
+        <activity
+            android:name="com.lightemittingsmew.redditreader.Login"
+            android:label="@string/title_activity_login" >
+        </activity>
     </application>
 
 </manifest>
