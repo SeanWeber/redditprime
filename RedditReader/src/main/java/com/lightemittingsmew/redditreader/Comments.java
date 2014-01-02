@@ -9,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.android.volley.Response;
@@ -18,23 +17,19 @@ import com.android.volley.toolbox.JsonArrayRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Comments extends ActionBarActivity {
 
     ListView listViewComments;
 
     private void parseComments(JSONArray response){
-        ArrayList<JSONObject> listComments = new ArrayList<JSONObject>();
+        ArrayList<Comment> listComments = new ArrayList<Comment>();
 
         try {
             JSONArray comments = response.getJSONObject(1).getJSONObject("data").getJSONArray("children");
-            for(int i=0;i<comments.length();i++){
-                listComments.add(comments.getJSONObject(i));
-            }
+            listComments = Comment.parseCommentArray(comments);
         } catch (JSONException e) {
             e.printStackTrace();
         }

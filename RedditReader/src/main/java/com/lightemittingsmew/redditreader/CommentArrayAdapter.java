@@ -1,33 +1,23 @@
 package com.lightemittingsmew.redditreader;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 /**
  * Created by smw on 12/23/13.
  */
-public class CommentArrayAdapter extends ArrayAdapter<JSONObject> {
+public class CommentArrayAdapter extends ArrayAdapter<Comment> {
     private Context thisContext;
-    private ArrayList<JSONObject> articles;
+    private ArrayList<Comment> articles;
 
-    public CommentArrayAdapter(Context context, int textViewResourceId,
-                               ArrayList<JSONObject> objects) {
+    public CommentArrayAdapter(Context context, int textViewResourceId, ArrayList<Comment> objects){
         super(context, textViewResourceId, objects);
         thisContext = context;
         articles = objects;
@@ -35,27 +25,30 @@ public class CommentArrayAdapter extends ArrayAdapter<JSONObject> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) thisContext
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        Comment currentComment = articles.get(position);
+        ArrayList<Comment> listReplies;
+
+        // Get the proper views and layouts
+        LayoutInflater inflater = (LayoutInflater) thisContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.list_comment, parent, false);
-
-        ArrayList<JSONObject> listReplies = new ArrayList<JSONObject>();
         TextView textView = (TextView) rowView.findViewById(R.id.textViewComment);
-        ListView listViewReplies = (ListView)rowView.findViewById(R.id.listViewReplies);
+        LinearLayout replies = (LinearLayout) rowView.findViewById(R.id.replies);
 
-        try {
-            JSONObject comment = articles.get(position).getJSONObject("data");
-            JSONArray replies = comment.getJSONObject("replies").getJSONObject("data").getJSONArray("children");
-            for(int i=0;i<replies.length();i++){
-                listReplies.add(replies.getJSONObject(i));
+        // Display comment information
+        textView.setText(currentComment.getBody());
+        listReplies = currentComment.getReplies();
+
+        // Show any replies
+        if(listReplies != null){
+            for(Comment reply : listReplies){
+                View line = inflater.inflate(R.layout.list_comment, null);
+
+                TextView tv = (TextView) line.findViewById(R.id.textViewComment);
+                tv.setText(reply.getBody());
+
+                replies.addView(line);
             }
-            textView.setText(comment.getString("body"));
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
-
-        ArrayAdapter commentAdapter = new CommentArrayAdapter(thisContext, R.layout.list_comment, listReplies);
-        listViewReplies.setAdapter(commentAdapter);
 
         return rowView;
     }
