@@ -1,5 +1,6 @@
 package com.lightemittingsmew.redditreader;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,18 +39,32 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
         textView.setText(currentComment.getBody());
         listReplies = currentComment.getReplies();
 
+        parseReplies(listReplies, replies);
+
+        return rowView;
+    }
+
+    public void parseReplies(ArrayList<Comment> listReplies, LinearLayout replies){
         // Show any replies
         if(listReplies != null){
             for(Comment reply : listReplies){
-                View line = inflater.inflate(R.layout.list_comment, null);
 
+                // Get the views we need
+                LayoutInflater inflater = (LayoutInflater) thisContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View line = inflater.inflate(R.layout.list_comment, null);
+                LinearLayout moreReplies = (LinearLayout) line.findViewById(R.id.replies);
                 TextView tv = (TextView) line.findViewById(R.id.textViewComment);
+
                 tv.setText(reply.getBody());
+
+                // Replies all the way down
+                ArrayList<Comment> replyReplies = reply.getReplies();
+
+                // Continue down the reply chain
+                parseReplies(replyReplies, moreReplies);
 
                 replies.addView(line);
             }
         }
-
-        return rowView;
     }
 }

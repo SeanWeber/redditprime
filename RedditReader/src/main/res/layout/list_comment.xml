@@ -8,12 +8,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
-        android:id="@+id/textViewComment" />
+        android:id="@+id/textViewComment"
+        android:layout_margin="10dp" />
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/replies"></LinearLayout>
+        android:id="@+id/replies"
+        android:layout_marginLeft="20dp"></LinearLayout>
 
 </LinearLayout>
