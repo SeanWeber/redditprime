@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.TextView;
@@ -55,7 +54,7 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
         }
         txtListChild.setText(title);
 
-        ImageLoader imageLoader = new ImageLoader(FrontPage.queue, new ImageLoader.ImageCache() {
+        ImageLoader imageLoader = new ImageLoader(VolleyRequest.queue, new ImageLoader.ImageCache() {
             @Override
             public void putBitmap(String key, Bitmap value) { }
 

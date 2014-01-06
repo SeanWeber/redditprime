@@ -67,7 +67,7 @@ public class Comments extends ActionBarActivity {
             }
         });
 
-        FrontPage.queue.add(jsonArrayRequest);
+        VolleyRequest.queue.add(jsonArrayRequest);
 
     }
 

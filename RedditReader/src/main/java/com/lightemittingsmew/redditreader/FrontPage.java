@@ -1,5 +1,6 @@
 package com.lightemittingsmew.redditreader;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,8 +29,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class FrontPage extends ActionBarActivity {
-
-    public static RequestQueue queue;
 
     private void displayStories(JSONObject stories){
         ExpandableListView listViewStories = (ExpandableListView) findViewById(R.id.listViewStories);
@@ -61,7 +60,8 @@ public class FrontPage extends ActionBarActivity {
                     .commit();
         }
 
-        queue = Volley.newRequestQueue(this);
+        VolleyRequest.initQueue(this.getApplication());
+
         String url = "http://www.reddit.com/.json";
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -76,7 +76,7 @@ public class FrontPage extends ActionBarActivity {
             public void onErrorResponse(VolleyError error) {}
         });
 
-        queue.add(jsObjRequest);
+        VolleyRequest.queue.add(jsObjRequest);
     }
 
     @Override

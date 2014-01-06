@@ -1,6 +1,5 @@
 package com.lightemittingsmew.redditreader;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,11 +16,14 @@ import java.util.ArrayList;
 public class CommentArrayAdapter extends ArrayAdapter<Comment> {
     private Context thisContext;
     private ArrayList<Comment> articles;
+    View line;
+    LayoutInflater inflater;
 
     public CommentArrayAdapter(Context context, int textViewResourceId, ArrayList<Comment> objects){
         super(context, textViewResourceId, objects);
         thisContext = context;
         articles = objects;
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -30,41 +32,57 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
         ArrayList<Comment> listReplies;
 
         // Get the proper views and layouts
-        LayoutInflater inflater = (LayoutInflater) thisContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.list_comment, parent, false);
-        TextView textView = (TextView) rowView.findViewById(R.id.textViewComment);
-        LinearLayout replies = (LinearLayout) rowView.findViewById(R.id.replies);
+        View rowView = convertView;
+        if (rowView == null) {
+         rowView = inflater.inflate(R.layout.list_comment, parent, false);
+        }
 
-        // Display comment information
-        textView.setText(currentComment.getBody());
+        LinearLayout replies = setComment(currentComment, null, rowView);
+
         listReplies = currentComment.getReplies();
-
-        parseReplies(listReplies, replies);
+        parseReplies(listReplies, replies, null);
 
         return rowView;
     }
 
-    public void parseReplies(ArrayList<Comment> listReplies, LinearLayout replies){
+    public void parseReplies(ArrayList<Comment> listReplies, LinearLayout replies, View convertView){
         // Show any replies
         if(listReplies != null){
             for(Comment reply : listReplies){
 
-                // Get the views we need
-                LayoutInflater inflater = (LayoutInflater) thisContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View line = inflater.inflate(R.layout.list_comment, null);
-                LinearLayout moreReplies = (LinearLayout) line.findViewById(R.id.replies);
-                TextView tv = (TextView) line.findViewById(R.id.textViewComment);
-
-                tv.setText(reply.getBody());
+                LinearLayout moreReplies = setComment(reply, replies, convertView);
 
                 // Replies all the way down
                 ArrayList<Comment> replyReplies = reply.getReplies();
 
                 // Continue down the reply chain
-                parseReplies(replyReplies, moreReplies);
-
-                replies.addView(line);
+                parseReplies(replyReplies, moreReplies, convertView);
             }
         }
+    }
+
+    public LinearLayout setComment(Comment comment, LinearLayout replies, View convertView){
+        // Get the views we need
+        View view = convertView;
+        if (view == null) {
+            view = inflater.inflate(R.layout.list_comment, null);
+        }
+        LinearLayout moreReplies = (LinearLayout) view.findViewById(R.id.replies);
+        TextView body = (TextView) view.findViewById(R.id.textViewComment);
+        TextView ups = (TextView) view.findViewById(R.id.textViewUps);
+        TextView downs = (TextView) view.findViewById(R.id.textViewDowns);
+        TextView author = (TextView) view.findViewById(R.id.textViewAuthor);
+
+        // Display comment information
+        body.setText(comment.getBody());
+        ups.setText(comment.getUps());
+        downs.setText(comment.getDowns());
+        author.setText(comment.getAuthor());
+
+        if(replies != null){
+            replies.addView(view);
+        }
+
+        return moreReplies;
     }
 }
