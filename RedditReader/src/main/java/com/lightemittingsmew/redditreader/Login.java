@@ -1,27 +1,18 @@
 package com.lightemittingsmew.redditreader;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 import android.widget.EditText;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class Login extends ActionBarActivity {
 
@@ -81,7 +72,7 @@ public class Login extends ActionBarActivity {
         String user = username.getText().toString();
         String pass = password.getText().toString();
 
-        LoginRequest loginRequest = new LoginRequest (user, pass, new Response.Listener<String>() {
+        LoginRequest loginRequest = new LoginRequest (user, pass, this, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 login();

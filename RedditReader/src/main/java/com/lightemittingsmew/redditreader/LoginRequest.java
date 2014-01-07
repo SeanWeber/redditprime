@@ -1,5 +1,9 @@
 package com.lightemittingsmew.redditreader;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -15,11 +19,13 @@ import java.util.Map;
 public class LoginRequest extends StringRequest {
     private String user;
     private String pass;
+    private Context context;
 
-    public LoginRequest(String username, String password, Response.Listener<String> listener, Response.ErrorListener errorListener) {
+    public LoginRequest(String username, String password, Context con, Response.Listener<String> listener, Response.ErrorListener errorListener) {
         super(Request.Method.POST, "http://www.reddit.com/api/login", listener, errorListener);
         user = username;
         pass = password;
+        context = con;
     }
 
     @Override
@@ -43,7 +49,14 @@ public class LoginRequest extends StringRequest {
     @Override
     protected Response<String> parseNetworkResponse(NetworkResponse response) {
         if (response.headers.containsKey("Set-Cookie") && response.headers.get("Set-Cookie").startsWith("reddit_session")) {
-            VolleyRequest.cookie = response.headers.get("Set-Cookie");
+            String cookie = response.headers.get("Set-Cookie");
+            VolleyRequest.cookie = cookie;
+
+            // Save the cookie so the user does not need to log in each time
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+            SharedPreferences.Editor prefEditor = preferences.edit();
+            prefEditor.putString("Cookie", cookie);
+            prefEditor.commit();
         }
 
         return super.parseNetworkResponse(response);
