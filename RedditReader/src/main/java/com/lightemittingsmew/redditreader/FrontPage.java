@@ -10,25 +10,27 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
-import android.widget.ListView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class FrontPage extends ActionBarActivity {
+
+    private Context context;
 
     private void displayStories(JSONObject stories){
         ExpandableListView listViewStories = (ExpandableListView) findViewById(R.id.listViewStories);
@@ -60,11 +62,13 @@ public class FrontPage extends ActionBarActivity {
                     .commit();
         }
 
+        context = this;
+
         VolleyRequest.initQueue(this.getApplication());
 
         String url = "http://www.reddit.com/.json";
 
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        final JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
@@ -73,8 +77,51 @@ public class FrontPage extends ActionBarActivity {
         }, new Response.ErrorListener() {
 
             @Override
-            public void onErrorResponse(VolleyError error) {}
-        });
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = super.getHeaders();
+
+                if (headers == null || headers.equals(Collections.emptyMap())) {
+                    headers = new HashMap<String, String>();
+                }
+
+                headers.put("Cookie", VolleyRequest.cookie);
+                headers.put("User-Agent", "redditReader01");
+
+                return headers;
+            }
+        };
+
+        final JsonObjectRequest whoAmI = new JsonObjectRequest(Request.Method.GET, "http://www.reddit.com/api/me.json", null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                String yo = jsonObject.toString();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = super.getHeaders();
+
+                if (headers == null || headers.equals(Collections.emptyMap())) {
+                    headers = new HashMap<String, String>();
+                }
+
+                headers.put("Cookie", VolleyRequest.cookie);
+                headers.put("User-Agent", "redditReader01");
+
+                return headers;
+            }
+        };
+
 
         VolleyRequest.queue.add(jsObjRequest);
     }
@@ -95,6 +142,10 @@ public class FrontPage extends ActionBarActivity {
         switch (item.getItemId()) {
             case R.id.action_settings:
                 return true;
+            case R.id.action_login:{
+                Intent intent = new Intent(context, Login.class);
+                context.startActivity(intent);
+            }
         }
         return super.onOptionsItemSelected(item);
     }
