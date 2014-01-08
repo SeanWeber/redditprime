@@ -26,6 +26,7 @@ import java.util.ArrayList;
  */
 public class ArticleArrayAdapter extends BaseExpandableListAdapter {
     public static final String COMMENT_URL = "com.lightemittingsmew.redditreader.COMMENT_URL";
+    public static final String ARTICLE_URL = "com.lightemittingsmew.redditreader.ARTICLE_URL";
     private Context thisContext;
     private ArrayList<JSONObject> articles;
 
@@ -131,6 +132,7 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
 
         TextView txtListChild = (TextView) convertView.findViewById(R.id.textViewChild);
         Button buttonComment = (Button) convertView.findViewById(R.id.buttonComments);
+        Button buttonArticle = (Button) convertView.findViewById(R.id.buttonArticle);
 
         String commentUrl = "";
         String articleUrl = "";
@@ -170,6 +172,16 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent(thisContext, Comments.class);
                 intent.putExtra(COMMENT_URL, finalUrl);
+                thisContext.startActivity(intent);
+            }
+        });
+
+        final String finalArticleUrl = articleUrl;
+        buttonArticle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(thisContext, Article.class);
+                intent.putExtra(ARTICLE_URL, finalArticleUrl);
                 thisContext.startActivity(intent);
             }
         });

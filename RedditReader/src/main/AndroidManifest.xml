@@ -32,6 +32,10 @@
             android:name="com.lightemittingsmew.redditreader.Login"
             android:label="@string/title_activity_login" >
         </activity>
+        <activity
+            android:name="com.lightemittingsmew.redditreader.Article"
+            android:label="@string/title_activity_article" >
+        </activity>
     </application>
 
 </manifest>
