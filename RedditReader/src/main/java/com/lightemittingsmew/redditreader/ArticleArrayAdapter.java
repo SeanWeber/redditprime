@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -36,7 +37,6 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
     private static class ViewHolder {
         private NetworkImageView imageView;
         private TextView txtListChild;
-
     }
 
     @Override
@@ -124,24 +124,47 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) thisContext
+            LayoutInflater inflater = (LayoutInflater) thisContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.list_article_child, parent, false);
+            convertView = inflater.inflate(R.layout.list_article_child, parent, false);
         }
 
         TextView txtListChild = (TextView) convertView.findViewById(R.id.textViewChild);
         Button buttonComment = (Button) convertView.findViewById(R.id.buttonComments);
-        txtListChild.setText("childText");
 
-        String url = "nope";
+        String commentUrl = "";
+        String articleUrl = "";
+        String selftext = "";
 
         try {
-            url = articles.get(groupPosition).getString("permalink");
+            commentUrl = articles.get(groupPosition).getString("permalink");
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        final String finalUrl = url;
+        try {
+            articleUrl = articles.get(groupPosition).getString("url");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            selftext = articles.get(groupPosition).getString("selftext");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        txtListChild.setText(selftext);
+
+        NetworkImageView img = (NetworkImageView) convertView.findViewById(R.id.imageViewfull);
+        img.setImageUrl(null, VolleyRequest.imageLoader);
+
+        if( articleUrl.endsWith(".jpg") || articleUrl.endsWith(".jpeg") ||
+                articleUrl.endsWith(".gif") || articleUrl.endsWith(".png")){
+            img.setImageUrl(articleUrl, VolleyRequest.imageLoader);
+        }
+
+        final String finalUrl = commentUrl;
         buttonComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
