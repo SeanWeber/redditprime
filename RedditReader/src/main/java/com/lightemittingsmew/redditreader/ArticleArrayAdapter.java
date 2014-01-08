@@ -3,6 +3,7 @@ package com.lightemittingsmew.redditreader;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.support.v4.util.LruCache;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,51 +33,56 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
         articles = objects;
     }
 
+    private static class ViewHolder {
+        private NetworkImageView imageView;
+        private TextView txtListChild;
+
+    }
+
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+        ViewHolder holder;
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) thisContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.list_article, parent, false);
+
+            holder = new ViewHolder();
+            holder.imageView = (NetworkImageView) convertView.findViewById(R.id.imageViewThumbnail);
+            holder.txtListChild = (TextView) convertView.findViewById(R.id.textViewTitle);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
 
-        String title = "no";
-        String thumbnailUrl = "default";
-
-        TextView txtListChild = (TextView) convertView.findViewById(R.id.textViewTitle);
-        NetworkImageView imageViewThumbnail = (NetworkImageView) convertView.findViewById(R.id.imageViewThumbnail);
+        String thumbnailUrl = "";
+        String title = "";
 
         try {
-            title = articles.get(groupPosition).getString("title");
             thumbnailUrl = articles.get(groupPosition).getString("thumbnail");
+            title = articles.get(groupPosition).getString("title");
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        txtListChild.setText(title);
 
-        ImageLoader imageLoader = new ImageLoader(VolleyRequest.queue, new ImageLoader.ImageCache() {
-            @Override
-            public void putBitmap(String key, Bitmap value) { }
+        holder.txtListChild.setText(title);
 
-            @Override
-            public Bitmap getBitmap(String key) {
-                return null;
-            }
-        });
+        holder.imageView.setDefaultImageResId(R.drawable.defaultthumbnail);
+        holder.imageView.setErrorImageResId(R.drawable.errorthumbnail);
+        holder.imageView.setImageUrl(null, VolleyRequest.imageLoader);
 
         if(thumbnailUrl.equals("default") || thumbnailUrl.equals("")){}
         else if(thumbnailUrl.equals("self")){}
         else if(thumbnailUrl.equals("nsfw")){}
         else{
             try{
-                imageViewThumbnail.setImageUrl(thumbnailUrl, imageLoader);
+                holder.imageView.setImageUrl(thumbnailUrl, VolleyRequest.imageLoader);
             }
-            catch(NullPointerException e){
+            catch(Exception e){
                 e.printStackTrace();
                 Log.e("URL", thumbnailUrl);
             }
         }
-
         return convertView;
     }
 
