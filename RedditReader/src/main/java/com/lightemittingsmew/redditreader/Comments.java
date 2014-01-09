@@ -29,7 +29,7 @@ public class Comments extends ActionBarActivity {
 
         try {
             JSONArray comments = response.getJSONObject(1).getJSONObject("data").getJSONArray("children");
-            listComments = Comment.parseCommentArray(comments);
+            listComments = Comment.parseCommentArray(comments, 0);
         } catch (JSONException e) {
             e.printStackTrace();
         }

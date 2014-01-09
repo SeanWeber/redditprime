@@ -16,7 +16,6 @@ import java.util.ArrayList;
 public class CommentArrayAdapter extends ArrayAdapter<Comment> {
     private Context thisContext;
     private ArrayList<Comment> articles;
-    View line;
     LayoutInflater inflater;
 
     public CommentArrayAdapter(Context context, int textViewResourceId, ArrayList<Comment> objects){
@@ -28,61 +27,26 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Comment currentComment = articles.get(position);
-        ArrayList<Comment> listReplies;
-
         // Get the proper views and layouts
-        View rowView = convertView;
-        if (rowView == null) {
-         rowView = inflater.inflate(R.layout.list_comment, parent, false);
+        if (convertView == null) {
+            convertView = inflater.inflate(R.layout.list_comment, parent, false);
         }
 
-        LinearLayout replies = setComment(currentComment, null, rowView);
+        Comment currentComment = articles.get(position);
 
-        listReplies = currentComment.getReplies();
-        parseReplies(listReplies, replies, null);
-
-        return rowView;
-    }
-
-    public void parseReplies(ArrayList<Comment> listReplies, LinearLayout replies, View convertView){
-        // Show any replies
-        if(listReplies != null){
-            for(Comment reply : listReplies){
-
-                LinearLayout moreReplies = setComment(reply, replies, convertView);
-
-                // Replies all the way down
-                ArrayList<Comment> replyReplies = reply.getReplies();
-
-                // Continue down the reply chain
-                parseReplies(replyReplies, moreReplies, convertView);
-            }
-        }
-    }
-
-    public LinearLayout setComment(Comment comment, LinearLayout replies, View convertView){
-        // Get the views we need
-        View view = convertView;
-        if (view == null) {
-            view = inflater.inflate(R.layout.list_comment, null);
-        }
-        LinearLayout moreReplies = (LinearLayout) view.findViewById(R.id.replies);
-        TextView body = (TextView) view.findViewById(R.id.textViewComment);
-        TextView ups = (TextView) view.findViewById(R.id.textViewUps);
-        TextView downs = (TextView) view.findViewById(R.id.textViewDowns);
-        TextView author = (TextView) view.findViewById(R.id.textViewAuthor);
+        LinearLayout layout = (LinearLayout) convertView.findViewById(R.id.linearLayoutComment);
+        TextView body = (TextView) convertView.findViewById(R.id.textViewComment);
+        TextView ups = (TextView) convertView.findViewById(R.id.textViewUps);
+        TextView downs = (TextView) convertView.findViewById(R.id.textViewDowns);
+        TextView author = (TextView) convertView.findViewById(R.id.textViewAuthor);
 
         // Display comment information
-        body.setText(comment.getBody());
-        ups.setText(comment.getUps());
-        downs.setText(comment.getDowns());
-        author.setText(comment.getAuthor());
+        body.setText(currentComment.getBody());
+        ups.setText(currentComment.getUps());
+        downs.setText(currentComment.getDowns());
+        author.setText(currentComment.getAuthor());
+        layout.setPadding(10 * currentComment.getReplyLevel(), 0, 0, 0);
 
-        if(replies != null){
-            replies.addView(view);
-        }
-
-        return moreReplies;
+        return convertView;
     }
 }

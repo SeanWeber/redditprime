@@ -16,7 +16,7 @@ public class Comment {
     private String ups;
     private String downs;
     private String kind;
-    private ArrayList<Comment> replies;
+    private int replyLevel;
 
     Comment(JSONObject jsonComment){
         try {
@@ -26,7 +26,6 @@ public class Comment {
             this.id = jsonComment.getJSONObject("data").getString("id");
             this.ups = jsonComment.getJSONObject("data").getString("ups");
             this.downs = jsonComment.getJSONObject("data").getString("downs");
-            this.replies = parseCommentArray(jsonComment.getJSONObject("data").getJSONObject("replies").getJSONObject("data").getJSONArray("children"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -34,18 +33,6 @@ public class Comment {
 
     public String getBody(){
         return this.body;
-    }
-
-    public void setBody(String newBody){
-        this.body = newBody;
-    }
-
-    public ArrayList<Comment> getReplies(){
-        return this.replies;
-    }
-
-    public void addReply(Comment reply){
-        this.replies.add(reply);
     }
 
     public String getUps(){
@@ -64,13 +51,28 @@ public class Comment {
         return this.kind;
     }
 
-    public static ArrayList<Comment> parseCommentArray(JSONArray commentArray){
+    public int getReplyLevel(){
+        return this.replyLevel;
+    }
+
+    public void setReplyLevel(int level){
+        this.replyLevel = level;
+    }
+
+    public static ArrayList<Comment> parseCommentArray(JSONArray commentArray, int level){
         ArrayList<Comment> listComments = new ArrayList<Comment>();
         for(int i=0;i<commentArray.length();i++){
             try {
                 Comment tempComment = new Comment(commentArray.getJSONObject(i));
                 if(tempComment.getKind().equals("t1")){
+                    tempComment.setReplyLevel(level);
                     listComments.add(tempComment);
+
+                    // Add any replies to the list and set their reply level
+                    ArrayList<Comment> replyList = parseCommentArray(commentArray.getJSONObject(i)
+                            .getJSONObject("data").getJSONObject("replies").getJSONObject("data")
+                            .getJSONArray("children"), level + 1);
+                    listComments.addAll(replyList);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
