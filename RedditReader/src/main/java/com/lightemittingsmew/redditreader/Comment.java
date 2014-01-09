@@ -17,6 +17,8 @@ public class Comment {
     private String downs;
     private String kind;
     private int replyLevel;
+    private boolean isHidden;
+    private boolean isCollapsed;
 
     Comment(JSONObject jsonComment){
         try {
@@ -26,6 +28,8 @@ public class Comment {
             this.id = jsonComment.getJSONObject("data").getString("id");
             this.ups = jsonComment.getJSONObject("data").getString("ups");
             this.downs = jsonComment.getJSONObject("data").getString("downs");
+            this.isHidden = false;
+            this.isCollapsed = false;
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -57,6 +61,30 @@ public class Comment {
 
     public void setReplyLevel(int level){
         this.replyLevel = level;
+    }
+
+    public boolean isHidden(){
+        return isHidden;
+    }
+
+    public boolean isCollapsed(){
+        return this.isCollapsed;
+    }
+
+    public void hide(){
+        this.isHidden = true;
+    }
+
+    public void unhide(){
+        this.isHidden = false;
+    }
+
+    public void toggle(){
+        if(this.isCollapsed) {
+            this.isCollapsed = false;
+        } else {
+            this.isCollapsed = true;
+        }
     }
 
     public static ArrayList<Comment> parseCommentArray(JSONArray commentArray, int level){

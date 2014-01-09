@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.volley.Response;
@@ -25,17 +26,25 @@ public class Comments extends ActionBarActivity {
     ListView listViewComments;
 
     private void parseComments(JSONArray response){
-        ArrayList<Comment> listComments = new ArrayList<Comment>();
+        final ArrayList<Comment> listComments;// = new ArrayList<Comment>();
+        JSONArray comments = new JSONArray();
 
         try {
-            JSONArray comments = response.getJSONObject(1).getJSONObject("data").getJSONArray("children");
-            listComments = Comment.parseCommentArray(comments, 0);
+            comments = response.getJSONObject(1).getJSONObject("data").getJSONArray("children");
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        listComments = Comment.parseCommentArray(comments, 0);
 
-        CommentArrayAdapter commentAdapter = new CommentArrayAdapter(this, R.layout.list_comment, listComments);
+        final CommentArrayAdapter commentAdapter = new CommentArrayAdapter(this, R.layout.list_comment, listComments);
         listViewComments.setAdapter(commentAdapter);
+        listViewComments.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                listComments.get(position).toggle();
+                commentAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override

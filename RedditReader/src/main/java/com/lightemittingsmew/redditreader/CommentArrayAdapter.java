@@ -31,14 +31,13 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.list_comment, parent, false);
         }
-
-        Comment currentComment = articles.get(position);
-
         LinearLayout layout = (LinearLayout) convertView.findViewById(R.id.linearLayoutComment);
         TextView body = (TextView) convertView.findViewById(R.id.textViewComment);
         TextView ups = (TextView) convertView.findViewById(R.id.textViewUps);
         TextView downs = (TextView) convertView.findViewById(R.id.textViewDowns);
         TextView author = (TextView) convertView.findViewById(R.id.textViewAuthor);
+
+        Comment currentComment = articles.get(position);
 
         // Display comment information
         body.setText(currentComment.getBody());
@@ -46,6 +45,40 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
         downs.setText(currentComment.getDowns());
         author.setText(currentComment.getAuthor());
         layout.setPadding(10 * currentComment.getReplyLevel(), 0, 0, 0);
+
+        if(currentComment.isCollapsed()) {
+            body.setVisibility(View.GONE);
+
+            // Hide all child comments
+            int nextComment = position + 1;
+            while(articles.get(nextComment).getReplyLevel() > currentComment.getReplyLevel()){
+                articles.get(nextComment).hide();
+                nextComment++;
+            }
+        } else if(!currentComment.isHidden()) {
+            body.setVisibility(View.VISIBLE);
+
+            // Show all child comments
+            int nextComment = position + 1;
+            while(articles.get(nextComment).getReplyLevel() > currentComment.getReplyLevel()){
+                articles.get(nextComment).unhide();
+                nextComment++;
+            }
+        }
+
+        if(currentComment.isHidden()){
+            layout.setVisibility(View.GONE);
+            body.setVisibility(View.GONE);
+            ups.setVisibility(View.GONE);
+            downs.setVisibility(View.GONE);
+            author.setVisibility(View.GONE);
+        } else if(!currentComment.isCollapsed()) {
+            layout.setVisibility(View.VISIBLE);
+            body.setVisibility(View.VISIBLE);
+            ups.setVisibility(View.VISIBLE);
+            downs.setVisibility(View.VISIBLE);
+            author.setVisibility(View.VISIBLE);
+        }
 
         return convertView;
     }
