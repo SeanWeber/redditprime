@@ -132,6 +132,8 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
 
         if(articles.get(groupPosition).isSelf()){
             txtListChild.setText(articles.get(groupPosition).getSelftext());
+        } else {
+            txtListChild.setText("");
         }
 
         NetworkImageView img = (NetworkImageView) convertView.findViewById(R.id.imageViewfull);
