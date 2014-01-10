@@ -51,7 +51,8 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
 
             // Hide all child comments
             int nextComment = position + 1;
-            while(articles.get(nextComment).getReplyLevel() > currentComment.getReplyLevel()){
+            while(nextComment < articles.size() &&
+                    articles.get(nextComment).getReplyLevel() > currentComment.getReplyLevel()){
                 articles.get(nextComment).hide();
                 nextComment++;
             }
@@ -60,7 +61,8 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
 
             // Show all child comments
             int nextComment = position + 1;
-            while(articles.get(nextComment).getReplyLevel() > currentComment.getReplyLevel()){
+            while(nextComment < articles.size() &&
+                    articles.get(nextComment).getReplyLevel() > currentComment.getReplyLevel()){
                 articles.get(nextComment).unhide();
                 nextComment++;
             }
