@@ -26,7 +26,7 @@ public class Comments extends ActionBarActivity {
     ListView listViewComments;
 
     private void parseComments(JSONArray response){
-        final ArrayList<Comment> listComments;// = new ArrayList<Comment>();
+        final ArrayList<Comment> listComments;
         JSONArray comments = new JSONArray();
 
         try {

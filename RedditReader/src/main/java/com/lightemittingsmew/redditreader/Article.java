@@ -1,73 +1,110 @@
 package com.lightemittingsmew.redditreader;
 
-import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
-import android.webkit.WebView;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public class Article extends ActionBarActivity {
+import java.util.ArrayList;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_article);
+/**
+ * Created by smw on 1/10/14.
+ */
+public class Article {
+    private String subreddit;
+    private String url;
+    private String permalink;
+    private String title;
+    private String selftext;
+    private String author;
+    private String thumbnail;
 
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
-                    .commit();
-        }
+    private boolean isSelf;
 
-        Intent intent = getIntent();
-        final String url = intent.getStringExtra(ArticleArrayAdapter.ARTICLE_URL);
+    private int ups;
+    private int downs;
+    private int score;
+    private int comments;
+    private long created;
 
-        WebView webView = (WebView) findViewById(R.id.webViewArticle);
-        webView.loadUrl(url);
-    }
+    public Article(JSONObject jsonArticle){
+        try {
+            subreddit = jsonArticle.getString("subreddit");
+            url = jsonArticle.getString("url");
+            permalink = jsonArticle.getString("permalink");
+            title = jsonArticle.getString("title");
+            author = jsonArticle.getString("author");
+            thumbnail = jsonArticle.getString("thumbnail");
+            isSelf = jsonArticle.getBoolean("is_self");
+            score = jsonArticle.getInt("score");
+            ups = jsonArticle.getInt("ups");
+            downs = jsonArticle.getInt("downs");
+            comments = jsonArticle.getInt("num_comments");
+            created = jsonArticle.getLong("created_utc");
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.article, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_article, container, false);
-            return rootView;
+            if(isSelf){
+                selftext = jsonArticle.getString("selftext");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
+    public String getTitle(){
+        return title;
+    }
+
+    public String getSubreddit(){
+        return subreddit;
+    }
+
+    public String getUrl(){
+        return url;
+    }
+
+    public String getPermalink(){
+        return permalink;
+    }
+
+    public String getAuthor(){
+        return author;
+    }
+
+    public String getThumbnail(){
+        return thumbnail;
+    }
+
+    public String getSelftext(){
+        return selftext;
+    }
+
+    public boolean isSelf(){
+        return isSelf;
+    }
+
+    public int getScore(){
+        return score;
+    }
+
+    public static ArrayList<Article> parseArticleList(JSONObject stories){
+        ArrayList<Article> articleList = new ArrayList<Article>();
+        JSONArray jsonArrayStories = new JSONArray();
+        try {
+            jsonArrayStories = stories.getJSONObject("data").getJSONArray("children");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        for(int i=0;i<jsonArrayStories.length();i++){
+            JSONObject currentStory = null;
+            try {
+                currentStory = jsonArrayStories.getJSONObject(i).getJSONObject("data");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            articleList.add(new Article(currentStory));
+        }
+
+        return articleList;
+    }
 }

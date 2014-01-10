@@ -34,18 +34,9 @@ public class FrontPage extends ActionBarActivity {
 
     private void displayStories(JSONObject stories){
         ExpandableListView listViewStories = (ExpandableListView) findViewById(R.id.listViewStories);
-        ArrayList<JSONObject> listStories = new ArrayList<JSONObject>();
+        ArrayList<Article> listStories = new ArrayList<Article>();
 
-        try {
-            JSONArray jsonArrayStories = stories.getJSONObject("data").getJSONArray("children");
-
-            for(int i=0;i<jsonArrayStories.length();i++){
-                JSONObject currentStory = jsonArrayStories.getJSONObject(i).getJSONObject("data");
-                listStories.add(currentStory);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        listStories = Article.parseArticleList(stories);
 
         ArticleArrayAdapter articleAdapter = new ArticleArrayAdapter(this, R.layout.list_article, listStories);
         listViewStories.setAdapter(articleAdapter);

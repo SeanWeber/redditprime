@@ -2,18 +2,14 @@ package com.lightemittingsmew.redditreader;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.support.v4.util.LruCache;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 
 import org.json.JSONException;
@@ -28,16 +24,17 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
     public static final String COMMENT_URL = "com.lightemittingsmew.redditreader.COMMENT_URL";
     public static final String ARTICLE_URL = "com.lightemittingsmew.redditreader.ARTICLE_URL";
     private Context thisContext;
-    private ArrayList<JSONObject> articles;
+    private ArrayList<Article> articles;
 
-    public ArticleArrayAdapter(Context context, int textViewResourceId, ArrayList<JSONObject> objects) {
+    public ArticleArrayAdapter(Context context, int textViewResourceId, ArrayList<Article> objects) {
         thisContext = context;
         articles = objects;
     }
 
     private static class ViewHolder {
         private NetworkImageView imageView;
-        private TextView txtListChild;
+        private TextView textListChild;
+        private TextView textViewScore;
     }
 
     @Override
@@ -50,23 +47,19 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
 
             holder = new ViewHolder();
             holder.imageView = (NetworkImageView) convertView.findViewById(R.id.imageViewThumbnail);
-            holder.txtListChild = (TextView) convertView.findViewById(R.id.textViewTitle);
+            holder.textListChild = (TextView) convertView.findViewById(R.id.textViewTitle);
+            holder.textViewScore = (TextView) convertView.findViewById(R.id.textViewScore);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        String thumbnailUrl = "";
-        String title = "";
+        String thumbnailUrl = articles.get(groupPosition).getThumbnail();
+        String title = articles.get(groupPosition).getTitle();
+        String score = String.valueOf(articles.get(groupPosition).getScore());
 
-        try {
-            thumbnailUrl = articles.get(groupPosition).getString("thumbnail");
-            title = articles.get(groupPosition).getString("title");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        holder.txtListChild.setText(title);
+        holder.textListChild.setText(title);
+        holder.textViewScore.setText(score);
 
         holder.imageView.setDefaultImageResId(R.drawable.defaultthumbnail);
         holder.imageView.setErrorImageResId(R.drawable.errorthumbnail);
@@ -134,29 +127,12 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
         Button buttonComment = (Button) convertView.findViewById(R.id.buttonComments);
         Button buttonArticle = (Button) convertView.findViewById(R.id.buttonArticle);
 
-        String commentUrl = "";
-        String articleUrl = "";
-        String selftext = "";
+        String commentUrl = articles.get(groupPosition).getPermalink();
+        String articleUrl = articles.get(groupPosition).getUrl();
 
-        try {
-            commentUrl = articles.get(groupPosition).getString("permalink");
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if(articles.get(groupPosition).isSelf()){
+            txtListChild.setText(articles.get(groupPosition).getSelftext());
         }
-
-        try {
-            articleUrl = articles.get(groupPosition).getString("url");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            selftext = articles.get(groupPosition).getString("selftext");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        txtListChild.setText(selftext);
 
         NetworkImageView img = (NetworkImageView) convertView.findViewById(R.id.imageViewfull);
         img.setImageUrl(null, VolleyRequest.imageLoader);
@@ -180,7 +156,7 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
         buttonArticle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(thisContext, Article.class);
+                Intent intent = new Intent(thisContext, Articles.class);
                 intent.putExtra(ARTICLE_URL, finalArticleUrl);
                 thisContext.startActivity(intent);
             }
