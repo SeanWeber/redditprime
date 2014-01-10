@@ -1,10 +1,19 @@
 package com.lightemittingsmew.redditreader;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by smw on 1/10/14.
@@ -17,8 +26,11 @@ public class Article {
     private String selftext;
     private String author;
     private String thumbnail;
+    private String id;
 
     private boolean isSelf;
+    private boolean isUpvoted;
+    private boolean isDownvoted;
 
     private int ups;
     private int downs;
@@ -28,6 +40,7 @@ public class Article {
 
     public Article(JSONObject jsonArticle){
         try {
+            id = jsonArticle.getString("id");
             subreddit = jsonArticle.getString("subreddit");
             url = jsonArticle.getString("url");
             permalink = jsonArticle.getString("permalink");
@@ -40,6 +53,8 @@ public class Article {
             downs = jsonArticle.getInt("downs");
             comments = jsonArticle.getInt("num_comments");
             created = jsonArticle.getLong("created_utc");
+            isUpvoted = false;
+            isDownvoted = false;
 
             if(isSelf){
                 selftext = jsonArticle.getString("selftext");
@@ -77,8 +92,48 @@ public class Article {
         return selftext;
     }
 
+    public String getId(){
+        return id;
+    }
+
     public boolean isSelf(){
         return isSelf;
+    }
+
+    public boolean isUpvoted(){
+        return isUpvoted;
+    }
+
+    public void upVote(){
+        final String voteDirection;
+        String fullname = "t3_" + id;
+
+        if(isUpvoted){
+            voteDirection = "0";
+        } else{
+            voteDirection = "1";
+        }
+        isUpvoted = !isUpvoted;
+
+        vote(voteDirection, fullname);
+    }
+
+    public void downVote(){
+        final String voteDirection;
+        String fullname = "t3_" + id;
+
+        if(isDownvoted){
+            voteDirection = "0";
+        } else{
+            voteDirection = "-1";
+        }
+        isDownvoted = !isDownvoted;
+
+        vote(voteDirection, fullname);
+    }
+
+    public boolean isDownvoted(){
+        return isDownvoted;
     }
 
     public int getScore(){
@@ -106,5 +161,45 @@ public class Article {
         }
 
         return articleList;
+    }
+
+    private void vote(final String voteDirection, final String fullname){
+        StringRequest upvoteRequest = new StringRequest(Request.Method.POST, "http://www.reddit.com/api/vote", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = super.getHeaders();
+
+                if (headers == null || headers.equals(Collections.emptyMap())) {
+                    headers = new HashMap<String, String>();
+                }
+
+                headers.put("Cookie", VolleyRequest.cookie);
+                headers.put("User-Agent", "redditReader01");
+
+                return headers;
+            }
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+
+                params.put("dir", voteDirection);
+                params.put("id", fullname);
+                params.put("uh", VolleyRequest.modhash);
+
+                return params;
+            }
+        };
+
+        VolleyRequest.queue.add(upvoteRequest);
     }
 }

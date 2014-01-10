@@ -1,11 +1,7 @@
 package com.lightemittingsmew.redditreader;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
@@ -37,28 +33,5 @@ public class LoginRequest extends StringRequest {
         params.put("user", user);
 
         return params;
-    }
-
-    @Override
-    public Map<String, String> getHeaders() throws AuthFailureError {
-        Map<String,String> params = new HashMap<String, String>();
-        params.put("Content-Type","application/x-www-form-urlencoded");
-        return params;
-    }
-
-    @Override
-    protected Response<String> parseNetworkResponse(NetworkResponse response) {
-        if (response.headers.containsKey("Set-Cookie") && response.headers.get("Set-Cookie").startsWith("reddit_session")) {
-            String cookie = response.headers.get("Set-Cookie");
-            VolleyRequest.cookie = cookie;
-
-            // Save the cookie so the user does not need to log in each time
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-            SharedPreferences.Editor prefEditor = preferences.edit();
-            prefEditor.putString("Cookie", cookie);
-            prefEditor.commit();
-        }
-
-        return super.parseNetworkResponse(response);
     }
 }

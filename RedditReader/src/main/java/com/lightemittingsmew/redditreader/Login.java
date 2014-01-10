@@ -1,7 +1,9 @@
 package com.lightemittingsmew.redditreader;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
@@ -13,6 +15,9 @@ import android.widget.EditText;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Login extends ActionBarActivity {
 
@@ -75,6 +80,27 @@ public class Login extends ActionBarActivity {
         LoginRequest loginRequest = new LoginRequest (user, pass, this, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                String cookie = "";
+                String modhash = "";
+
+                try {
+                    JSONObject jso = new JSONObject(response);
+                    cookie = "reddit_session=" + jso.getJSONObject("json").getJSONObject("data").getString("cookie");
+                    modhash = jso.getJSONObject("json").getJSONObject("data").getString("modhash");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                VolleyRequest.cookie = cookie;
+                VolleyRequest.modhash = modhash;
+
+                // Save the cookie so the user does not need to log in each time
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor prefEditor = preferences.edit();
+                prefEditor.putString("Cookie", cookie);
+                prefEditor.putString("Modhash", modhash);
+                prefEditor.commit();
+
                 login();
             }
         }, new Response.ErrorListener() {

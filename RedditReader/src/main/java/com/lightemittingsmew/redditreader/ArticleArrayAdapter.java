@@ -12,9 +12,6 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 /**
@@ -123,15 +120,18 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.list_article_child, parent, false);
         }
 
+        final Article openedArticle = articles.get(groupPosition);
         TextView txtListChild = (TextView) convertView.findViewById(R.id.textViewChild);
         Button buttonComment = (Button) convertView.findViewById(R.id.buttonComments);
         Button buttonArticle = (Button) convertView.findViewById(R.id.buttonArticle);
+        Button buttonUpvote = (Button) convertView.findViewById(R.id.buttonUpvote);
+        Button buttonDownvote = (Button) convertView.findViewById(R.id.buttonDownvote);
 
-        String commentUrl = articles.get(groupPosition).getPermalink();
-        String articleUrl = articles.get(groupPosition).getUrl();
+        String commentUrl = openedArticle.getPermalink();
+        String articleUrl = openedArticle.getUrl();
 
-        if(articles.get(groupPosition).isSelf()){
-            txtListChild.setText(articles.get(groupPosition).getSelftext());
+        if(openedArticle.isSelf()){
+            txtListChild.setText(openedArticle.getSelftext());
         } else {
             txtListChild.setText("");
         }
@@ -161,6 +161,20 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
                 Intent intent = new Intent(thisContext, Articles.class);
                 intent.putExtra(ARTICLE_URL, finalArticleUrl);
                 thisContext.startActivity(intent);
+            }
+        });
+
+        buttonUpvote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openedArticle.upVote();
+            }
+        });
+
+        buttonDownvote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openedArticle.downVote();
             }
         });
 

@@ -18,8 +18,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -86,33 +84,6 @@ public class FrontPage extends ActionBarActivity {
                 return headers;
             }
         };
-
-        final JsonObjectRequest whoAmI = new JsonObjectRequest(Request.Method.GET, "http://www.reddit.com/api/me.json", null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject jsonObject) {
-                String yo = jsonObject.toString();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-
-            }
-        }){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = super.getHeaders();
-
-                if (headers == null || headers.equals(Collections.emptyMap())) {
-                    headers = new HashMap<String, String>();
-                }
-
-                headers.put("Cookie", VolleyRequest.cookie);
-                headers.put("User-Agent", "redditReader01");
-
-                return headers;
-            }
-        };
-
 
         VolleyRequest.queue.add(jsObjRequest);
     }

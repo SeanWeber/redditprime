@@ -15,14 +15,16 @@ import com.android.volley.toolbox.ImageLoader;
 public class VolleyRequest {
     public static RequestQueue queue;
     public static String cookie;
+    public static String modhash;
     public static ImageLoader imageLoader;
 
     public static void initQueue(Context context){
         queue = com.android.volley.toolbox.Volley.newRequestQueue(context);
 
-        if(cookie == null){
+        if(cookie == null || modhash == null){
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
             cookie = preferences.getString("Cookie", "");
+            modhash = preferences.getString("Modhash", "");
         }
 
         imageLoader = new ImageLoader(VolleyRequest.queue, new ImageLoader.ImageCache() {
@@ -39,7 +41,4 @@ public class VolleyRequest {
             }
         });
     }
-
-
-
 }
