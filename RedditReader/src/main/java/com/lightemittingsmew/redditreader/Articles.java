@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 public class Articles extends ActionBarActivity {
 
@@ -30,6 +31,13 @@ public class Articles extends ActionBarActivity {
         final String url = intent.getStringExtra(ArticleArrayAdapter.ARTICLE_URL);
 
         WebView webView = (WebView) findViewById(R.id.webViewArticle);
+
+        // Enable javascript
+        webView.getSettings().setJavaScriptEnabled(true);
+
+        // Make it so links open in the same view
+        webView.setWebViewClient(new WebViewClient());
+
         webView.loadUrl(url);
     }
 
