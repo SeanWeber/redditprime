@@ -17,6 +17,7 @@
             android:layout_height="match_parent"
             android:id="@+id/listViewStories"
             android:layout_gravity="center_horizontal"
-            android:groupIndicator="@null" />
+            android:groupIndicator="@null"
+            android:divider="#00000000" />
     </LinearLayout>
 </FrameLayout>

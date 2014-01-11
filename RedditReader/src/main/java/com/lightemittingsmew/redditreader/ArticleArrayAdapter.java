@@ -142,6 +142,9 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
         if( articleUrl.endsWith(".jpg") || articleUrl.endsWith(".jpeg") ||
                 articleUrl.endsWith(".gif") || articleUrl.endsWith(".png")){
             img.setImageUrl(articleUrl, VolleyRequest.imageLoader);
+            img.setAdjustViewBounds(true);
+        } else {
+            img.setAdjustViewBounds(false);
         }
 
         final String finalUrl = commentUrl;
