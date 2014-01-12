@@ -1,5 +1,7 @@
 package com.lightemittingsmew.redditreader;
 
+import android.text.Html;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,7 +25,7 @@ public class Comment {
     Comment(JSONObject jsonComment){
         try {
             this.kind = jsonComment.getString("kind");
-            this.body = jsonComment.getJSONObject("data").getString("body_html");
+            this.body = Html.fromHtml(jsonComment.getJSONObject("data").getString("body_html")).toString();
             this.author = jsonComment.getJSONObject("data").getString("author");
             this.id = jsonComment.getJSONObject("data").getString("id");
             this.ups = jsonComment.getJSONObject("data").getString("ups");

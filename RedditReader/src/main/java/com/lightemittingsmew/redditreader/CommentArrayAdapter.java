@@ -43,7 +43,7 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
         Comment currentComment = articles.get(position);
 
         // Display comment information
-        body.setText(Html.fromHtml(Html.fromHtml(currentComment.getBody()).toString()));
+        body.setText(Html.fromHtml(currentComment.getBody()));
         //body.setMovementMethod(LinkMovementMethod.getInstance()); // Make links clickable
         ups.setText(currentComment.getUps());
         downs.setText(currentComment.getDowns());
