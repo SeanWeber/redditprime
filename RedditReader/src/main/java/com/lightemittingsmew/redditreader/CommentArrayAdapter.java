@@ -32,6 +32,7 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
             convertView = inflater.inflate(R.layout.list_comment, parent, false);
         }
         LinearLayout layout = (LinearLayout) convertView.findViewById(R.id.linearLayoutComment);
+        LinearLayout info = (LinearLayout) convertView.findViewById(R.id.linearLayoutCommentInfo);
         TextView body = (TextView) convertView.findViewById(R.id.textViewComment);
         TextView ups = (TextView) convertView.findViewById(R.id.textViewUps);
         TextView downs = (TextView) convertView.findViewById(R.id.textViewDowns);
@@ -44,7 +45,7 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
         ups.setText(currentComment.getUps());
         downs.setText(currentComment.getDowns());
         author.setText(currentComment.getAuthor());
-        layout.setPadding(10 * currentComment.getReplyLevel(), 0, 0, 0);
+        layout.setPadding(16 * currentComment.getReplyLevel(), 0, 0, 0);
 
         if(currentComment.isCollapsed()) {
             body.setVisibility(View.GONE);
@@ -69,17 +70,17 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
         }
 
         if(currentComment.isHidden()){
-            layout.setVisibility(View.GONE);
+            // Hide the entire comment
+            info.setVisibility(View.GONE);
             body.setVisibility(View.GONE);
-            ups.setVisibility(View.GONE);
-            downs.setVisibility(View.GONE);
-            author.setVisibility(View.GONE);
-        } else if(!currentComment.isCollapsed()) {
-            layout.setVisibility(View.VISIBLE);
+        } else if(currentComment.isCollapsed()){
+            // Only hide the body
+            info.setVisibility(View.VISIBLE);
+            body.setVisibility(View.GONE);
+        } else {
+            // Show everything
+            info.setVisibility(View.VISIBLE);
             body.setVisibility(View.VISIBLE);
-            ups.setVisibility(View.VISIBLE);
-            downs.setVisibility(View.VISIBLE);
-            author.setVisibility(View.VISIBLE);
         }
 
         return convertView;
