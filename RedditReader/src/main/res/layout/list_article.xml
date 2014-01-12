@@ -5,9 +5,11 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:padding="8dp"
-    android:background="#FFFFFF"
-    android:minHeight="70dp">
+    android:background="#cccccc"
+    android:minHeight="70dp"
+    android:paddingTop="4dp"
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp">
 
     <com.android.volley.toolbox.NetworkImageView
         android:layout_width="wrap_content"
@@ -19,31 +21,26 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#aaccee"
+        android:background="#dddddd"
         android:minHeight="70dp">
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="New Text"
             android:id="@+id/textViewTitle"
-            android:padding="5dp" />
+            android:padding="8dp" />
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="1234"
-                android:id="@+id/textViewScore"
-                android:background="#aaccee"/>
-
-        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1234"
+            android:id="@+id/textViewScore"
+            android:paddingLeft="8dp"
+            android:gravity="bottom"
+            android:layout_gravity="bottom" />
 
     </LinearLayout>
 
