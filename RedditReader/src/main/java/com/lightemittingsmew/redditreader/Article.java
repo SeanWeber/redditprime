@@ -1,5 +1,7 @@
 package com.lightemittingsmew.redditreader;
 
+import android.text.Html;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -44,7 +46,7 @@ public class Article {
             subreddit = jsonArticle.getString("subreddit");
             url = jsonArticle.getString("url");
             permalink = jsonArticle.getString("permalink");
-            title = jsonArticle.getString("title");
+            title = Html.fromHtml(jsonArticle.getString("title")).toString();
             author = jsonArticle.getString("author");
             thumbnail = jsonArticle.getString("thumbnail");
             isSelf = jsonArticle.getBoolean("is_self");
