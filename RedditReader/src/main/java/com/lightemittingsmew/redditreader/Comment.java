@@ -23,7 +23,7 @@ public class Comment {
     Comment(JSONObject jsonComment){
         try {
             this.kind = jsonComment.getString("kind");
-            this.body = jsonComment.getJSONObject("data").getString("body");
+            this.body = jsonComment.getJSONObject("data").getString("body_html");
             this.author = jsonComment.getJSONObject("data").getString("author");
             this.id = jsonComment.getJSONObject("data").getString("id");
             this.ups = jsonComment.getJSONObject("data").getString("ups");

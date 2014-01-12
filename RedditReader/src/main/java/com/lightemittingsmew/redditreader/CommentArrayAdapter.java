@@ -1,6 +1,8 @@
 package com.lightemittingsmew.redditreader;
 
 import android.content.Context;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +43,8 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
         Comment currentComment = articles.get(position);
 
         // Display comment information
-        body.setText(currentComment.getBody());
+        body.setText(Html.fromHtml(Html.fromHtml(currentComment.getBody()).toString()));
+        //body.setMovementMethod(LinkMovementMethod.getInstance()); // Make links clickable
         ups.setText(currentComment.getUps());
         downs.setText(currentComment.getDowns());
         author.setText(currentComment.getAuthor());
