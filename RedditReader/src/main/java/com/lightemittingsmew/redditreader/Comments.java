@@ -38,13 +38,6 @@ public class Comments extends ActionBarActivity {
 
         final CommentArrayAdapter commentAdapter = new CommentArrayAdapter(this, R.layout.list_comment, listComments);
         listViewComments.setAdapter(commentAdapter);
-        listViewComments.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                listComments.get(position).toggle();
-                commentAdapter.notifyDataSetChanged();
-            }
-        });
     }
 
     @Override

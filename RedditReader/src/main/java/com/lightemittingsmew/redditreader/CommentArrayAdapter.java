@@ -40,11 +40,12 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
         TextView downs = (TextView) convertView.findViewById(R.id.textViewDowns);
         TextView author = (TextView) convertView.findViewById(R.id.textViewAuthor);
 
-        Comment currentComment = articles.get(position);
+        final Comment currentComment = articles.get(position);
+        final CommentArrayAdapter adapter = this;
 
         // Display comment information
         body.setText(Html.fromHtml(currentComment.getBody()));
-        //body.setMovementMethod(LinkMovementMethod.getInstance()); // Make links clickable
+        body.setMovementMethod(LinkMovementMethod.getInstance()); // Make links clickable
         ups.setText(currentComment.getUps());
         downs.setText(currentComment.getDowns());
         author.setText(currentComment.getAuthor());
@@ -71,6 +72,17 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
                 nextComment++;
             }
         }
+
+        View.OnClickListener toggleVisibility = new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                currentComment.toggle();
+                adapter.notifyDataSetChanged();
+            }
+        };
+
+        info.setOnClickListener(toggleVisibility);
+        body.setOnClickListener(toggleVisibility);
 
         if(currentComment.isHidden()){
             // Hide the entire comment
