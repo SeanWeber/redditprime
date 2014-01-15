@@ -1,6 +1,7 @@
 package com.lightemittingsmew.redditreader;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -120,7 +121,9 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
         reply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(thisContext, Reply.class);
+                //intent.putExtra("COMMENT_URL", "finalUrl");
+                thisContext.startActivity(intent);
             }
         });
 
