@@ -50,4 +50,44 @@
         android:background="#dddddd"
         android:padding="4dp" />
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#cccccc"
+        android:id="@+id/linearLayoutButtons">
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageButton"
+            android:src="@drawable/upvote"
+            android:layout_weight="1"
+            android:background="#dddddd"
+            android:layout_marginRight="1dp"
+            android:paddingBottom="4dp"
+            android:cropToPadding="false" />
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageButton2"
+            android:src="@drawable/downvote"
+            android:layout_weight="1"
+            android:background="#dddddd"
+            android:layout_marginRight="1dp"
+            android:paddingBottom="4dp" />
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageButton3"
+            android:src="@drawable/reply"
+            android:layout_weight="1"
+            android:background="#dddddd"
+            android:layout_marginRight="1dp"
+            android:paddingBottom="4dp"/>
+
+    </LinearLayout>
+
 </LinearLayout>

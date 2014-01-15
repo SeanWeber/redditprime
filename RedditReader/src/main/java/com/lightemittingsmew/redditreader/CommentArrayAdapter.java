@@ -35,6 +35,7 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
         }
         LinearLayout layout = (LinearLayout) convertView.findViewById(R.id.linearLayoutComment);
         LinearLayout info = (LinearLayout) convertView.findViewById(R.id.linearLayoutCommentInfo);
+        LinearLayout buttons = (LinearLayout) convertView.findViewById(R.id.linearLayoutButtons);
         TextView body = (TextView) convertView.findViewById(R.id.textViewComment);
         TextView ups = (TextView) convertView.findViewById(R.id.textViewUps);
         TextView downs = (TextView) convertView.findViewById(R.id.textViewDowns);
@@ -44,7 +45,7 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
         final CommentArrayAdapter adapter = this;
 
         // Display comment information
-        body.setText(Html.fromHtml(currentComment.getBody()));
+        body.setText(currentComment.getBody());
         body.setMovementMethod(LinkMovementMethod.getInstance()); // Make links clickable
         ups.setText(currentComment.getUps());
         downs.setText(currentComment.getDowns());
@@ -52,8 +53,6 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
         layout.setPadding(16 * currentComment.getReplyLevel(), 0, 0, 0);
 
         if(currentComment.isCollapsed()) {
-            body.setVisibility(View.GONE);
-
             // Hide all child comments
             int nextComment = position + 1;
             while(nextComment < articles.size() &&
@@ -62,8 +61,6 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
                 nextComment++;
             }
         } else if(!currentComment.isHidden()) {
-            body.setVisibility(View.VISIBLE);
-
             // Show all child comments
             int nextComment = position + 1;
             while(nextComment < articles.size() &&
@@ -88,14 +85,17 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
             // Hide the entire comment
             info.setVisibility(View.GONE);
             body.setVisibility(View.GONE);
+            buttons.setVisibility(View.GONE);
         } else if(currentComment.isCollapsed()){
-            // Only hide the body
+            // Only show the top bar
             info.setVisibility(View.VISIBLE);
             body.setVisibility(View.GONE);
+            buttons.setVisibility(View.GONE);
         } else {
             // Show everything
             info.setVisibility(View.VISIBLE);
             body.setVisibility(View.VISIBLE);
+            buttons.setVisibility(View.VISIBLE);
         }
 
         return convertView;

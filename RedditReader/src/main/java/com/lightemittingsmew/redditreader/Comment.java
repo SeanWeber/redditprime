@@ -1,6 +1,7 @@
 package com.lightemittingsmew.redditreader;
 
 import android.text.Html;
+import android.text.SpannableStringBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
  * Created by smw on 12/30/13.
  */
 public class Comment {
-    private String body;
+    private SpannableStringBuilder body;
     private String author;
     private String id;
     private String ups;
@@ -24,45 +25,48 @@ public class Comment {
 
     Comment(JSONObject jsonComment){
         try {
-            this.kind = jsonComment.getString("kind");
-            this.body = Html.fromHtml(jsonComment.getJSONObject("data").getString("body_html")).toString();
-            this.author = jsonComment.getJSONObject("data").getString("author");
-            this.id = jsonComment.getJSONObject("data").getString("id");
-            this.ups = jsonComment.getJSONObject("data").getString("ups");
-            this.downs = jsonComment.getJSONObject("data").getString("downs");
-            this.isHidden = false;
-            this.isCollapsed = false;
+            kind = jsonComment.getString("kind");
+            author = jsonComment.getJSONObject("data").getString("author");
+            id = jsonComment.getJSONObject("data").getString("id");
+            ups = jsonComment.getJSONObject("data").getString("ups");
+            downs = jsonComment.getJSONObject("data").getString("downs");
+            isHidden = false;
+            isCollapsed = false;
+
+            String b = Html.fromHtml(jsonComment.getJSONObject("data").getString("body_html")).toString();
+            body = (SpannableStringBuilder)Html.fromHtml(b);
+            body.replace(body.length() - 2, body.length() - 1, " ");
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    public String getBody(){
-        return this.body;
+    public CharSequence getBody(){
+        return body;
     }
 
     public String getUps(){
-        return this.ups;
+        return ups;
     }
 
     public String getDowns(){
-        return this.downs;
+        return downs;
     }
 
     public String getAuthor(){
-        return this.author;
+        return author;
     }
 
     public String getKind(){
-        return this.kind;
+        return kind;
     }
 
     public int getReplyLevel(){
-        return this.replyLevel;
+        return replyLevel;
     }
 
     public void setReplyLevel(int level){
-        this.replyLevel = level;
+        replyLevel = level;
     }
 
     public boolean isHidden(){
@@ -70,22 +74,22 @@ public class Comment {
     }
 
     public boolean isCollapsed(){
-        return this.isCollapsed;
+        return isCollapsed;
     }
 
     public void hide(){
-        this.isHidden = true;
+        isHidden = true;
     }
 
     public void unhide(){
-        this.isHidden = false;
+        isHidden = false;
     }
 
     public void toggle(){
         if(this.isCollapsed) {
-            this.isCollapsed = false;
+            isCollapsed = false;
         } else {
-            this.isCollapsed = true;
+            isCollapsed = true;
         }
     }
 
