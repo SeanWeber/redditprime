@@ -27,30 +27,45 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#dddddd">
+        android:background="#aaaaaa">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="U"
-            android:id="@+id/buttonUpvote" />
+            android:text="Upvote"
+            android:id="@+id/buttonUpvote"
+            android:textSize="12sp"
+            android:background="#dddddd"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="D"
-            android:id="@+id/buttonDownvote" />
+            android:text="Downvote"
+            android:id="@+id/buttonDownvote"
+            android:textSize="12sp"
+            android:background="#dddddd"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Comm"
-            android:id="@+id/buttonComments" />
+            android:text="Comments"
+            android:id="@+id/buttonComments"
+            android:textSize="12sp"
+            android:background="#dddddd"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Article"
-            android:id="@+id/buttonArticle" />
+            android:id="@+id/buttonArticle"
+            android:textSize="12sp"
+            android:background="#dddddd"
+            android:layout_weight="1" />
     </LinearLayout>
 </LinearLayout>
