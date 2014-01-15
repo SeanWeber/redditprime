@@ -19,29 +19,31 @@
         android:minWidth="70dp"
         android:scaleType="centerCrop"/>
 
-    <LinearLayout
-        android:orientation="vertical"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#dddddd"
-        android:minHeight="70dp">
+        android:minHeight="70dp" >
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="New Text"
             android:id="@+id/textViewTitle"
-            android:padding="8dp" />
+            android:paddingLeft="8dp"
+            android:paddingTop="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="32dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="1234"
             android:id="@+id/textViewScore"
-            android:paddingLeft="8dp"
-            android:gravity="bottom"
-            android:layout_gravity="bottom" />
+            android:padding="8dp"
+            android:textSize="8sp"
+            android:layout_alignParentBottom="true"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

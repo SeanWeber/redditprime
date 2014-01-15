@@ -138,8 +138,8 @@ public class Article {
         return isDownvoted;
     }
 
-    public int getScore(){
-        return score;
+    public String getScore(){
+        return String.valueOf(score);
     }
 
     public static ArrayList<Article> parseArticleList(JSONObject stories){

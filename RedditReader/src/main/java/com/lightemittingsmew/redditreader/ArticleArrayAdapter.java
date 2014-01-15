@@ -3,6 +3,7 @@ package com.lightemittingsmew.redditreader;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,12 +53,15 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        String thumbnailUrl = articles.get(groupPosition).getThumbnail();
-        String title = articles.get(groupPosition).getTitle();
-        String score = String.valueOf(articles.get(groupPosition).getScore());
+        Article currentArticle = articles.get(groupPosition);
+        String thumbnailUrl = currentArticle.getThumbnail();
+        String title = currentArticle.getTitle();
+        String score = "<font color='#666666'>" + currentArticle.getScore() +
+                " points by " + currentArticle.getAuthor() + " in /r/" +
+                currentArticle.getSubreddit() + "</font>";
 
         holder.textListChild.setText(title);
-        holder.textViewScore.setText(score);
+        holder.textViewScore.setText(Html.fromHtml(score));
 
         holder.imageView.setDefaultImageResId(R.drawable.defaultthumbnail);
         holder.imageView.setErrorImageResId(R.drawable.errorthumbnail);
@@ -132,9 +136,12 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
         String articleUrl = openedArticle.getUrl();
 
         if(openedArticle.isSelf()){
+            txtListChild.setVisibility(View.VISIBLE);
             txtListChild.setText(Html.fromHtml(Html.fromHtml(openedArticle.getSelftext()).toString()));
+            txtListChild.setMovementMethod(LinkMovementMethod.getInstance()); // Make links clickable
         } else {
             txtListChild.setText("");
+            txtListChild.setVisibility(View.GONE);
         }
 
         NetworkImageView img = (NetworkImageView) convertView.findViewById(R.id.imageViewfull);
