@@ -90,4 +90,16 @@ public class VolleyRequest {
 
         queue.add(upvoteRequest);
     }
+
+    public static void logout(Context context){
+        cookie = "";
+        modhash = "";
+
+        // Save the cookie so the user does not need to log in each time
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor prefEditor = preferences.edit();
+        prefEditor.putString("Cookie", cookie);
+        prefEditor.putString("Modhash", modhash);
+        prefEditor.commit();
+    }
 }

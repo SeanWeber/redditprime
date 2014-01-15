@@ -93,6 +93,17 @@ public class FrontPage extends ActionBarActivity {
         
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.front_page, menu);
+        MenuItem logout = menu.findItem(R.id.action_logout);
+        MenuItem login = menu.findItem(R.id.action_login);
+
+        if(VolleyRequest.cookie == null || VolleyRequest.cookie.equals("")){
+            logout.setVisible(false);
+            login.setVisible(true);
+        } else {
+            logout.setVisible(true);
+            login.setVisible(false);
+        }
+
         return true;
     }
 
@@ -104,6 +115,12 @@ public class FrontPage extends ActionBarActivity {
         switch (item.getItemId()) {
             case R.id.action_settings:
                 return true;
+            case R.id.action_logout:{
+                VolleyRequest.logout(this);
+                finish();
+                startActivity(getIntent());
+                break;
+            }
             case R.id.action_login:{
                 Intent intent = new Intent(context, Login.class);
                 context.startActivity(intent);
