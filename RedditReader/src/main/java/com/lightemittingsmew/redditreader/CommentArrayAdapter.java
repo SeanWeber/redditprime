@@ -19,6 +19,7 @@ import java.util.ArrayList;
  * Created by smw on 12/23/13.
  */
 public class CommentArrayAdapter extends ArrayAdapter<Comment> {
+    public static final String PARENT_FULLNAME = "com.lightemittingsmew.redditreader.PARENT_FULLNAME";
     private Context thisContext;
     private ArrayList<Comment> articles;
     LayoutInflater inflater;
@@ -122,7 +123,7 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(thisContext, Reply.class);
-                //intent.putExtra("COMMENT_URL", "finalUrl");
+                intent.putExtra(PARENT_FULLNAME, currentComment.getFullName());
                 thisContext.startActivity(intent);
             }
         });

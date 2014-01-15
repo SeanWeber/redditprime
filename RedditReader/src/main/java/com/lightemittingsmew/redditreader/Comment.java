@@ -63,6 +63,10 @@ public class Comment {
         return kind;
     }
 
+    public String getFullName(){
+        return "t1_" + id;
+    }
+
     public int getReplyLevel(){
         return replyLevel;
     }
