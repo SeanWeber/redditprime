@@ -16,8 +16,8 @@ public class Comment {
     private SpannableStringBuilder body;
     private String author;
     private String id;
-    private String ups;
-    private String downs;
+    private int ups;
+    private int downs;
     private String kind;
     private int replyLevel;
     private boolean isHidden;
@@ -30,8 +30,8 @@ public class Comment {
             kind = jsonComment.getString("kind");
             author = jsonComment.getJSONObject("data").getString("author");
             id = jsonComment.getJSONObject("data").getString("id");
-            ups = jsonComment.getJSONObject("data").getString("ups");
-            downs = jsonComment.getJSONObject("data").getString("downs");
+            ups = jsonComment.getJSONObject("data").getInt("ups");
+            downs = jsonComment.getJSONObject("data").getInt("downs");
             isHidden = false;
             isCollapsed = false;
 
@@ -48,11 +48,15 @@ public class Comment {
     }
 
     public String getUps(){
-        return ups;
+        return String.valueOf(ups);
     }
 
     public String getDowns(){
-        return downs;
+        return String.valueOf(downs);
+    }
+
+    public String getScore(){
+        return String.valueOf(ups - downs);
     }
 
     public String getAuthor(){

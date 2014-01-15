@@ -2,6 +2,7 @@ package com.lightemittingsmew.redditreader;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,15 +37,12 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
             convertView = inflater.inflate(R.layout.list_comment, parent, false);
         }
         LinearLayout layout = (LinearLayout) convertView.findViewById(R.id.linearLayoutComment);
-        LinearLayout info = (LinearLayout) convertView.findViewById(R.id.linearLayoutCommentInfo);
         LinearLayout buttons = (LinearLayout) convertView.findViewById(R.id.linearLayoutButtons);
         ImageButton upvote = (ImageButton) convertView.findViewById(R.id.imageButtonCommentUpvote);
         ImageButton downvote = (ImageButton) convertView.findViewById(R.id.imageButtonCommentDownvote);
         ImageButton reply = (ImageButton) convertView.findViewById(R.id.imageButtonCommentReply);
         TextView body = (TextView) convertView.findViewById(R.id.textViewComment);
-        TextView ups = (TextView) convertView.findViewById(R.id.textViewUps);
-        TextView downs = (TextView) convertView.findViewById(R.id.textViewDowns);
-        TextView author = (TextView) convertView.findViewById(R.id.textViewAuthor);
+        TextView info = (TextView) convertView.findViewById(R.id.textViewCommentInfo);
 
         final Comment currentComment = articles.get(position);
         final CommentArrayAdapter adapter = this;
@@ -52,10 +50,14 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
         // Display comment information
         body.setText(currentComment.getBody());
         body.setMovementMethod(LinkMovementMethod.getInstance()); // Make links clickable
-        ups.setText(currentComment.getUps());
-        downs.setText(currentComment.getDowns());
-        author.setText(currentComment.getAuthor());
         layout.setPadding(16 * currentComment.getReplyLevel(), 0, 0, 0);
+
+        String topText =  currentComment.getAuthor() + " &nbsp; <span align='right'><small><b>" +
+                currentComment.getScore() + "</b> ( <font color='#66aa66'>" +
+                currentComment.getUps() + "</font> | <font color='#aa6666'>" +
+                currentComment.getDowns() + "</font> )</small></span>";
+
+        info.setText(Html.fromHtml(topText));
 
         if(currentComment.isCollapsed()) {
             // Hide all child comments
