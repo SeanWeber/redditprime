@@ -9,8 +9,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -24,21 +24,7 @@ import java.util.ArrayList;
 public class Comments extends ActionBarActivity {
 
     ListView listViewComments;
-
-    private void parseComments(JSONArray response){
-        final ArrayList<Comment> listComments;
-        JSONArray comments = new JSONArray();
-
-        try {
-            comments = response.getJSONObject(1).getJSONObject("data").getJSONArray("children");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        listComments = Comment.parseCommentArray(comments, 0);
-
-        final CommentArrayAdapter commentAdapter = new CommentArrayAdapter(this, R.layout.list_comment, listComments);
-        listViewComments.setAdapter(commentAdapter);
-    }
+    String curl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +40,15 @@ public class Comments extends ActionBarActivity {
         listViewComments = (ListView)findViewById(R.id.listViewComments);
 
         Intent intent = getIntent();
-        final String url = "http://www.reddit.com" + intent.getStringExtra(ArticleArrayAdapter.COMMENT_URL) + ".json";
+        String commentURL = intent.getStringExtra(ArticleArrayAdapter.COMMENT_URL);
+        curl = "http://www.reddit.com" + commentURL + ".json";
+    }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        final String url = curl;
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
 
             @Override
@@ -70,9 +63,7 @@ public class Comments extends ActionBarActivity {
         });
 
         VolleyRequest.queue.add(jsonArrayRequest);
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -108,6 +99,21 @@ public class Comments extends ActionBarActivity {
             View rootView = inflater.inflate(R.layout.fragment_comments, container, false);
             return rootView;
         }
+    }
+
+    private void parseComments(JSONArray response){
+        final ArrayList<Comment> listComments;
+        JSONArray comments = new JSONArray();
+
+        try {
+            comments = response.getJSONObject(1).getJSONObject("data").getJSONArray("children");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        listComments = Comment.parseCommentArray(comments, 0);
+
+        final CommentArrayAdapter commentAdapter = new CommentArrayAdapter(this, R.layout.list_comment, listComments);
+        listViewComments.setAdapter(commentAdapter);
     }
 
 }

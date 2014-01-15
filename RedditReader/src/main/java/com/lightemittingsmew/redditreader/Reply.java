@@ -1,17 +1,15 @@
 package com.lightemittingsmew.redditreader;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -45,13 +43,22 @@ public class Reply extends ActionBarActivity {
 
         Button reply = (Button) findViewById(R.id.buttonReply);
         Button cancel = (Button) findViewById(R.id.buttonCancel);
-        final EditText editTextReply = (EditText) findViewById(R.id.editTextReply);
 
+        final EditText editTextReply = (EditText) findViewById(R.id.editTextReply);
+        final Context currentContext = this;
         reply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String replyText = editTextReply.getText().toString();
-                reply(replyText, fullname);
+                reply(replyText, fullname, currentContext);
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+
             }
         });
     }
@@ -93,12 +100,11 @@ public class Reply extends ActionBarActivity {
         }
     }
 
-    public void reply(final String replyText, final String fullname){
+    public void reply(final String replyText, final String fullname, final Context context){
         StringRequest replyRequest = new StringRequest(Request.Method.POST, "http://www.reddit.com/api/comment", new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 Toast.makeText(getApplicationContext(), "Post Successful", Toast.LENGTH_SHORT).show();
-
                 finish();
             }
         }, new Response.ErrorListener() {
