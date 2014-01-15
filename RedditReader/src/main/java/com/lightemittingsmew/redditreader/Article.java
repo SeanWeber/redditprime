@@ -59,7 +59,7 @@ public class Article {
             isDownvoted = false;
 
             if(isSelf){
-                selftext = jsonArticle.getString("selftext");
+                selftext = jsonArticle.getString("selftext_html");
             }
         } catch (JSONException e) {
             e.printStackTrace();

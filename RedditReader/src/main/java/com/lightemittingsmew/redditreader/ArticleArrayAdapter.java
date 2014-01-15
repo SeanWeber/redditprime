@@ -2,6 +2,7 @@ package com.lightemittingsmew.redditreader;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -131,7 +132,7 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
         String articleUrl = openedArticle.getUrl();
 
         if(openedArticle.isSelf()){
-            txtListChild.setText(openedArticle.getSelftext());
+            txtListChild.setText(Html.fromHtml(Html.fromHtml(openedArticle.getSelftext()).toString()));
         } else {
             txtListChild.setText("");
         }
