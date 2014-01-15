@@ -117,7 +117,7 @@ public class Article {
         }
         isUpvoted = !isUpvoted;
 
-        vote(voteDirection, fullname);
+        VolleyRequest.vote(voteDirection, fullname);
     }
 
     public void downVote(){
@@ -131,7 +131,7 @@ public class Article {
         }
         isDownvoted = !isDownvoted;
 
-        vote(voteDirection, fullname);
+        VolleyRequest.vote(voteDirection, fullname);
     }
 
     public boolean isDownvoted(){
@@ -163,45 +163,5 @@ public class Article {
         }
 
         return articleList;
-    }
-
-    private void vote(final String voteDirection, final String fullname){
-        StringRequest upvoteRequest = new StringRequest(Request.Method.POST, "http://www.reddit.com/api/vote", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-
-            }
-        }){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = super.getHeaders();
-
-                if (headers == null || headers.equals(Collections.emptyMap())) {
-                    headers = new HashMap<String, String>();
-                }
-
-                headers.put("Cookie", VolleyRequest.cookie);
-                headers.put("User-Agent", "redditReader01");
-
-                return headers;
-            }
-            @Override
-            protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-
-                params.put("dir", voteDirection);
-                params.put("id", fullname);
-                params.put("uh", VolleyRequest.modhash);
-
-                return params;
-            }
-        };
-
-        VolleyRequest.queue.add(upvoteRequest);
     }
 }

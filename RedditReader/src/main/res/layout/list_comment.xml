@@ -60,7 +60,7 @@
         <ImageButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton"
+            android:id="@+id/imageButtonCommentUpvote"
             android:src="@drawable/upvote"
             android:layout_weight="1"
             android:background="#dddddd"
@@ -71,7 +71,7 @@
         <ImageButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton2"
+            android:id="@+id/imageButtonCommentDownvote"
             android:src="@drawable/downvote"
             android:layout_weight="1"
             android:background="#dddddd"
@@ -81,7 +81,7 @@
         <ImageButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton3"
+            android:id="@+id/imageButtonCommentReply"
             android:src="@drawable/reply"
             android:layout_weight="1"
             android:background="#dddddd"

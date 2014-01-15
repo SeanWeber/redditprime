@@ -6,8 +6,17 @@ import android.graphics.Bitmap;
 import android.preference.PreferenceManager;
 import android.support.v4.util.LruCache;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.StringRequest;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by smw on 1/2/14.
@@ -40,5 +49,45 @@ public class VolleyRequest {
                 return mCache.get(key);
             }
         });
+    }
+
+    public static void vote(final String voteDirection, final String fullname){
+        StringRequest upvoteRequest = new StringRequest(Request.Method.POST, "http://www.reddit.com/api/vote", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = super.getHeaders();
+
+                if (headers == null || headers.equals(Collections.emptyMap())) {
+                    headers = new HashMap<String, String>();
+                }
+
+                headers.put("Cookie", cookie);
+                headers.put("User-Agent", "redditReader01");
+
+                return headers;
+            }
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+
+                params.put("dir", voteDirection);
+                params.put("id", fullname);
+                params.put("uh", modhash);
+
+                return params;
+            }
+        };
+
+        queue.add(upvoteRequest);
     }
 }

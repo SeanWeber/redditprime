@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -36,6 +38,9 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
         LinearLayout layout = (LinearLayout) convertView.findViewById(R.id.linearLayoutComment);
         LinearLayout info = (LinearLayout) convertView.findViewById(R.id.linearLayoutCommentInfo);
         LinearLayout buttons = (LinearLayout) convertView.findViewById(R.id.linearLayoutButtons);
+        ImageButton upvote = (ImageButton) convertView.findViewById(R.id.imageButtonCommentUpvote);
+        ImageButton downvote = (ImageButton) convertView.findViewById(R.id.imageButtonCommentDownvote);
+        ImageButton reply = (ImageButton) convertView.findViewById(R.id.imageButtonCommentReply);
         TextView body = (TextView) convertView.findViewById(R.id.textViewComment);
         TextView ups = (TextView) convertView.findViewById(R.id.textViewUps);
         TextView downs = (TextView) convertView.findViewById(R.id.textViewDowns);
@@ -70,17 +75,6 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
             }
         }
 
-        View.OnClickListener toggleVisibility = new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                currentComment.toggle();
-                adapter.notifyDataSetChanged();
-            }
-        };
-
-        info.setOnClickListener(toggleVisibility);
-        body.setOnClickListener(toggleVisibility);
-
         if(currentComment.isHidden()){
             // Hide the entire comment
             info.setVisibility(View.GONE);
@@ -97,6 +91,38 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
             body.setVisibility(View.VISIBLE);
             buttons.setVisibility(View.VISIBLE);
         }
+
+        View.OnClickListener toggleVisibility = new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                currentComment.toggle();
+                adapter.notifyDataSetChanged();
+            }
+        };
+
+        info.setOnClickListener(toggleVisibility);
+        body.setOnClickListener(toggleVisibility);
+
+        upvote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentComment.upVote();
+            }
+        });
+
+        downvote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentComment.downVote();
+            }
+        });
+
+        reply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         return convertView;
     }

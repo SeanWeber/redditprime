@@ -22,6 +22,8 @@ public class Comment {
     private int replyLevel;
     private boolean isHidden;
     private boolean isCollapsed;
+    private boolean isUpvoted;
+    private boolean isDownvoted;
 
     Comment(JSONObject jsonComment){
         try {
@@ -91,6 +93,34 @@ public class Comment {
         } else {
             isCollapsed = true;
         }
+    }
+
+    public void upVote(){
+        final String voteDirection;
+        String fullname = "t1_" + id;
+
+        if(isUpvoted){
+            voteDirection = "0";
+        } else{
+            voteDirection = "1";
+        }
+        isUpvoted = !isUpvoted;
+
+        VolleyRequest.vote(voteDirection, fullname);
+    }
+
+    public void downVote(){
+        final String voteDirection;
+        String fullname = "t1_" + id;
+
+        if(isDownvoted){
+            voteDirection = "0";
+        } else{
+            voteDirection = "-1";
+        }
+        isDownvoted = !isDownvoted;
+
+        VolleyRequest.vote(voteDirection, fullname);
     }
 
     public static ArrayList<Comment> parseCommentArray(JSONArray commentArray, int level){
