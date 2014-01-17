@@ -2,6 +2,7 @@ package com.lightemittingsmew.redditreader;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -52,7 +53,7 @@ public class FrontPage extends ActionBarActivity {
         }
 
         context = this;
-
+        ConnectivityManager cManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         VolleyRequest.initQueue(this.getApplication());
 
         String url = "http://www.reddit.com/.json";
@@ -86,6 +87,10 @@ public class FrontPage extends ActionBarActivity {
         };
 
         VolleyRequest.queue.add(jsObjRequest);
+
+        // Only load HD thumbnails when connected to wi-fi
+        VolleyRequest.loadHdThumbnails = cManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
+                .isConnectedOrConnecting();
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.lightemittingsmew.redditreader;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
@@ -63,15 +65,22 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
         holder.textListChild.setText(title);
         holder.textViewScore.setText(Html.fromHtml(score));
 
-        holder.imageView.setDefaultImageResId(R.drawable.defaultthumbnail);
+        holder.imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        holder.imageView.setBackgroundColor(Color.parseColor("#336699"));
+        holder.imageView.setDefaultImageResId(R.drawable.rr5);
         holder.imageView.setErrorImageResId(R.drawable.errorthumbnail);
         holder.imageView.setImageUrl(null, VolleyRequest.imageLoader);
 
         if(thumbnailUrl.equals("default") || thumbnailUrl.equals("")){}
         else if(thumbnailUrl.equals("self")){}
         else if(thumbnailUrl.equals("nsfw")){}
+        else if(currentArticle.isImage() && VolleyRequest.loadHdThumbnails){
+            holder.imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            holder.imageView.setImageUrl(currentArticle.getUrl(), VolleyRequest.imageLoader);
+        }
         else{
             try{
+                holder.imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 holder.imageView.setImageUrl(thumbnailUrl, VolleyRequest.imageLoader);
             }
             catch(Exception e){
@@ -147,8 +156,7 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
         NetworkImageView img = (NetworkImageView) convertView.findViewById(R.id.imageViewfull);
         img.setImageUrl(null, VolleyRequest.imageLoader);
 
-        if( articleUrl.endsWith(".jpg") || articleUrl.endsWith(".jpeg") ||
-                articleUrl.endsWith(".gif") || articleUrl.endsWith(".png")){
+        if(openedArticle.isImage()){
             img.setImageUrl(articleUrl, VolleyRequest.imageLoader);
             img.setAdjustViewBounds(true);
         } else {

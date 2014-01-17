@@ -33,6 +33,7 @@ public class Article {
     private boolean isSelf;
     private boolean isUpvoted;
     private boolean isDownvoted;
+    private boolean isImage;
 
     private int ups;
     private int downs;
@@ -61,6 +62,9 @@ public class Article {
             if(isSelf){
                 selftext = jsonArticle.getString("selftext_html");
             }
+
+            isImage = ( url.endsWith(".jpg") || url.endsWith(".jpeg") || url.endsWith(".gif") ||
+                    url.endsWith(".png"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -104,6 +108,10 @@ public class Article {
 
     public boolean isUpvoted(){
         return isUpvoted;
+    }
+
+    public boolean isImage(){
+        return isImage;
     }
 
     public void upVote(){

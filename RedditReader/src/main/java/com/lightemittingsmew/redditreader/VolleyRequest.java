@@ -26,6 +26,7 @@ public class VolleyRequest {
     public static String cookie;
     public static String modhash;
     public static ImageLoader imageLoader;
+    public static boolean loadHdThumbnails;
 
     public static void initQueue(Context context){
         queue = com.android.volley.toolbox.Volley.newRequestQueue(context);
