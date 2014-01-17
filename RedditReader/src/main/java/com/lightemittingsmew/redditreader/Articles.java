@@ -13,6 +13,11 @@ import android.view.ViewGroup;
 import android.os.Build;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.LinearLayout;
+
+import com.google.ads.AdRequest;
+import com.google.ads.AdSize;
+import com.google.ads.AdView;
 
 public class Articles extends ActionBarActivity {
 
@@ -39,6 +44,7 @@ public class Articles extends ActionBarActivity {
         webView.setWebViewClient(new WebViewClient());
 
         webView.loadUrl(url);
+        addBanner();
     }
 
 
@@ -78,4 +84,25 @@ public class Articles extends ActionBarActivity {
         }
     }
 
+    private void addBanner(){
+        // Create the adView
+        AdView adView = new AdView(this, AdSize.SMART_BANNER, "ca-app-pub-7856499565563098/6256720366");
+
+        // Lookup your LinearLayout assuming it's been given
+        LinearLayout layout = (LinearLayout)findViewById(R.id.linearLayoutAd);
+
+        // Add the adView to it
+        layout.addView(adView);
+
+        // Initiate a generic request to load it with an ad
+        AdRequest adRequest = new AdRequest();
+
+        // Show dummy ads for test devices so we stay in good standing with admob
+        adRequest.addTestDevice(AdRequest.TEST_EMULATOR);
+        adRequest.addTestDevice("3806E58F6A2D26FBAF4B4B1A6F4DE519");
+        adRequest.addTestDevice("1DEEB5FDAF02CD82E12A109A8A6D357E");
+        adRequest.addTestDevice("FAD5C2235FFBABDE132C75EBBBE6BB38");
+        adRequest.addTestDevice("6C5412BF56EEBA7B0C01CBA41120B1E6");
+        adView.loadAd(adRequest);
+    }
 }
