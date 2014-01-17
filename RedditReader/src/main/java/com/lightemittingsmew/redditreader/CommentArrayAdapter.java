@@ -94,6 +94,11 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
             buttons.setVisibility(View.VISIBLE);
         }
 
+        // Hide the comment buttons if the user is not logged in
+        if(VolleyRequest.cookie != null || VolleyRequest.cookie.equals("")){
+            buttons.setVisibility(View.GONE);
+        }
+
         View.OnClickListener toggleVisibility = new View.OnClickListener(){
             @Override
             public void onClick(View v) {
