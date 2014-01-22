@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -42,11 +41,6 @@ public class Comments extends ActionBarActivity {
         Intent intent = getIntent();
         String commentURL = intent.getStringExtra(ArticleArrayAdapter.COMMENT_URL);
         curl = "http://www.reddit.com" + commentURL + ".json";
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
 
         final String url = curl;
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {

@@ -26,10 +26,12 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
     public static final String ARTICLE_URL = "com.lightemittingsmew.redditreader.ARTICLE_URL";
     private Context thisContext;
     private ArrayList<Article> articles;
+    private FrontPage activity;
 
-    public ArticleArrayAdapter(Context context, int textViewResourceId, ArrayList<Article> objects) {
+    public ArticleArrayAdapter(Context context, ArrayList<Article> objects, FrontPage act) {
         thisContext = context;
         articles = objects;
+        activity = act;
     }
 
     private static class ViewHolder {
@@ -88,6 +90,11 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
                 Log.e("URL", thumbnailUrl);
             }
         }
+
+        if(groupPosition == articles.size() -1){
+            activity.loadMore();
+        }
+
         return convertView;
     }
 

@@ -98,7 +98,7 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
         if(VolleyRequest.cookie == null || VolleyRequest.cookie.equals("")){
             buttons.setVisibility(View.GONE);
         } else {
-            buttons.setVisibility(View.VISIBLE);
+            //buttons.setVisibility(View.VISIBLE);
         }
 
         View.OnClickListener toggleVisibility = new View.OnClickListener(){

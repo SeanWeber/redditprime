@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ExpandableListView;
 
 import com.android.volley.AuthFailureError;
@@ -30,39 +31,38 @@ import java.util.Map;
 public class FrontPage extends ActionBarActivity {
 
     private Context context;
+    ExpandableListView listViewStories;
+    ArrayList<Article> listStories;
+    ArticleArrayAdapter articleAdapter;
 
-    private void displayStories(JSONObject stories){
-        ExpandableListView listViewStories = (ExpandableListView) findViewById(R.id.listViewStories);
-        ArrayList<Article> listStories = new ArrayList<Article>();
+    private void addStories(JSONObject stories){
+        ArrayList<Article> newStories = Article.parseArticleList(stories);
 
-        listStories = Article.parseArticleList(stories);
+        listStories.addAll(newStories);
 
-        ArticleArrayAdapter articleAdapter = new ArticleArrayAdapter(this, R.layout.list_article, listStories);
-        listViewStories.setAdapter(articleAdapter);
+        if(articleAdapter == null){
+            articleAdapter = new ArticleArrayAdapter(this, listStories, FrontPage.this);
+            listViewStories.setAdapter(articleAdapter);
+        } else {
+            ((BaseAdapter)listViewStories.getAdapter()).notifyDataSetChanged();
+        }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_front_page);
-
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
-                    .commit();
-        }
-
-        context = this;
-        ConnectivityManager cManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        VolleyRequest.initQueue(this.getApplication());
-
+    public void loadMore(){
         String url = "http://www.reddit.com/.json";
 
-        final JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        if(listStories ==  null){
+            listStories = new ArrayList<Article>();
+        } else {
+            Article last = listStories.get(listStories.size() - 1);
+            url = url + "?count=" + listStories.size() + "&after=t3_" + last.getId();
+        }
+
+        final JsonObjectRequest articleRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
-                displayStories(response);
+                addStories(response);
             }
         }, new Response.ErrorListener() {
 
@@ -86,7 +86,26 @@ public class FrontPage extends ActionBarActivity {
             }
         };
 
-        VolleyRequest.queue.add(jsObjRequest);
+        VolleyRequest.queue.add(articleRequest);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_front_page);
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container, new PlaceholderFragment())
+                    .commit();
+        }
+
+        context = this;
+        ConnectivityManager cManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        VolleyRequest.initQueue(this.getApplication());
+        listViewStories = (ExpandableListView) findViewById(R.id.listViewStories);
+
+        loadMore();
 
         // Only load HD thumbnails when connected to wi-fi
         VolleyRequest.loadHdThumbnails = cManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
