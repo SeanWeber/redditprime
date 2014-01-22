@@ -103,6 +103,8 @@ public class Articles extends ActionBarActivity {
         adRequest.addTestDevice("1DEEB5FDAF02CD82E12A109A8A6D357E");
         adRequest.addTestDevice("FAD5C2235FFBABDE132C75EBBBE6BB38");
         adRequest.addTestDevice("6C5412BF56EEBA7B0C01CBA41120B1E6");
+
+        adRequest.addTestDevice("68531784152AD12BCF884D1D4106EC76");
         adView.loadAd(adRequest);
     }
 }
