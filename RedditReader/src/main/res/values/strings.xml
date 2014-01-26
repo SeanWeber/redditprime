@@ -10,5 +10,7 @@
     <string name="action_logout">Logout</string>
     <string name="title_activity_article">Article</string>
     <string name="title_activity_reply">Reply</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
 
 </resources>

@@ -2,17 +2,22 @@ package com.lightemittingsmew.redditreader;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ListView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -20,11 +25,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -34,6 +42,8 @@ public class FrontPage extends ActionBarActivity {
     ExpandableListView listViewStories;
     ArrayList<Article> listStories;
     ArticleArrayAdapter articleAdapter;
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
 
     private void addStories(JSONObject stories){
         ArrayList<Article> newStories = Article.parseArticleList(stories);
@@ -58,35 +68,83 @@ public class FrontPage extends ActionBarActivity {
             url = url + "?count=" + listStories.size() + "&after=t3_" + last.getId();
         }
 
-        final JsonObjectRequest articleRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        final JsonObjectRequest articleRequest = new RedditRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
                 addStories(response);
             }
-        }, new Response.ErrorListener() {
+        });
 
-            @Override
-            public void onErrorResponse(VolleyError error) {
+        VolleyRequest.queue.add(articleRequest);
+    }
 
+    public void addSubreddits(JSONObject response){
+        List<String> subreddits = new ArrayList<String>();
+
+        try {
+            JSONArray ja = response.getJSONObject("data").getJSONArray("children");
+            for(int i=0;i<ja.length();i++){
+                subreddits.add(ja.getJSONObject(i).getJSONObject("data").getString("url"));
             }
-        }){
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        ListView mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        // Set the adapter for the list view
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, subreddits));
+        // Set the list's click listener
+        //mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+    }
+
+    public void initDrawer(){
+        String url = "http://www.reddit.com/subreddits/.json";
+
+        if(!VolleyRequest.cookie.equals("")){
+            url = "http://www.reddit.com/subreddits/mine/subscriber/.json";
+        }
+
+        final JsonObjectRequest subredditRequest = new RedditRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = super.getHeaders();
+            public void onResponse(JSONObject response) {
+                addSubreddits(response);
+            }
+        });
 
-                if (headers == null || headers.equals(Collections.emptyMap())) {
-                    headers = new HashMap<String, String>();
-                }
+        VolleyRequest.queue.add(subredditRequest);
 
-                headers.put("Cookie", VolleyRequest.cookie);
-                headers.put("User-Agent", "redditReader01");
+        DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,                  /* host Activity */
+                mDrawerLayout,         /* DrawerLayout object */
+                R.drawable.ic_drawer,  /* nav drawer icon to replace 'Up' caret */
+                R.string.drawer_open,  /* "open drawer" description */
+                R.string.drawer_close  /* "close drawer" description */
+        ) {
 
-                return headers;
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                getActionBar().setTitle("Reddit Prime");
+            }
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                getActionBar().setTitle("Subreddits");
             }
         };
 
-        VolleyRequest.queue.add(articleRequest);
+        // Set the drawer toggle as the DrawerListener
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
     }
 
     @Override
@@ -105,11 +163,12 @@ public class FrontPage extends ActionBarActivity {
         VolleyRequest.initQueue(this.getApplication());
         listViewStories = (ExpandableListView) findViewById(R.id.listViewStories);
 
-        loadMore();
-
         // Only load HD thumbnails when connected to wi-fi
         VolleyRequest.loadHdThumbnails = cManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
                 .isConnectedOrConnecting();
+
+        loadMore();
+        initDrawer();
     }
 
     @Override
@@ -150,7 +209,27 @@ public class FrontPage extends ActionBarActivity {
                 context.startActivity(intent);
             }
         }
+
+        // Pass the event to ActionBarDrawerToggle, if it returns
+        // true, then it has handled the app icon touch event
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     /**
