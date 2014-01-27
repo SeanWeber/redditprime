@@ -1,19 +1,27 @@
 package com.lightemittingsmew.redditreader;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.NetworkImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -106,8 +114,73 @@ public class Comments extends ActionBarActivity {
         }
         listComments = Comment.parseCommentArray(comments, 0);
 
+        listViewComments.addHeaderView(headerView());
         final CommentArrayAdapter commentAdapter = new CommentArrayAdapter(this, R.layout.list_comment, listComments);
         listViewComments.setAdapter(commentAdapter);
     }
 
+    private View headerView(){
+        View header = getLayoutInflater().inflate(R.layout.list_article_summary, null);
+        Article article = Article.getCurrentArticle();
+        TextView textViewTitle = (TextView) header.findViewById(R.id.textViewTitle);
+        TextView textViewScore = (TextView) header.findViewById(R.id.textViewScore);
+        NetworkImageView thumbnail = (NetworkImageView) header.findViewById(R.id.imageViewThumbnail);
+
+        String thumbnailUrl = article.getThumbnail();
+        String score = "<font color='#666666'>" + article.getScore() +
+                " points by " + article.getAuthor() + " in /r/" +
+                article.getSubreddit() + "</font>";
+
+        textViewTitle.setText(article.getTitle());
+        textViewScore.setText(Html.fromHtml(score));
+
+        thumbnail.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        thumbnail.setBackgroundColor(Color.parseColor("#336699"));
+        thumbnail.setDefaultImageResId(R.drawable.rr5);
+        thumbnail.setErrorImageResId(R.drawable.errorthumbnail);
+        thumbnail.setImageUrl(null, VolleyRequest.imageLoader);
+
+        if(thumbnailUrl.equals("default") || thumbnailUrl.equals("")){}
+        else if(thumbnailUrl.equals("self")){}
+        else if(thumbnailUrl.equals("nsfw")){}
+        else if(article.isImage() && VolleyRequest.loadHdThumbnails){
+            thumbnail.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            thumbnail.setImageUrl(article.getUrl(), VolleyRequest.imageLoader);
+        }
+        else{
+            try{
+                thumbnail.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                thumbnail.setImageUrl(thumbnailUrl, VolleyRequest.imageLoader);
+            }
+            catch(Exception e){
+                e.printStackTrace();
+                Log.e("URL", thumbnailUrl);
+            }
+        }
+
+        TextView txtListChild = (TextView) header.findViewById(R.id.textViewChild);
+
+        String articleUrl = article.getUrl();
+
+        if(article.isSelf()){
+            txtListChild.setVisibility(View.VISIBLE);
+            txtListChild.setText(Html.fromHtml(Html.fromHtml(article.getSelftext()).toString()));
+            txtListChild.setMovementMethod(LinkMovementMethod.getInstance()); // Make links clickable
+        } else {
+            txtListChild.setText("");
+            txtListChild.setVisibility(View.GONE);
+        }
+
+        NetworkImageView img = (NetworkImageView) header.findViewById(R.id.imageViewfull);
+        img.setImageUrl(null, VolleyRequest.imageLoader);
+
+        if(article.isImage()){
+            img.setImageUrl(articleUrl, VolleyRequest.imageLoader);
+            img.setAdjustViewBounds(true);
+        } else {
+            img.setAdjustViewBounds(false);
+        }
+
+        return header;
+    }
 }

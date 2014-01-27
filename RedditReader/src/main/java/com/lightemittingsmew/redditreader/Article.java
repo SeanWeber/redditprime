@@ -41,6 +41,8 @@ public class Article {
     private int comments;
     private long created;
 
+    private static Article currentArticle;
+
     public Article(JSONObject jsonArticle){
         try {
             id = jsonArticle.getString("id");
@@ -171,5 +173,13 @@ public class Article {
         }
 
         return articleList;
+    }
+
+    public static void setCurrentArticle(Article current){
+        currentArticle = current;
+    }
+
+    public static Article getCurrentArticle(){
+        return currentArticle;
     }
 }

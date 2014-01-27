@@ -174,6 +174,7 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
         buttonComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Article.setCurrentArticle(openedArticle);
                 Intent intent = new Intent(thisContext, Comments.class);
                 intent.putExtra(COMMENT_URL, finalUrl);
                 thisContext.startActivity(intent);
