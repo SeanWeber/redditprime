@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -104,6 +105,7 @@ public class Comments extends ActionBarActivity {
     }
 
     private void parseComments(JSONArray response){
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBarComment);
         final ArrayList<Comment> listComments;
         JSONArray comments = new JSONArray();
 
@@ -117,6 +119,8 @@ public class Comments extends ActionBarActivity {
         listViewComments.addHeaderView(headerView());
         final CommentArrayAdapter commentAdapter = new CommentArrayAdapter(this, R.layout.list_comment, listComments);
         listViewComments.setAdapter(commentAdapter);
+
+        progressBar.setVisibility(View.GONE);
     }
 
     private View headerView(){

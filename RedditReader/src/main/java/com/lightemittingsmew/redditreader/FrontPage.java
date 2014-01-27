@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -41,6 +42,7 @@ public class FrontPage extends ActionBarActivity {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     String subreddit;
+    ProgressBar progressbar;
 
     private void addStories(JSONObject stories){
         ArrayList<Article> newStories = Article.parseArticleList(stories);
@@ -53,14 +55,16 @@ public class FrontPage extends ActionBarActivity {
         } else {
             ((BaseAdapter)listViewStories.getAdapter()).notifyDataSetChanged();
         }
+
+        progressbar.setVisibility(View.GONE);
     }
 
     public void loadMore(){
         String url = "http://www.reddit.com" + subreddit + "/.json";
 
-        if(listStories ==  null){
+        if(listStories == null){
             listStories = new ArrayList<Article>();
-        } else {
+        } else if (listStories.size() > 0) {
             Article last = listStories.get(listStories.size() - 1);
             url = url + "?count=" + listStories.size() + "&after=t3_" + last.getId();
         }
@@ -101,14 +105,16 @@ public class FrontPage extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 subreddit = subreddits.get(position);
-                listStories = null;
-                articleAdapter = null;
+                listStories.clear();
+                //articleAdapter = null;
 
                 // Highlight the selected item, update the title, and close the drawer
                 mDrawerList.setItemChecked(position, true);
                 setTitle(subreddits.get(position));
                 mDrawerLayout.closeDrawer(mDrawerList);
 
+                ((BaseAdapter)listViewStories.getAdapter()).notifyDataSetChanged();
+                progressbar.setVisibility(View.VISIBLE);
                 loadMore();
             }
         });
@@ -167,6 +173,7 @@ public class FrontPage extends ActionBarActivity {
         ConnectivityManager cManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         VolleyRequest.initQueue(this.getApplication());
         listViewStories = (ExpandableListView) findViewById(R.id.listViewStories);
+        progressbar = (ProgressBar) findViewById(R.id.progressBarArticles);
 
         // Only load HD thumbnails when connected to wi-fi
         VolleyRequest.loadHdThumbnails = cManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
