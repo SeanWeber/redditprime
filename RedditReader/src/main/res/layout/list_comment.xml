@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="New Text"
-        android:background="#dddddd"
+        android:background="#eee"
         android:id="@+id/textViewCommentInfo"
         android:layout_marginTop="4dp"
         android:paddingLeft="8dp"
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:text="New Text"
         android:id="@+id/textViewComment"
-        android:background="#dddddd"
+        android:background="#eee"
         android:paddingLeft="8dp"
         android:paddingTop="4dp"
         android:paddingRight="8dp"
@@ -34,7 +34,7 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#cccccc"
+        android:background="#ddd"
         android:id="@+id/linearLayoutButtons">
 
         <ImageButton
@@ -43,7 +43,7 @@
             android:id="@+id/imageButtonCommentUpvote"
             android:src="@drawable/upvote"
             android:layout_weight="1"
-            android:background="#dddddd"
+            android:background="#eee"
             android:layout_marginRight="1dp"
             android:paddingBottom="4dp"
             android:cropToPadding="false" />
@@ -54,7 +54,7 @@
             android:id="@+id/imageButtonCommentDownvote"
             android:src="@drawable/downvote"
             android:layout_weight="1"
-            android:background="#dddddd"
+            android:background="#eee"
             android:layout_marginRight="1dp"
             android:paddingBottom="4dp" />
 
@@ -64,7 +64,7 @@
             android:id="@+id/imageButtonCommentReply"
             android:src="@drawable/reply"
             android:layout_weight="1"
-            android:background="#dddddd"
+            android:background="#eee"
             android:layout_marginRight="1dp"
             android:paddingBottom="4dp"/>
 
