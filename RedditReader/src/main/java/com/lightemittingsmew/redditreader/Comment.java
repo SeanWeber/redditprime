@@ -37,7 +37,10 @@ public class Comment {
 
             String b = Html.fromHtml(jsonComment.getJSONObject("data").getString("body_html")).toString();
             body = (SpannableStringBuilder)Html.fromHtml(b);
-            body.replace(body.length() - 2, body.length() - 1, " ");
+            if(body.length() > 1){
+                body.replace(body.length() - 2, body.length() - 1, " ");
+            }
+            ups =88;
         } catch (JSONException e) {
             e.printStackTrace();
         }
