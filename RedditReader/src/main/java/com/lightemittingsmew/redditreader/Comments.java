@@ -160,8 +160,6 @@ public class Comments extends ActionBarActivity {
 
         TextView txtListChild = (TextView) header.findViewById(R.id.textViewChild);
 
-        String articleUrl = article.getUrl();
-
         if(article.isSelf()){
             txtListChild.setVisibility(View.VISIBLE);
             txtListChild.setText(Html.fromHtml(Html.fromHtml(article.getSelftext()).toString()));
@@ -169,16 +167,6 @@ public class Comments extends ActionBarActivity {
         } else {
             txtListChild.setText("");
             txtListChild.setVisibility(View.GONE);
-        }
-
-        NetworkImageView img = (NetworkImageView) header.findViewById(R.id.imageViewfull);
-        img.setImageUrl(null, VolleyRequest.imageLoader);
-
-        if(article.isImage()){
-            img.setImageUrl(articleUrl, VolleyRequest.imageLoader);
-            img.setAdjustViewBounds(true);
-        } else {
-            img.setAdjustViewBounds(false);
         }
 
         return header;
