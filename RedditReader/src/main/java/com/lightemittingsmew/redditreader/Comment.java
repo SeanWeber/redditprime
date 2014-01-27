@@ -40,7 +40,6 @@ public class Comment {
             if(body.length() > 1){
                 body.replace(body.length() - 2, body.length() - 1, " ");
             }
-            ups =88;
         } catch (JSONException e) {
             e.printStackTrace();
         }
