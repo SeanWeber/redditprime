@@ -63,6 +63,9 @@ public class Article {
 
             if(isSelf){
                 selftext = jsonArticle.getString("selftext_html");
+                if (selftext.equals("null")){
+                    isSelf = false;
+                }
             }
 
             isImage = ( url.endsWith(".jpg") || url.endsWith(".jpeg") || url.endsWith(".gif") ||
