@@ -77,6 +77,18 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
             }
         }
 
+        if(currentComment.isUpvoted()){
+            upvote.setImageResource(R.drawable.upvoteactive);
+        } else{
+            upvote.setImageResource(R.drawable.upvote);
+        }
+
+        if(currentComment.isDownvoted()){
+            downvote.setImageResource(R.drawable.downvoteactive);
+        } else{
+            downvote.setImageResource(R.drawable.downvote);
+        }
+
         if(currentComment.isHidden()){
             // Hide the entire comment
             info.setVisibility(View.GONE);
@@ -116,6 +128,7 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
             @Override
             public void onClick(View v) {
                 currentComment.upVote();
+                adapter.notifyDataSetChanged();
             }
         });
 
@@ -123,6 +136,7 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
             @Override
             public void onClick(View v) {
                 currentComment.downVote();
+                adapter.notifyDataSetChanged();
             }
         });
 

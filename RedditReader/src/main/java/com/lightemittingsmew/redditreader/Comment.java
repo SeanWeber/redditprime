@@ -101,6 +101,14 @@ public class Comment {
         return isCollapsed;
     }
 
+    public boolean isUpvoted(){
+        return isUpvoted;
+    }
+
+    public boolean isDownvoted() {
+        return isDownvoted;
+    }
+
     public void hide(){
         isHidden = true;
     }
@@ -123,10 +131,16 @@ public class Comment {
 
         if(isUpvoted){
             voteDirection = "0";
+            ups--;
         } else{
             voteDirection = "1";
+            ups++;
         }
         isUpvoted = !isUpvoted;
+        if(isDownvoted()){
+            isDownvoted = false;
+            downs--;
+        }
 
         VolleyRequest.vote(voteDirection, fullname);
     }
@@ -137,10 +151,16 @@ public class Comment {
 
         if(isDownvoted){
             voteDirection = "0";
+            downs--;
         } else{
             voteDirection = "-1";
+            downs++;
         }
         isDownvoted = !isDownvoted;
+        if(isUpvoted){
+            isUpvoted = false;
+            ups--;
+        }
 
         VolleyRequest.vote(voteDirection, fullname);
     }
