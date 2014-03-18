@@ -18,7 +18,7 @@ public class LoginRequest extends StringRequest {
     private Context context;
 
     public LoginRequest(String username, String password, Context con, Response.Listener<String> listener, Response.ErrorListener errorListener) {
-        super(Request.Method.POST, "http://www.reddit.com/api/login", listener, errorListener);
+        super(Request.Method.POST, "https://ssl.reddit.com/api/login", listener, errorListener);
         user = username;
         pass = password;
         context = con;
