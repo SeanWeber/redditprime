@@ -1,9 +1,11 @@
 package com.lightemittingsmew.redditreader;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONObject;
 
@@ -14,9 +16,10 @@ import java.util.Map;
 /**
  * Created by smw on 1/26/14.
  */
-public class RedditRequest extends JsonObjectRequest {
-    public RedditRequest(int method, String url, JSONObject jsonRequest, Response.Listener<JSONObject> listener) {
-        super(method, url, jsonRequest, listener, new Response.ErrorListener() {
+public class RedditRequest extends StringRequest {
+
+    public RedditRequest(int method, String url, Response.Listener<String> listener) {
+        super(method, url, listener, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
 
@@ -24,8 +27,8 @@ public class RedditRequest extends JsonObjectRequest {
         });
     }
 
-    public RedditRequest(int method, String url, JSONObject jsonRequest, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
-        super(method, url, jsonRequest, listener, errorListener);
+    public RedditRequest(int method, String url, Response.Listener<String> listener, Response.ErrorListener errorListener) {
+        super(method, url, listener, errorListener);
     }
 
     @Override

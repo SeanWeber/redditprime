@@ -19,15 +19,21 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.NetworkImageView;
+import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Comments extends ActionBarActivity {
 
@@ -52,10 +58,10 @@ public class Comments extends ActionBarActivity {
         curl = "http://www.reddit.com" + commentURL + ".json";
 
         final String url = curl;
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
+        StringRequest jsonArrayRequest = new RedditRequest(Request.Method.GET, url, new Response.Listener<String>() {
 
             @Override
-            public void onResponse(JSONArray response) {
+            public void onResponse(String response) {
                 parseComments(response);
             }
         }, new Response.ErrorListener() {
@@ -104,13 +110,13 @@ public class Comments extends ActionBarActivity {
         }
     }
 
-    private void parseComments(JSONArray response){
+    private void parseComments(String response){
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBarComment);
         final ArrayList<Comment> listComments;
         JSONArray comments = new JSONArray();
 
         try {
-            comments = response.getJSONObject(1).getJSONObject("data").getJSONArray("children");
+            comments = new JSONArray(response).getJSONObject(1).getJSONObject("data").getJSONArray("children");
         } catch (JSONException e) {
             e.printStackTrace();
         }

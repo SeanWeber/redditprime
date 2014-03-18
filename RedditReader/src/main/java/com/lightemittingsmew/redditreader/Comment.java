@@ -32,8 +32,20 @@ public class Comment {
             id = jsonComment.getJSONObject("data").getString("id");
             ups = jsonComment.getJSONObject("data").getInt("ups");
             downs = jsonComment.getJSONObject("data").getInt("downs");
+            String likes = jsonComment.getJSONObject("data").getString("likes");
+            if(likes.equals("true")){
+                isUpvoted = true;
+                isDownvoted = false;
+            } else if(likes.equals("false")){
+                isDownvoted = true;
+                isUpvoted = false;
+            }else{
+                isUpvoted = false;
+                isDownvoted = false;
+            }
             isHidden = false;
             isCollapsed = false;
+
 
             String b = Html.fromHtml(jsonComment.getJSONObject("data").getString("body_html")).toString();
             body = (SpannableStringBuilder)Html.fromHtml(b);

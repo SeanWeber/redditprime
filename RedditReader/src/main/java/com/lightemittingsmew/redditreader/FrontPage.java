@@ -24,6 +24,7 @@ import android.widget.ProgressBar;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,7 +45,7 @@ public class FrontPage extends ActionBarActivity {
     String subreddit;
     ProgressBar progressbar;
 
-    private void addStories(JSONObject stories){
+    private void addStories(String stories){
         ArrayList<Article> newStories = Article.parseArticleList(stories);
 
         listStories.addAll(newStories);
@@ -69,10 +70,10 @@ public class FrontPage extends ActionBarActivity {
             url = url + "?count=" + listStories.size() + "&after=t3_" + last.getId();
         }
 
-        final JsonObjectRequest articleRequest = new RedditRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        final StringRequest articleRequest = new RedditRequest(Request.Method.GET, url, new Response.Listener<String>() {
 
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(String response) {
                 addStories(response);
             }
         });
@@ -80,11 +81,11 @@ public class FrontPage extends ActionBarActivity {
         VolleyRequest.queue.add(articleRequest);
     }
 
-    public void addSubreddits(JSONObject response){
+    public void addSubreddits(String response){
         final List<String> subreddits = new ArrayList<String>();
 
         try {
-            JSONArray ja = response.getJSONObject("data").getJSONArray("children");
+            JSONArray ja = new JSONObject(response).getJSONObject("data").getJSONArray("children");
             for(int i=0;i<ja.length();i++){
                 String subredditName = ja.getJSONObject(i).getJSONObject("data").getString("url");
                 subredditName = subredditName.substring(0, subredditName.lastIndexOf("/"));
@@ -132,10 +133,10 @@ public class FrontPage extends ActionBarActivity {
             url = "http://www.reddit.com/subreddits/mine/subscriber/.json";
         }
 
-        final JsonObjectRequest subredditRequest = new RedditRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        final StringRequest subredditRequest = new RedditRequest(Request.Method.GET, url, new Response.Listener<String>() {
 
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(String response) {
                 addSubreddits(response);
             }
         });

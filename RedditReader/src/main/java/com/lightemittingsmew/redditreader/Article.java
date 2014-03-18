@@ -155,11 +155,11 @@ public class Article {
         return String.valueOf(score);
     }
 
-    public static ArrayList<Article> parseArticleList(JSONObject stories){
+    public static ArrayList<Article> parseArticleList(String stories){
         ArrayList<Article> articleList = new ArrayList<Article>();
         JSONArray jsonArrayStories = new JSONArray();
         try {
-            jsonArrayStories = stories.getJSONObject("data").getJSONArray("children");
+            jsonArrayStories = new JSONObject(stories).getJSONObject("data").getJSONArray("children");
         } catch (JSONException e) {
             e.printStackTrace();
         }
