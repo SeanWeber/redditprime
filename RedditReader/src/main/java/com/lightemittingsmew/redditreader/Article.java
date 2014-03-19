@@ -1,6 +1,7 @@
 package com.lightemittingsmew.redditreader;
 
 import android.text.Html;
+import android.text.SpannableStringBuilder;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -65,6 +66,15 @@ public class Article {
                 selftext = jsonArticle.getString("selftext_html");
                 if (selftext.equals("null")){
                     isSelf = false;
+                }else{
+                    // Get rid of the extra line breaks in the body
+                    SpannableStringBuilder body;
+                    String b = Html.fromHtml(selftext).toString();
+                    body = (SpannableStringBuilder)Html.fromHtml(b);
+                    if(body.length() > 1){
+                        body.replace(body.length() - 2, body.length() - 1, " ");
+                    }
+                    selftext = body.toString();
                 }
             }
 

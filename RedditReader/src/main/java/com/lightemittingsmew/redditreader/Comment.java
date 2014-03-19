@@ -46,7 +46,7 @@ public class Comment {
             isHidden = false;
             isCollapsed = false;
 
-
+            // Get rid of the extra line breaks in the body
             String b = Html.fromHtml(jsonComment.getJSONObject("data").getString("body_html")).toString();
             body = (SpannableStringBuilder)Html.fromHtml(b);
             if(body.length() > 1){
