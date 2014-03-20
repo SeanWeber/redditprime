@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -142,11 +143,12 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
         }
 
         final Article openedArticle = articles.get(groupPosition);
+        final ArticleArrayAdapter adapter = this;
         TextView txtListChild = (TextView) convertView.findViewById(R.id.textViewChild);
         Button buttonComment = (Button) convertView.findViewById(R.id.buttonComments);
         Button buttonArticle = (Button) convertView.findViewById(R.id.buttonArticle);
-        Button buttonUpvote = (Button) convertView.findViewById(R.id.buttonUpvote);
-        Button buttonDownvote = (Button) convertView.findViewById(R.id.buttonDownvote);
+        ImageButton buttonUpvote = (ImageButton) convertView.findViewById(R.id.buttonUpvote);
+        ImageButton buttonDownvote = (ImageButton) convertView.findViewById(R.id.buttonDownvote);
 
         String commentUrl = openedArticle.getPermalink();
         String articleUrl = openedArticle.getUrl();
@@ -168,6 +170,18 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
             img.setAdjustViewBounds(true);
         } else {
             img.setAdjustViewBounds(false);
+        }
+
+        if(openedArticle.isUpvoted()){
+            buttonUpvote.setImageResource(R.drawable.upvoteactive);
+        } else{
+            buttonUpvote.setImageResource(R.drawable.upvote);
+        }
+
+        if(openedArticle.isDownvoted()){
+            buttonDownvote.setImageResource(R.drawable.downvoteactive);
+        } else{
+            buttonDownvote.setImageResource(R.drawable.downvote);
         }
 
         final String finalUrl = commentUrl;
@@ -195,6 +209,7 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View v) {
                 openedArticle.upVote();
+                adapter.notifyDataSetChanged();
             }
         });
 
@@ -202,6 +217,7 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View v) {
                 openedArticle.downVote();
+                adapter.notifyDataSetChanged();
             }
         });
 

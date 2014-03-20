@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -138,8 +139,8 @@ public class Comments extends ActionBarActivity {
         NetworkImageView thumbnail = (NetworkImageView) header.findViewById(R.id.imageViewThumbnail);
         Button buttonComment = (Button) child.findViewById(R.id.buttonComments);
         Button buttonArticle = (Button) child.findViewById(R.id.buttonArticle);
-        Button buttonUpvote = (Button) child.findViewById(R.id.buttonUpvote);
-        Button buttonDownvote = (Button) child.findViewById(R.id.buttonDownvote);
+        final ImageButton buttonUpvote = (ImageButton) child.findViewById(R.id.buttonUpvote);
+        final ImageButton buttonDownvote = (ImageButton) child.findViewById(R.id.buttonDownvote);
 
         String thumbnailUrl = article.getThumbnail();
         String score = "<font color='#666666'>" + article.getScore() +
@@ -193,10 +194,33 @@ public class Comments extends ActionBarActivity {
             }
         });
 
+        if(article.isUpvoted()){
+            buttonUpvote.setImageResource(R.drawable.upvoteactive);
+        } else{
+            buttonUpvote.setImageResource(R.drawable.upvote);
+        }
+
+        if(article.isDownvoted()){
+            buttonDownvote.setImageResource(R.drawable.downvoteactive);
+        } else{
+            buttonDownvote.setImageResource(R.drawable.downvote);
+        }
+
         buttonUpvote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 article.upVote();
+
+                if(article.isUpvoted()){
+                    buttonUpvote.setImageResource(R.drawable.upvoteactive);
+                } else{
+                    buttonUpvote.setImageResource(R.drawable.upvote);
+                }
+                if(article.isDownvoted()){
+                    buttonDownvote.setImageResource(R.drawable.downvoteactive);
+                } else{
+                    buttonDownvote.setImageResource(R.drawable.downvote);
+                }
             }
         });
 
@@ -204,6 +228,17 @@ public class Comments extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 article.downVote();
+
+                if(article.isUpvoted()){
+                    buttonUpvote.setImageResource(R.drawable.upvoteactive);
+                } else{
+                    buttonUpvote.setImageResource(R.drawable.upvote);
+                }
+                if(article.isDownvoted()){
+                    buttonDownvote.setImageResource(R.drawable.downvoteactive);
+                } else{
+                    buttonDownvote.setImageResource(R.drawable.downvote);
+                }
             }
         });
 

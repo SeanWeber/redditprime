@@ -30,21 +30,23 @@
         android:layout_height="fill_parent"
         android:background="#aaaaaa">
 
-        <Button
+        <ImageButton
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="Upvote"
             android:id="@+id/buttonUpvote"
+            android:src="@drawable/upvote"
             android:textSize="12sp"
             android:background="#eee"
             android:layout_marginRight="1dp"
             android:layout_weight="1" />
 
-        <Button
+        <ImageButton
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="Downvote"
             android:id="@+id/buttonDownvote"
+            android:src="@drawable/downvote"
             android:textSize="12sp"
             android:background="#eee"
             android:layout_marginRight="1dp"

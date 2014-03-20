@@ -135,10 +135,16 @@ public class Article {
 
         if(isUpvoted){
             voteDirection = "0";
+            ups--;
         } else{
             voteDirection = "1";
+            ups++;
         }
         isUpvoted = !isUpvoted;
+        if(isDownvoted()){
+            isDownvoted = false;
+            downs--;
+        }
 
         VolleyRequest.vote(voteDirection, fullname);
     }
@@ -149,10 +155,16 @@ public class Article {
 
         if(isDownvoted){
             voteDirection = "0";
+            downs--;
         } else{
             voteDirection = "-1";
+            downs++;
         }
         isDownvoted = !isDownvoted;
+        if(isUpvoted){
+            isUpvoted = false;
+            ups--;
+        }
 
         VolleyRequest.vote(voteDirection, fullname);
     }
