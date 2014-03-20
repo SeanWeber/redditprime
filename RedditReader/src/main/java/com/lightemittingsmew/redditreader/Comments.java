@@ -132,7 +132,7 @@ public class Comments extends ActionBarActivity {
         final String finalArticleUrl = article.getUrl();
         final Context context = this;
         View header = getLayoutInflater().inflate(R.layout.list_article_summary, null);
-        View child = getLayoutInflater().inflate(R.layout.list_article_child, null);
+        final View child = getLayoutInflater().inflate(R.layout.list_article_child, null);
         ((ViewGroup)header).addView(child);
         TextView textViewTitle = (TextView) header.findViewById(R.id.textViewTitle);
         TextView textViewScore = (TextView) header.findViewById(R.id.textViewScore);
@@ -242,6 +242,16 @@ public class Comments extends ActionBarActivity {
             }
         });
 
+        textViewTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(child.getVisibility() == View.VISIBLE){
+                    child.setVisibility(View.GONE);
+                }else{
+                    child.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         return header;
     }
 }
