@@ -39,7 +39,9 @@
             android:textSize="12sp"
             android:background="#eee"
             android:layout_marginRight="1dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp" />
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -52,21 +54,23 @@
             android:layout_marginRight="1dp"
             android:layout_weight="1" />
 
-        <Button
+        <ImageButton
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="Comments"
             android:id="@+id/buttonComments"
+            android:src="@drawable/reply"
             android:textSize="12sp"
             android:background="#eee"
             android:layout_marginRight="1dp"
             android:layout_weight="1" />
 
-        <Button
+        <ImageButton
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="Article"
             android:id="@+id/buttonArticle"
+            android:src="@drawable/article"
             android:textSize="12sp"
             android:background="#eee"
             android:layout_weight="1" />

@@ -145,8 +145,8 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
         final Article openedArticle = articles.get(groupPosition);
         final ArticleArrayAdapter adapter = this;
         TextView txtListChild = (TextView) convertView.findViewById(R.id.textViewChild);
-        Button buttonComment = (Button) convertView.findViewById(R.id.buttonComments);
-        Button buttonArticle = (Button) convertView.findViewById(R.id.buttonArticle);
+        ImageButton buttonComment = (ImageButton) convertView.findViewById(R.id.buttonComments);
+        ImageButton buttonArticle = (ImageButton) convertView.findViewById(R.id.buttonArticle);
         ImageButton buttonUpvote = (ImageButton) convertView.findViewById(R.id.buttonUpvote);
         ImageButton buttonDownvote = (ImageButton) convertView.findViewById(R.id.buttonDownvote);
 

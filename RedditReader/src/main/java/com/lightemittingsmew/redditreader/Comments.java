@@ -137,8 +137,8 @@ public class Comments extends ActionBarActivity {
         TextView textViewTitle = (TextView) header.findViewById(R.id.textViewTitle);
         TextView textViewScore = (TextView) header.findViewById(R.id.textViewScore);
         NetworkImageView thumbnail = (NetworkImageView) header.findViewById(R.id.imageViewThumbnail);
-        Button buttonComment = (Button) child.findViewById(R.id.buttonComments);
-        Button buttonArticle = (Button) child.findViewById(R.id.buttonArticle);
+        ImageButton buttonComment = (ImageButton) child.findViewById(R.id.buttonComments);
+        ImageButton buttonArticle = (ImageButton) child.findViewById(R.id.buttonArticle);
         final ImageButton buttonUpvote = (ImageButton) child.findViewById(R.id.buttonUpvote);
         final ImageButton buttonDownvote = (ImageButton) child.findViewById(R.id.buttonDownvote);
 
