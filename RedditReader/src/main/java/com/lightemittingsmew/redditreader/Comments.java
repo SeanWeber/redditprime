@@ -1,5 +1,6 @@
 package com.lightemittingsmew.redditreader;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -19,11 +20,9 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
 
@@ -31,12 +30,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Comments extends ActionBarActivity {
-
+    public static final String COMMENT_URL = "com.lightemittingsmew.redditreader.COMMENT_URL";
+    public static final String ARTICLE_URL = "com.lightemittingsmew.redditreader.ARTICLE_URL";
     ListView listViewComments;
     String curl;
 
@@ -130,11 +127,19 @@ public class Comments extends ActionBarActivity {
     }
 
     private View headerView(){
+        final Article article = Article.getCurrentArticle();
+        final String finalArticleUrl = article.getUrl();
+        final Context context = this;
         View header = getLayoutInflater().inflate(R.layout.list_article_summary, null);
-        Article article = Article.getCurrentArticle();
+        View child = getLayoutInflater().inflate(R.layout.list_article_child, null);
+        ((ViewGroup)header).addView(child);
         TextView textViewTitle = (TextView) header.findViewById(R.id.textViewTitle);
         TextView textViewScore = (TextView) header.findViewById(R.id.textViewScore);
         NetworkImageView thumbnail = (NetworkImageView) header.findViewById(R.id.imageViewThumbnail);
+        Button buttonComment = (Button) child.findViewById(R.id.buttonComments);
+        Button buttonArticle = (Button) child.findViewById(R.id.buttonArticle);
+        Button buttonUpvote = (Button) child.findViewById(R.id.buttonUpvote);
+        Button buttonDownvote = (Button) child.findViewById(R.id.buttonDownvote);
 
         String thumbnailUrl = article.getThumbnail();
         String score = "<font color='#666666'>" + article.getScore() +
@@ -168,7 +173,7 @@ public class Comments extends ActionBarActivity {
             }
         }
 
-        TextView txtListChild = (TextView) header.findViewById(R.id.textViewChild);
+        TextView txtListChild = (TextView) child.findViewById(R.id.textViewChild);
 
         if(article.isSelf()){
             txtListChild.setVisibility(View.VISIBLE);
@@ -178,6 +183,29 @@ public class Comments extends ActionBarActivity {
             txtListChild.setText("");
             txtListChild.setVisibility(View.GONE);
         }
+
+        buttonArticle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, Articles.class);
+                intent.putExtra(ARTICLE_URL, finalArticleUrl);
+                context.startActivity(intent);
+            }
+        });
+
+        buttonUpvote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                article.upVote();
+            }
+        });
+
+        buttonDownvote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                article.downVote();
+            }
+        });
 
         return header;
     }
