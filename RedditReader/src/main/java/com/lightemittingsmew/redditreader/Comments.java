@@ -33,8 +33,8 @@ import org.json.JSONException;
 import java.util.ArrayList;
 
 public class Comments extends ActionBarActivity {
-    public static final String COMMENT_URL = "com.lightemittingsmew.redditreader.COMMENT_URL";
     public static final String ARTICLE_URL = "com.lightemittingsmew.redditreader.ARTICLE_URL";
+    public static final String PARENT_FULLNAME = "com.lightemittingsmew.redditreader.PARENT_FULLNAME";
     ListView listViewComments;
     String curl;
 
@@ -129,7 +129,6 @@ public class Comments extends ActionBarActivity {
 
     private View headerView(){
         final Article article = Article.getCurrentArticle();
-        final String finalArticleUrl = article.getUrl();
         final Context context = this;
         View header = getLayoutInflater().inflate(R.layout.list_article_summary, null);
         final View child = getLayoutInflater().inflate(R.layout.list_article_child, null);
@@ -185,15 +184,6 @@ public class Comments extends ActionBarActivity {
             txtListChild.setVisibility(View.GONE);
         }
 
-        buttonArticle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, Articles.class);
-                intent.putExtra(ARTICLE_URL, finalArticleUrl);
-                context.startActivity(intent);
-            }
-        });
-
         if(article.isUpvoted()){
             buttonUpvote.setImageResource(R.drawable.upvoteactive);
         } else{
@@ -239,6 +229,24 @@ public class Comments extends ActionBarActivity {
                 } else{
                     buttonDownvote.setImageResource(R.drawable.downvote);
                 }
+            }
+        });
+
+        buttonArticle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, Articles.class);
+                intent.putExtra(ARTICLE_URL, article.getUrl());
+                context.startActivity(intent);
+            }
+        });
+
+        buttonComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, Reply.class);
+                intent.putExtra(PARENT_FULLNAME, article.getFullName());
+                context.startActivity(intent);
             }
         });
 

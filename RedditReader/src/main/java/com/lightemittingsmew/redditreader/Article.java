@@ -117,6 +117,10 @@ public class Article {
         return id;
     }
 
+    public String getFullName(){
+        return "t3_" + id;
+    }
+
     public boolean isSelf(){
         return isSelf;
     }
