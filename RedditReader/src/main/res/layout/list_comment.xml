@@ -65,7 +65,6 @@
             android:src="@drawable/reply"
             android:layout_weight="1"
             android:background="#eee"
-            android:layout_marginRight="1dp"
             android:paddingBottom="4dp"/>
 
     </LinearLayout>
