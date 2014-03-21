@@ -78,8 +78,7 @@ public class Article {
                 }
             }
 
-            isImage = ( url.endsWith(".jpg") || url.endsWith(".jpeg") || url.endsWith(".gif") ||
-                    url.endsWith(".png"));
+            isImage = ( url.endsWith(".jpg") || url.endsWith(".jpeg") || url.endsWith(".png"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
