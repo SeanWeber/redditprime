@@ -58,6 +58,10 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        if(articles.size() == 0){
+            return convertView;
+        }
+
         Article currentArticle = articles.get(groupPosition);
         String thumbnailUrl = currentArticle.getThumbnail();
         String title = currentArticle.getTitle();
@@ -140,6 +144,10 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
             LayoutInflater inflater = (LayoutInflater) thisContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.list_article_child, parent, false);
+        }
+
+        if(articles.size() == 0){
+            return convertView;
         }
 
         final Article openedArticle = articles.get(groupPosition);
