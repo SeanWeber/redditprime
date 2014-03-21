@@ -44,6 +44,7 @@ public class FrontPage extends ActionBarActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     String subreddit;
     ProgressBar progressbar;
+    final List<String> subreddits = new ArrayList<String>();
 
     private void addStories(String stories){
         ArrayList<Article> newStories = Article.parseArticleList(stories);
@@ -82,8 +83,7 @@ public class FrontPage extends ActionBarActivity {
     }
 
     public void addSubreddits(String response){
-        final List<String> subreddits = new ArrayList<String>();
-
+        String after = "null";
         try {
             JSONArray ja = new JSONObject(response).getJSONObject("data").getJSONArray("children");
             for(int i=0;i<ja.length();i++){
@@ -91,34 +91,38 @@ public class FrontPage extends ActionBarActivity {
                 subredditName = subredditName.substring(0, subredditName.lastIndexOf("/"));
                 subreddits.add(subredditName);
             }
+            after = new JSONObject(response).getJSONObject("data").getString("after");
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
+        if(!after.equals("null")){
+            fetchSubreddits(after);
+        }else{
+            final ListView mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
-        final ListView mDrawerList = (ListView) findViewById(R.id.left_drawer);
+            // Set the adapter for the list view
+            mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+                    android.R.layout.simple_list_item_1, subreddits));
+            // Set the list's click listener
+            mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    subreddit = subreddits.get(position);
+                    listStories.clear();
+                    //articleAdapter = null;
 
-        // Set the adapter for the list view
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, subreddits));
-        // Set the list's click listener
-        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                subreddit = subreddits.get(position);
-                listStories.clear();
-                //articleAdapter = null;
+                    // Highlight the selected item, update the title, and close the drawer
+                    mDrawerList.setItemChecked(position, true);
+                    setTitle(subreddits.get(position));
+                    mDrawerLayout.closeDrawer(mDrawerList);
 
-                // Highlight the selected item, update the title, and close the drawer
-                mDrawerList.setItemChecked(position, true);
-                setTitle(subreddits.get(position));
-                mDrawerLayout.closeDrawer(mDrawerList);
-
-                ((BaseAdapter)listViewStories.getAdapter()).notifyDataSetChanged();
-                progressbar.setVisibility(View.VISIBLE);
-                loadMore();
-            }
-        });
+                    ((BaseAdapter)listViewStories.getAdapter()).notifyDataSetChanged();
+                    progressbar.setVisibility(View.VISIBLE);
+                    loadMore();
+                }
+            });
+        }
     }
 
     @Override
@@ -126,11 +130,14 @@ public class FrontPage extends ActionBarActivity {
         getSupportActionBar().setTitle(title);
     }
 
-    public void initDrawer(){
+    public void fetchSubreddits(String after){
         String url = "http://www.reddit.com/subreddits/.json";
 
         if(!VolleyRequest.cookie.equals("")){
             url = "http://www.reddit.com/subreddits/mine/subscriber/.json";
+            if(!after.equals("")){
+                url = url + "?after=" + after;
+            }
         }
 
         final StringRequest subredditRequest = new RedditRequest(Request.Method.GET, url, new Response.Listener<String>() {
@@ -142,7 +149,9 @@ public class FrontPage extends ActionBarActivity {
         });
 
         VolleyRequest.queue.add(subredditRequest);
+    }
 
+    public void initDrawer(){
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
@@ -182,6 +191,7 @@ public class FrontPage extends ActionBarActivity {
 
         subreddit = "";
         loadMore();
+        fetchSubreddits("");
         initDrawer();
     }
 
