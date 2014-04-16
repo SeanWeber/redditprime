@@ -76,6 +76,7 @@ public class Comments extends ActionBarActivity {
 
             VolleyRequest.queue.add(jsonArrayRequest);
         } else {
+            VolleyRequest.initQueue(this.getApplication());
             listComments = (ArrayList<Comment>)savedInstanceState.getSerializable("listComments");
             currentArticle = (Article)savedInstanceState.getSerializable("currentArticle");
             writeComments();
