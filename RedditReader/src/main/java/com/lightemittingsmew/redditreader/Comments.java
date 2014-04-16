@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -39,6 +40,7 @@ public class Comments extends ActionBarActivity {
     String curl;
     ArrayList<Comment> listComments;
     ProgressBar progressBar;
+    Article currentArticle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,7 @@ public class Comments extends ActionBarActivity {
                     .commit();
 
             String commentURL = intent.getStringExtra(ArticleArrayAdapter.COMMENT_URL);
+            currentArticle = Article.getCurrentArticle();
             curl = "http://www.reddit.com" + commentURL + ".json";
 
             final String url = curl;
@@ -74,6 +77,7 @@ public class Comments extends ActionBarActivity {
             VolleyRequest.queue.add(jsonArrayRequest);
         } else {
             listComments = (ArrayList<Comment>)savedInstanceState.getSerializable("listComments");
+            currentArticle = (Article)savedInstanceState.getSerializable("currentArticle");
             writeComments();
         }
     }
@@ -101,6 +105,7 @@ public class Comments extends ActionBarActivity {
     @Override
     protected void onSaveInstanceState(final Bundle outState) {
         outState.putSerializable("listComments", listComments);
+        outState.putSerializable("currentArticle", currentArticle);
     }
 
     /**
@@ -140,7 +145,7 @@ public class Comments extends ActionBarActivity {
     }
 
     private View headerView(){
-        final Article article = Article.getCurrentArticle();
+        final Article article = currentArticle;
         final Context context = this;
         View header = getLayoutInflater().inflate(R.layout.list_article_summary, null);
         final View child = getLayoutInflater().inflate(R.layout.list_article_child, null);
@@ -152,6 +157,7 @@ public class Comments extends ActionBarActivity {
         ImageButton buttonArticle = (ImageButton) child.findViewById(R.id.buttonArticle);
         final ImageButton buttonUpvote = (ImageButton) child.findViewById(R.id.buttonUpvote);
         final ImageButton buttonDownvote = (ImageButton) child.findViewById(R.id.buttonDownvote);
+        LinearLayout buttonArea = (LinearLayout) child.findViewById(R.id.linearLayoutButtonArea);
 
         String thumbnailUrl = article.getThumbnail();
         String score = "<font color='#666666'>" + article.getScore() +
@@ -194,6 +200,11 @@ public class Comments extends ActionBarActivity {
         } else {
             txtListChild.setText("");
             txtListChild.setVisibility(View.GONE);
+        }
+
+        // Hide the comment buttons if the user is not logged in
+        if(VolleyRequest.cookie == null || VolleyRequest.cookie.equals("")){
+            buttonArea.setVisibility(View.GONE);
         }
 
         if(article.isUpvoted()){

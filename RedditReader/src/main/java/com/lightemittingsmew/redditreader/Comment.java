@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Created by smw on 12/30/13.
  */
 public class Comment implements java.io.Serializable{
-    private SpannableStringBuilder body;
+    private String body;
     private String author;
     private String id;
     private int ups;
@@ -47,10 +47,11 @@ public class Comment implements java.io.Serializable{
             isCollapsed = false;
 
             // Get rid of the extra line breaks in the body
-            String b = Html.fromHtml(jsonComment.getJSONObject("data").getString("body_html")).toString();
-            body = (SpannableStringBuilder)Html.fromHtml(b);
-            if(body.length() > 1){
-                body.replace(body.length() - 2, body.length() - 1, " ");
+            body = Html.fromHtml(jsonComment.getJSONObject("data").getString("body_html")).toString();
+            SpannableStringBuilder ssBody = (SpannableStringBuilder)Html.fromHtml(body);
+            if(ssBody.length() > 1){
+                ssBody.replace(ssBody.length() - 2, ssBody.length() - 1, " ");
+                body = ssBody.toString();
             }
         } catch (JSONException e) {
             e.printStackTrace();
