@@ -44,7 +44,7 @@ public class FrontPage extends ActionBarActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     String subreddit;
     ProgressBar progressbar;
-    final List<String> subreddits = new ArrayList<String>();
+    final ArrayList<String> subreddits = new ArrayList<String>();
 
     private void addStories(String stories){
         ArrayList<Article> newStories = Article.parseArticleList(stories);
@@ -99,32 +99,35 @@ public class FrontPage extends ActionBarActivity {
         if(!after.equals("null")){
             fetchSubreddits(after);
         }else{
-            final ListView mDrawerList = (ListView) findViewById(R.id.left_drawer);
-
-            // Set the adapter for the list view
-            mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                    android.R.layout.simple_list_item_1, subreddits));
-            // Set the list's click listener
-            mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    subreddit = subreddits.get(position);
-                    listStories.clear();
-                    //articleAdapter = null;
-
-                    // Highlight the selected item, update the title, and close the drawer
-                    mDrawerList.setItemChecked(position, true);
-                    setTitle(subreddits.get(position));
-                    mDrawerLayout.closeDrawer(mDrawerList);
-
-                    ((BaseAdapter)listViewStories.getAdapter()).notifyDataSetChanged();
-                    progressbar.setVisibility(View.VISIBLE);
-                    loadMore();
-                }
-            });
+            writeSubreddits();
         }
     }
 
+    public void writeSubreddits(){
+        final ListView mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        // Set the adapter for the list view
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, subreddits));
+        // Set the list's click listener
+        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                subreddit = subreddits.get(position);
+                listStories.clear();
+                //articleAdapter = null;
+
+                // Highlight the selected item, update the title, and close the drawer
+                mDrawerList.setItemChecked(position, true);
+                setTitle(subreddits.get(position));
+                mDrawerLayout.closeDrawer(mDrawerList);
+
+                ((BaseAdapter)listViewStories.getAdapter()).notifyDataSetChanged();
+                progressbar.setVisibility(View.VISIBLE);
+                loadMore();
+            }
+        });
+    }
     @Override
     public void setTitle(CharSequence title) {
         getSupportActionBar().setTitle(title);
@@ -173,26 +176,33 @@ public class FrontPage extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_front_page);
 
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
-                    .commit();
-        }
-
-        context = this;
         ConnectivityManager cManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         VolleyRequest.initQueue(this.getApplication());
-        listViewStories = (ExpandableListView) findViewById(R.id.listViewStories);
-        progressbar = (ProgressBar) findViewById(R.id.progressBarArticles);
 
         // Only load HD thumbnails when connected to wi-fi
         VolleyRequest.loadHdThumbnails = cManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
                 .isConnectedOrConnecting();
 
-        subreddit = "";
-        loadMore();
-        fetchSubreddits("");
+        context = this;
+        listViewStories = (ExpandableListView) findViewById(R.id.listViewStories);
+        progressbar = (ProgressBar) findViewById(R.id.progressBarArticles);
         initDrawer();
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container, new PlaceholderFragment())
+                    .commit();
+
+            subreddit = "";
+            loadMore();
+            fetchSubreddits("");
+        } else {
+            listStories = (ArrayList<Article>)savedInstanceState.getSerializable("listStories");
+            ArrayList<String> savedSubreddits = (ArrayList<String>)savedInstanceState.getSerializable("subreddits");
+            subreddits.addAll(savedSubreddits);
+            addStories("");
+            writeSubreddits();
+        }
     }
 
     @Override
@@ -254,6 +264,12 @@ public class FrontPage extends ActionBarActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    protected void onSaveInstanceState(final Bundle outState) {
+        outState.putSerializable("listStories", listStories);
+        outState.putSerializable("subreddits", subreddits);
     }
 
     /**

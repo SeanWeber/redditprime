@@ -21,7 +21,7 @@ import java.util.Map;
 /**
  * Created by smw on 1/10/14.
  */
-public class Article {
+public class Article implements java.io.Serializable{
     private String subreddit;
     private String url;
     private String permalink;
