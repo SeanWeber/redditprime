@@ -37,39 +37,45 @@ public class Comments extends ActionBarActivity {
     public static final String PARENT_FULLNAME = "com.lightemittingsmew.redditreader.PARENT_FULLNAME";
     ListView listViewComments;
     String curl;
+    ArrayList<Comment> listComments;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comments);
 
+        listViewComments = (ListView)findViewById(R.id.listViewComments);
+        progressBar = (ProgressBar) findViewById(R.id.progressBarComment);
+        Intent intent = getIntent();
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
+
+            String commentURL = intent.getStringExtra(ArticleArrayAdapter.COMMENT_URL);
+            curl = "http://www.reddit.com" + commentURL + ".json";
+
+            final String url = curl;
+            StringRequest jsonArrayRequest = new RedditRequest(Request.Method.GET, url, new Response.Listener<String>() {
+
+                @Override
+                public void onResponse(String response) {
+                    parseComments(response);
+                }
+            }, new Response.ErrorListener() {
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                }
+            });
+
+            VolleyRequest.queue.add(jsonArrayRequest);
+        } else {
+            listComments = (ArrayList<Comment>)savedInstanceState.getSerializable("listComments");
+            writeComments();
         }
-
-        listViewComments = (ListView)findViewById(R.id.listViewComments);
-
-        Intent intent = getIntent();
-        String commentURL = intent.getStringExtra(ArticleArrayAdapter.COMMENT_URL);
-        curl = "http://www.reddit.com" + commentURL + ".json";
-
-        final String url = curl;
-        StringRequest jsonArrayRequest = new RedditRequest(Request.Method.GET, url, new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {
-                parseComments(response);
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-            }
-        });
-
-        VolleyRequest.queue.add(jsonArrayRequest);
     }
 
     @Override
@@ -92,6 +98,11 @@ public class Comments extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onSaveInstanceState(final Bundle outState) {
+        outState.putSerializable("listComments", listComments);
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -109,8 +120,6 @@ public class Comments extends ActionBarActivity {
     }
 
     private void parseComments(String response){
-        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBarComment);
-        final ArrayList<Comment> listComments;
         JSONArray comments = new JSONArray();
 
         try {
@@ -119,7 +128,10 @@ public class Comments extends ActionBarActivity {
             e.printStackTrace();
         }
         listComments = Comment.parseCommentArray(comments, 0);
+        writeComments();
+    }
 
+    public void writeComments(){
         listViewComments.addHeaderView(headerView());
         final CommentArrayAdapter commentAdapter = new CommentArrayAdapter(this, R.layout.list_comment, listComments);
         listViewComments.setAdapter(commentAdapter);

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 /**
  * Created by smw on 12/30/13.
  */
-public class Comment {
+public class Comment implements java.io.Serializable{
     private SpannableStringBuilder body;
     private String author;
     private String id;
