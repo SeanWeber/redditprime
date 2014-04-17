@@ -82,6 +82,27 @@ public class FrontPage extends ActionBarActivity {
         VolleyRequest.queue.add(articleRequest);
     }
 
+    public void fetchSubreddits(String after){
+        String url = "http://www.reddit.com/subreddits/.json";
+
+        if(!VolleyRequest.cookie.equals("")){
+            url = "http://www.reddit.com/subreddits/mine/subscriber/.json";
+            if(!after.equals("")){
+                url = url + "?after=" + after;
+            }
+        }
+
+        final StringRequest subredditRequest = new RedditRequest(Request.Method.GET, url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                addSubreddits(response);
+            }
+        });
+
+        VolleyRequest.queue.add(subredditRequest);
+    }
+
     public void addSubreddits(String response){
         String after = "null";
         try {
@@ -113,45 +134,34 @@ public class FrontPage extends ActionBarActivity {
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                subreddit = subreddits.get(position);
-                listStories.clear();
-                //articleAdapter = null;
+                if(subreddits.get(position).equals("Search")){
+                    mDrawerList.setItemChecked(position, true);
+                    mDrawerLayout.closeDrawer(mDrawerList);
+                } else {
+                    if(subreddits.get(position).equals("All")){
+                        subreddit = "";
+                    } else {
+                        subreddit = subreddits.get(position);
+                    }
 
-                // Highlight the selected item, update the title, and close the drawer
-                mDrawerList.setItemChecked(position, true);
-                setTitle(subreddits.get(position));
-                mDrawerLayout.closeDrawer(mDrawerList);
+                    listStories.clear();
 
-                ((BaseAdapter)listViewStories.getAdapter()).notifyDataSetChanged();
-                progressbar.setVisibility(View.VISIBLE);
-                loadMore();
+                    // Highlight the selected item, update the title, and close the drawer
+                    mDrawerList.setItemChecked(position, true);
+                    setTitle(subreddits.get(position));
+                    mDrawerLayout.closeDrawer(mDrawerList);
+
+                    ((BaseAdapter)listViewStories.getAdapter()).notifyDataSetChanged();
+                    progressbar.setVisibility(View.VISIBLE);
+                    loadMore();
+                }
             }
         });
     }
+
     @Override
     public void setTitle(CharSequence title) {
         getSupportActionBar().setTitle(title);
-    }
-
-    public void fetchSubreddits(String after){
-        String url = "http://www.reddit.com/subreddits/.json";
-
-        if(!VolleyRequest.cookie.equals("")){
-            url = "http://www.reddit.com/subreddits/mine/subscriber/.json";
-            if(!after.equals("")){
-                url = url + "?after=" + after;
-            }
-        }
-
-        final StringRequest subredditRequest = new RedditRequest(Request.Method.GET, url, new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {
-                addSubreddits(response);
-            }
-        });
-
-        VolleyRequest.queue.add(subredditRequest);
     }
 
     public void initDrawer(){
@@ -194,6 +204,8 @@ public class FrontPage extends ActionBarActivity {
                     .commit();
 
             subreddit = "";
+            //subreddits.add("Search");
+            subreddits.add("All");
             loadMore();
             fetchSubreddits("");
         } else {
