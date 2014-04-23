@@ -27,12 +27,14 @@ public class Comment implements java.io.Serializable{
 
     Comment(JSONObject jsonComment){
         try {
+            String likes = jsonComment.getJSONObject("data").getString("likes");
+            body = jsonComment.getJSONObject("data").getString("body_html");
             kind = jsonComment.getString("kind");
             author = jsonComment.getJSONObject("data").getString("author");
             id = jsonComment.getJSONObject("data").getString("id");
             ups = jsonComment.getJSONObject("data").getInt("ups");
             downs = jsonComment.getJSONObject("data").getInt("downs");
-            String likes = jsonComment.getJSONObject("data").getString("likes");
+
             if(likes.equals("true")){
                 isUpvoted = true;
                 isDownvoted = false;
@@ -45,20 +47,12 @@ public class Comment implements java.io.Serializable{
             }
             isHidden = false;
             isCollapsed = false;
-
-            // Get rid of the extra line breaks in the body
-            body = Html.fromHtml(jsonComment.getJSONObject("data").getString("body_html")).toString();
-            SpannableStringBuilder ssBody = (SpannableStringBuilder)Html.fromHtml(body);
-            if(ssBody.length() > 1){
-                ssBody.replace(ssBody.length() - 2, ssBody.length() - 1, " ");
-                body = ssBody.toString();
-            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    public CharSequence getBody(){
+    public String getBody(){
         return body;
     }
 

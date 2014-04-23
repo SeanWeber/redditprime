@@ -3,6 +3,7 @@ package com.lightemittingsmew.redditreader;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Html;
+import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,8 +48,14 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
         final Comment currentComment = articles.get(position);
         final CommentArrayAdapter adapter = this;
 
-        // Display comment information
-        body.setText(currentComment.getBody());
+        // Generate text with HTML formatting
+        SpannableStringBuilder ssb = new SpannableStringBuilder();
+        ssb.append(Html.fromHtml(Html.fromHtml(currentComment.getBody()).toString()));
+
+        // Strip the trailing newline characters that were generated
+        ssb.delete(ssb.length() - 2, ssb.length());
+
+        body.setText(ssb);
         body.setMovementMethod(LinkMovementMethod.getInstance()); // Make links clickable
         layout.setPadding(16 * currentComment.getReplyLevel(), 0, 0, 0);
 
