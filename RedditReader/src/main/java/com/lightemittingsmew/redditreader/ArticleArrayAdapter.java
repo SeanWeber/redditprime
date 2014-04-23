@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.text.Html;
+import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -163,7 +164,10 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
 
         if(openedArticle.isSelf()){
             txtListChild.setVisibility(View.VISIBLE);
-            txtListChild.setText(Html.fromHtml(Html.fromHtml(openedArticle.getSelftext()).toString()));
+            SpannableStringBuilder ssb = new SpannableStringBuilder();
+            ssb.append(Html.fromHtml(Html.fromHtml(openedArticle.getSelftext()).toString()));
+            ssb.delete(ssb.length() - 2, ssb.length());
+            txtListChild.setText(ssb);
             txtListChild.setMovementMethod(LinkMovementMethod.getInstance()); // Make links clickable
         } else {
             txtListChild.setText("");

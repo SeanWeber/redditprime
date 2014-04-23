@@ -66,15 +66,6 @@ public class Article implements java.io.Serializable{
                 selftext = jsonArticle.getString("selftext_html");
                 if (selftext.equals("null")){
                     isSelf = false;
-                }else{
-                    // Get rid of the extra line breaks in the body
-                    SpannableStringBuilder body;
-                    String b = Html.fromHtml(selftext).toString();
-                    body = (SpannableStringBuilder)Html.fromHtml(b);
-                    if(body.length() > 1){
-                        body.replace(body.length() - 2, body.length() - 1, " ");
-                    }
-                    selftext = body.toString();
                 }
             }
 
