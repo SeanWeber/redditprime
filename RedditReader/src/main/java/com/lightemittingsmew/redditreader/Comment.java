@@ -27,9 +27,9 @@ public class Comment implements java.io.Serializable{
 
     Comment(JSONObject jsonComment){
         try {
+            kind = jsonComment.getString("kind");
             String likes = jsonComment.getJSONObject("data").getString("likes");
             body = jsonComment.getJSONObject("data").getString("body_html");
-            kind = jsonComment.getString("kind");
             author = jsonComment.getJSONObject("data").getString("author");
             id = jsonComment.getJSONObject("data").getString("id");
             ups = jsonComment.getJSONObject("data").getInt("ups");
