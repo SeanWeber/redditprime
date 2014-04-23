@@ -45,7 +45,8 @@
             android:layout_weight="1"
             android:background="#eee"
             android:layout_marginRight="1dp"
-            android:paddingBottom="4dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:cropToPadding="false" />
 
         <ImageButton
@@ -56,7 +57,8 @@
             android:layout_weight="1"
             android:background="#eee"
             android:layout_marginRight="1dp"
-            android:paddingBottom="4dp" />
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp" />
 
         <ImageButton
             android:layout_width="match_parent"
@@ -65,7 +67,8 @@
             android:src="@drawable/reply"
             android:layout_weight="1"
             android:background="#eee"
-            android:paddingBottom="4dp"/>
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp" />
 
     </LinearLayout>
 
