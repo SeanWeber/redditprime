@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
+import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -195,8 +196,17 @@ public class Comments extends ActionBarActivity {
         TextView txtListChild = (TextView) child.findViewById(R.id.textViewChild);
 
         if(article.isSelf()){
+            SpannableStringBuilder ssb;
             txtListChild.setVisibility(View.VISIBLE);
-            txtListChild.setText(Html.fromHtml(Html.fromHtml(article.getSelftext()).toString()));
+
+            // Generate text with HTML formatting
+            ssb = new SpannableStringBuilder();
+            ssb.append(Html.fromHtml(Html.fromHtml(article.getSelftext()).toString()));
+
+            // Strip the trailing newline characters that were generated
+            ssb.delete(ssb.length() - 2, ssb.length());
+
+            txtListChild.setText(ssb);
             txtListChild.setMovementMethod(LinkMovementMethod.getInstance()); // Make links clickable
         } else {
             txtListChild.setText("");
