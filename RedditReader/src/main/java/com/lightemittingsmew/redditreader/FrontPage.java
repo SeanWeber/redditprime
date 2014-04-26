@@ -117,7 +117,7 @@ public class FrontPage extends ActionBarActivity {
             e.printStackTrace();
         }
 
-        if(!after.equals("null")){
+        if(!after.equals("null") && VolleyRequest.cookie != null && !VolleyRequest.cookie.equals("")){
             fetchSubreddits(after);
         }else{
             writeSubreddits();
