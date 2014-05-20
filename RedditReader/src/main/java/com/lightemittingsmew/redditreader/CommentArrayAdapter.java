@@ -21,13 +21,13 @@ import java.util.ArrayList;
 public class CommentArrayAdapter extends ArrayAdapter<Comment> {
     public static final String PARENT_FULLNAME = "com.lightemittingsmew.redditreader.PARENT_FULLNAME";
     private Context thisContext;
-    private ArrayList<Comment> articles;
+    private ArrayList<Comment> comments;
     LayoutInflater inflater;
 
     public CommentArrayAdapter(Context context, int textViewResourceId, ArrayList<Comment> objects){
         super(context, textViewResourceId, objects);
         thisContext = context;
-        articles = objects;
+        comments = objects;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -45,7 +45,7 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
         TextView body = (TextView) convertView.findViewById(R.id.textViewComment);
         TextView info = (TextView) convertView.findViewById(R.id.textViewCommentInfo);
 
-        final Comment currentComment = articles.get(position);
+        final Comment currentComment = comments.get(position);
         final CommentArrayAdapter adapter = this;
 
         // Generate text with HTML formatting
@@ -58,28 +58,38 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
         body.setText(ssb);
         body.setMovementMethod(LinkMovementMethod.getInstance()); // Make links clickable
         layout.setPadding(16 * currentComment.getReplyLevel(), 0, 0, 0);
+        String topText;
 
-        String topText =  currentComment.getAuthor() + " &nbsp; <span align='right'><small><b>" +
-                currentComment.getScore() + "</b> ( <font color='#66aa66'>" +
-                currentComment.getUps() + "</font> | <font color='#aa6666'>" +
-                currentComment.getDowns() + "</font> )</small></span>";
+        if(currentComment.isOp()){
+            topText = "<b><font color='#6666ee'>" +
+                    currentComment.getAuthor() + "</font></b> &nbsp; <span align='right'><small><b>" +
+                    currentComment.getScore() + "</b> ( <font color='#66aa66'>" +
+                    currentComment.getUps() + "</font> | <font color='#aa6666'>" +
+                    currentComment.getDowns() + "</font> )</small></span>";
+        } else {
+            topText = currentComment.getAuthor() + " &nbsp; <span align='right'><small><b>" +
+                    currentComment.getScore() + "</b> ( <font color='#66aa66'>" +
+                    currentComment.getUps() + "</font> | <font color='#aa6666'>" +
+                    currentComment.getDowns() + "</font> )</small></span>";
+        }
+
 
         info.setText(Html.fromHtml(topText));
 
         if(currentComment.isCollapsed()) {
             // Hide all child comments
             int nextComment = position + 1;
-            while(nextComment < articles.size() &&
-                    articles.get(nextComment).getReplyLevel() > currentComment.getReplyLevel()){
-                articles.get(nextComment).hide();
+            while(nextComment < comments.size() &&
+                    comments.get(nextComment).getReplyLevel() > currentComment.getReplyLevel()){
+                comments.get(nextComment).hide();
                 nextComment++;
             }
         } else if(!currentComment.isHidden()) {
             // Show all child comments
             int nextComment = position + 1;
-            while(nextComment < articles.size() &&
-                    articles.get(nextComment).getReplyLevel() > currentComment.getReplyLevel()){
-                articles.get(nextComment).unhide();
+            while(nextComment < comments.size() &&
+                    comments.get(nextComment).getReplyLevel() > currentComment.getReplyLevel()){
+                comments.get(nextComment).unhide();
                 nextComment++;
             }
         }

@@ -128,13 +128,15 @@ public class Comments extends ActionBarActivity {
 
     private void parseComments(String response){
         JSONArray comments = new JSONArray();
+        String op = "";
 
         try {
             comments = new JSONArray(response).getJSONObject(1).getJSONObject("data").getJSONArray("children");
+            op = new JSONArray(response).getJSONObject(0).getJSONObject("data").getJSONArray("children").getJSONObject(0).getJSONObject("data").getString("author");
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        listComments = Comment.parseCommentArray(comments, 0);
+        listComments = Comment.parseCommentArray(comments, op, 0);
         writeComments();
     }
 

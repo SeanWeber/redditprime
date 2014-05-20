@@ -24,6 +24,7 @@ public class Comment implements java.io.Serializable{
     private boolean isCollapsed;
     private boolean isUpvoted;
     private boolean isDownvoted;
+    private boolean isOp;
 
     Comment(JSONObject jsonComment){
         try {
@@ -86,6 +87,14 @@ public class Comment implements java.io.Serializable{
 
     public void setReplyLevel(int level){
         replyLevel = level;
+    }
+
+    public void setOp(){
+        isOp = true;
+    }
+
+    public boolean isOp(){
+        return isOp;
     }
 
     public boolean isHidden(){
@@ -160,19 +169,24 @@ public class Comment implements java.io.Serializable{
         VolleyRequest.vote(voteDirection, fullname);
     }
 
-    public static ArrayList<Comment> parseCommentArray(JSONArray commentArray, int level){
+    public static ArrayList<Comment> parseCommentArray(JSONArray commentArray, String op, int level){
         ArrayList<Comment> listComments = new ArrayList<Comment>();
         for(int i=0;i<commentArray.length();i++){
             try {
                 Comment tempComment = new Comment(commentArray.getJSONObject(i));
                 if(tempComment.getKind().equals("t1")){
+                    // Mark the original poster's comments
+                    if(op.equals(tempComment.getAuthor())){
+                        tempComment.setOp();
+                    }
+
                     tempComment.setReplyLevel(level);
                     listComments.add(tempComment);
 
                     // Add any replies to the list and set their reply level
                     ArrayList<Comment> replyList = parseCommentArray(commentArray.getJSONObject(i)
                             .getJSONObject("data").getJSONObject("replies").getJSONObject("data")
-                            .getJSONArray("children"), level + 1);
+                            .getJSONArray("children"), op, level + 1);
                     listComments.addAll(replyList);
                 }
             } catch (JSONException e) {
