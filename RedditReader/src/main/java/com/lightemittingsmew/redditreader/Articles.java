@@ -106,6 +106,8 @@ public class Articles extends ActionBarActivity {
 
         adRequest.addTestDevice("68531784152AD12BCF884D1D4106EC76");
         adRequest.addTestDevice("8E0C2ABC6456B8E2E3F13DBDF44E4D83");
+
+        adRequest.addTestDevice("D01B845E401E2ABD94FDC9F5CCE43057"); // Galaxy S4 stock
         adView.loadAd(adRequest);
     }
 }
