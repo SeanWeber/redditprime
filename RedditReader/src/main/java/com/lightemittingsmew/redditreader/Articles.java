@@ -40,6 +40,9 @@ public class Articles extends ActionBarActivity {
         // Enable javascript
         webView.getSettings().setJavaScriptEnabled(true);
 
+        // Allow user to zoom
+        webView.getSettings().setBuiltInZoomControls(true);
+
         // Make it so links open in the same view
         webView.setWebViewClient(new WebViewClient());
 
