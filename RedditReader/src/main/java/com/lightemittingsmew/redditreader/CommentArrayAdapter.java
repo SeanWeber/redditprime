@@ -24,6 +24,14 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
     private ArrayList<Comment> comments;
     LayoutInflater inflater;
 
+    LinearLayout layout;
+    LinearLayout buttons;
+    ImageButton upvote;
+    ImageButton downvote;
+    ImageButton reply;
+    TextView body;
+    TextView info;
+
     public CommentArrayAdapter(Context context, int textViewResourceId, ArrayList<Comment> objects){
         super(context, textViewResourceId, objects);
         thisContext = context;
@@ -34,65 +42,25 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the proper views and layouts
+        final Comment currentComment = comments.get(position);
+        final CommentArrayAdapter adapter = this;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.list_comment, parent, false);
         }
-        LinearLayout layout = (LinearLayout) convertView.findViewById(R.id.linearLayoutComment);
-        LinearLayout buttons = (LinearLayout) convertView.findViewById(R.id.linearLayoutButtons);
-        ImageButton upvote = (ImageButton) convertView.findViewById(R.id.imageButtonCommentUpvote);
-        ImageButton downvote = (ImageButton) convertView.findViewById(R.id.imageButtonCommentDownvote);
-        ImageButton reply = (ImageButton) convertView.findViewById(R.id.imageButtonCommentReply);
-        TextView body = (TextView) convertView.findViewById(R.id.textViewComment);
-        TextView info = (TextView) convertView.findViewById(R.id.textViewCommentInfo);
+        layout = (LinearLayout) convertView.findViewById(R.id.linearLayoutComment);
+        buttons = (LinearLayout) convertView.findViewById(R.id.linearLayoutButtons);
+        upvote = (ImageButton) convertView.findViewById(R.id.imageButtonCommentUpvote);
+        downvote = (ImageButton) convertView.findViewById(R.id.imageButtonCommentDownvote);
+        reply = (ImageButton) convertView.findViewById(R.id.imageButtonCommentReply);
+        body = (TextView) convertView.findViewById(R.id.textViewComment);
+        info = (TextView) convertView.findViewById(R.id.textViewCommentInfo);
 
-        final Comment currentComment = comments.get(position);
-        final CommentArrayAdapter adapter = this;
-
-        // Generate text with HTML formatting
-        SpannableStringBuilder ssb = new SpannableStringBuilder();
-        ssb.append(Html.fromHtml(Html.fromHtml(currentComment.getBody()).toString()));
-
-        // Strip the trailing newline characters that were generated
-        ssb.delete(ssb.length() - 2, ssb.length());
-
-        body.setText(ssb);
-        body.setMovementMethod(LinkMovementMethod.getInstance()); // Make links clickable
         layout.setPadding(16 * currentComment.getReplyLevel(), 0, 0, 0);
-        String topText;
 
-        if(currentComment.isOp()){
-            topText = "<b><font color='#6666ee'>" +
-                    currentComment.getAuthor() + "</font></b> &nbsp; <span align='right'><small><b>" +
-                    currentComment.getScore() + "</b> ( <font color='#66aa66'>" +
-                    currentComment.getUps() + "</font> | <font color='#aa6666'>" +
-                    currentComment.getDowns() + "</font> )</small></span>";
-        } else {
-            topText = currentComment.getAuthor() + " &nbsp; <span align='right'><small><b>" +
-                    currentComment.getScore() + "</b> ( <font color='#66aa66'>" +
-                    currentComment.getUps() + "</font> | <font color='#aa6666'>" +
-                    currentComment.getDowns() + "</font> )</small></span>";
-        }
-
-
-        info.setText(Html.fromHtml(topText));
-
-        if(currentComment.isCollapsed()) {
-            // Hide all child comments
-            int nextComment = position + 1;
-            while(nextComment < comments.size() &&
-                    comments.get(nextComment).getReplyLevel() > currentComment.getReplyLevel()){
-                comments.get(nextComment).hide();
-                nextComment++;
-            }
-        } else if(!currentComment.isHidden()) {
-            // Show all child comments
-            int nextComment = position + 1;
-            while(nextComment < comments.size() &&
-                    comments.get(nextComment).getReplyLevel() > currentComment.getReplyLevel()){
-                comments.get(nextComment).unhide();
-                nextComment++;
-            }
-        }
+        setBody(currentComment);
+        setTopText(currentComment);
+        toggleCommentVisibility(currentComment, position);
+        setOnClickListeners(currentComment, adapter);
 
         if(currentComment.isUpvoted()){
             upvote.setImageResource(R.drawable.upvoteactive);
@@ -106,12 +74,70 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
             downvote.setImageResource(R.drawable.downvote);
         }
 
-        if(currentComment.isHidden()){
+        // Hide the comment buttons if the user is not logged in
+        if(VolleyRequest.cookie == null || VolleyRequest.cookie.equals("")){
+            buttons.setVisibility(View.GONE);
+        }
+
+        return convertView;
+    }
+
+    private void setBody(Comment comment){
+        // Generate text with HTML formatting
+        SpannableStringBuilder ssb = new SpannableStringBuilder();
+        ssb.append(Html.fromHtml(Html.fromHtml(comment.getBody()).toString()));
+
+        // Strip the trailing newline characters that were generated
+        ssb.delete(ssb.length() - 2, ssb.length());
+
+        body.setText(ssb);
+        body.setMovementMethod(LinkMovementMethod.getInstance()); // Make links clickable
+    }
+
+    private void setTopText(Comment comment){
+        String topText;
+
+        if(comment.isOp()){
+            topText = "<b><font color='#6666ee'>" +
+                    comment.getAuthor() + "</font></b> &nbsp; <span align='right'><small><b>" +
+                    comment.getScore() + "</b> ( <font color='#66aa66'>" +
+                    comment.getUps() + "</font> | <font color='#aa6666'>" +
+                    comment.getDowns() + "</font> )</small></span>";
+        } else {
+            topText = comment.getAuthor() + " &nbsp; <span align='right'><small><b>" +
+                    comment.getScore() + "</b> ( <font color='#66aa66'>" +
+                    comment.getUps() + "</font> | <font color='#aa6666'>" +
+                    comment.getDowns() + "</font> )</small></span>";
+        }
+
+        info.setText(Html.fromHtml(topText));
+    }
+
+    private void toggleCommentVisibility(Comment comment, int position){
+        if(comment.isCollapsed()) {
+            // Hide all child comments
+            int nextComment = position + 1;
+            while(nextComment < comments.size() &&
+                    comments.get(nextComment).getReplyLevel() > comment.getReplyLevel()){
+                comments.get(nextComment).hide();
+                nextComment++;
+            }
+        } else if(!comment.isHidden()) {
+            // Show all child comments
+            int nextComment = position + 1;
+            while(nextComment < comments.size() &&
+                    comments.get(nextComment).getReplyLevel() > comment.getReplyLevel()){
+                comments.get(nextComment).unhide();
+                nextComment++;
+            }
+        }
+
+        if(comment.isHidden()){
             // Hide the entire comment
             info.setVisibility(View.GONE);
             body.setVisibility(View.GONE);
             buttons.setVisibility(View.GONE);
-        } else if(currentComment.isCollapsed()){
+        } else if(comment.isCollapsed()){
             // Only show the top bar
             info.setVisibility(View.VISIBLE);
             body.setVisibility(View.GONE);
@@ -122,18 +148,13 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
             body.setVisibility(View.VISIBLE);
             buttons.setVisibility(View.VISIBLE);
         }
+    }
 
-        // Hide the comment buttons if the user is not logged in
-        if(VolleyRequest.cookie == null || VolleyRequest.cookie.equals("")){
-            buttons.setVisibility(View.GONE);
-        } else {
-            //buttons.setVisibility(View.VISIBLE);
-        }
-
+    private void setOnClickListeners(final Comment comment, final CommentArrayAdapter adapter){
         View.OnClickListener toggleVisibility = new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                currentComment.toggle();
+                comment.toggle();
                 adapter.notifyDataSetChanged();
             }
         };
@@ -144,7 +165,7 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
         upvote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentComment.upVote();
+                comment.upVote();
                 adapter.notifyDataSetChanged();
             }
         });
@@ -152,7 +173,7 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
         downvote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentComment.downVote();
+                comment.downVote();
                 adapter.notifyDataSetChanged();
             }
         });
@@ -161,11 +182,9 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(thisContext, Reply.class);
-                intent.putExtra(PARENT_FULLNAME, currentComment.getFullName());
+                intent.putExtra(PARENT_FULLNAME, comment.getFullName());
                 thisContext.startActivity(intent);
             }
         });
-
-        return convertView;
     }
 }
