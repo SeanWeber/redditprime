@@ -74,8 +74,8 @@ public class Login extends ActionBarActivity {
         EditText username = (EditText) findViewById(R.id.editTextUsername);
         EditText password = (EditText) findViewById(R.id.editTextPassword);
 
-        String user = username.getText().toString();
-        String pass = password.getText().toString();
+        final String user = username.getText().toString();
+        final String pass = password.getText().toString();
 
         LoginRequest loginRequest = new LoginRequest (user, pass, this, new Response.Listener<String>() {
             @Override
@@ -93,12 +93,14 @@ public class Login extends ActionBarActivity {
 
                 VolleyRequest.cookie = cookie;
                 VolleyRequest.modhash = modhash;
+                VolleyRequest.user = user;
 
                 // Save the cookie so the user does not need to log in each time
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 SharedPreferences.Editor prefEditor = preferences.edit();
                 prefEditor.putString("Cookie", cookie);
                 prefEditor.putString("Modhash", modhash);
+                prefEditor.putString("User", user);
                 prefEditor.commit();
 
                 login();

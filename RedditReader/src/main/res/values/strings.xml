@@ -8,9 +8,11 @@
     <string name="title_activity_login">Login</string>
     <string name="action_login">Log In</string>
     <string name="action_logout">Logout</string>
+    <string name="action_user">User</string>
     <string name="title_activity_article">Article</string>
     <string name="title_activity_reply">Reply</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
+    <string name="title_activity_user">User</string>
 
 </resources>

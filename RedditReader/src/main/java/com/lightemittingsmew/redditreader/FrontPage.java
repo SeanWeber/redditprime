@@ -224,13 +224,22 @@ public class FrontPage extends ActionBarActivity {
         getMenuInflater().inflate(R.menu.front_page, menu);
         MenuItem logout = menu.findItem(R.id.action_logout);
         MenuItem login = menu.findItem(R.id.action_login);
+        MenuItem user = menu.findItem(R.id.action_user);
+        MenuItem settings = menu.findItem(R.id.action_settings);
+
+        settings.setVisible(false);
 
         if(VolleyRequest.cookie == null || VolleyRequest.cookie.equals("")){
+            user.setVisible(false);
             logout.setVisible(false);
             login.setVisible(true);
         } else {
+            user.setVisible(true);
             logout.setVisible(true);
             login.setVisible(false);
+
+            // Set the title the the username of the logged in user
+            user.setTitle(VolleyRequest.user);
         }
 
         return true;
@@ -253,6 +262,12 @@ public class FrontPage extends ActionBarActivity {
             case R.id.action_login:{
                 Intent intent = new Intent(context, Login.class);
                 context.startActivity(intent);
+                break;
+            }
+            case R.id.action_user:{
+                Intent intent = new Intent(context, User.class);
+                context.startActivity(intent);
+                break;
             }
         }
 

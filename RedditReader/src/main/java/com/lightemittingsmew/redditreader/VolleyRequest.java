@@ -25,8 +25,10 @@ public class VolleyRequest {
     public static RequestQueue queue;
     public static String cookie;
     public static String modhash;
+    public static String user;
     public static ImageLoader imageLoader;
     public static boolean loadHdThumbnails;
+    public static final String EMPTY_STRING = "";
 
     public static void initQueue(Context context){
         queue = com.android.volley.toolbox.Volley.newRequestQueue(context);
@@ -35,6 +37,7 @@ public class VolleyRequest {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
             cookie = preferences.getString("Cookie", "");
             modhash = preferences.getString("Modhash", "");
+            user = preferences.getString("User", "");
         }
 
         imageLoader = new ImageLoader(VolleyRequest.queue, new ImageLoader.ImageCache() {
@@ -93,14 +96,12 @@ public class VolleyRequest {
     }
 
     public static void logout(Context context){
-        cookie = "";
-        modhash = "";
-
         // Save the cookie so the user does not need to log in each time
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor prefEditor = preferences.edit();
-        prefEditor.putString("Cookie", cookie);
-        prefEditor.putString("Modhash", modhash);
+        prefEditor.putString("Cookie", EMPTY_STRING);
+        prefEditor.putString("Modhash", EMPTY_STRING);
+        prefEditor.putString("User", EMPTY_STRING);
         prefEditor.commit();
     }
 }
