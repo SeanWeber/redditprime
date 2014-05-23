@@ -30,7 +30,9 @@ public class UserArrayAdapter extends ArrayAdapter<Comment> {
     TextView body;
     TextView info;
     TextView linkTitle;
-    Button permalink;
+    Button buttonPermalink;
+    Button buttonContext;
+    Button buttonComments;
 
     public UserArrayAdapter(Context context, int textViewResourceId, ArrayList<Comment> objects){
         super(context, textViewResourceId, objects);
@@ -52,7 +54,9 @@ public class UserArrayAdapter extends ArrayAdapter<Comment> {
         body = (TextView) convertView.findViewById(R.id.textViewComment);
         info = (TextView) convertView.findViewById(R.id.textViewCommentInfo);
         linkTitle = (TextView) convertView.findViewById(R.id.textViewArticle);
-        permalink = (Button) convertView.findViewById(R.id.buttonPermalink);
+        buttonPermalink = (Button) convertView.findViewById(R.id.buttonPermalink);
+        buttonContext = (Button) convertView.findViewById(R.id.buttonContext);
+        buttonComments = (Button) convertView.findViewById(R.id.buttonComments);
 
         linkTitle.setText(currentComment.getLinkTitle());
 
@@ -140,6 +144,10 @@ public class UserArrayAdapter extends ArrayAdapter<Comment> {
     }
 
     private void setOnClickListeners(final Comment comment, final UserArrayAdapter adapter){
+        final String subreddit = comment.getSubreddit();
+        final String parentId = comment.getlinkIdId();
+        final String id = comment.getId();
+
         View.OnClickListener toggleVisibility = new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -151,14 +159,34 @@ public class UserArrayAdapter extends ArrayAdapter<Comment> {
         info.setOnClickListener(toggleVisibility);
         body.setOnClickListener(toggleVisibility);
 
-        permalink.setOnClickListener(new View.OnClickListener() {
+        buttonPermalink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String subreddit = comment.getSubreddit();
-                String parentId = comment.getlinkIdId();
-                String id = comment.getId();
+
                 final String url = "http://www.reddit.com/r/"+ subreddit + "/comments/"
                         + parentId +".json?comment=" + id;
+                Intent intent = new Intent(thisContext, Comments.class);
+                intent.putExtra(ArticleArrayAdapter.COMMENT_URL, url);
+                thisContext.startActivity(intent);
+            }
+        });
+
+        buttonContext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String url = "http://www.reddit.com/r/"+ subreddit + "/comments/"
+                        + parentId +".json?comment=" + id + "&context=3";
+                Intent intent = new Intent(thisContext, Comments.class);
+                intent.putExtra(ArticleArrayAdapter.COMMENT_URL, url);
+                thisContext.startActivity(intent);
+            }
+        });
+
+        buttonComments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String url = "http://www.reddit.com/r/"+ subreddit + "/comments/"
+                        + parentId +".json";
                 Intent intent = new Intent(thisContext, Comments.class);
                 intent.putExtra(ArticleArrayAdapter.COMMENT_URL, url);
                 thisContext.startActivity(intent);
