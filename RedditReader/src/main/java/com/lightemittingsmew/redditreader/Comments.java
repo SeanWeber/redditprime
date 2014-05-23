@@ -38,7 +38,6 @@ public class Comments extends ActionBarActivity {
     public static final String ARTICLE_URL = "com.lightemittingsmew.redditreader.ARTICLE_URL";
     public static final String PARENT_FULLNAME = "com.lightemittingsmew.redditreader.PARENT_FULLNAME";
     ListView listViewComments;
-    String curl;
     ArrayList<Comment> listComments;
     ProgressBar progressBar;
     Article currentArticle;
@@ -57,12 +56,9 @@ public class Comments extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
 
-            String commentURL = intent.getStringExtra(ArticleArrayAdapter.COMMENT_URL);
-            currentArticle = Article.getCurrentArticle();
-            curl = "http://www.reddit.com" + commentURL + ".json";
+            final String commentURL = intent.getStringExtra(ArticleArrayAdapter.COMMENT_URL);
 
-            final String url = curl;
-            StringRequest jsonArrayRequest = new RedditRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            StringRequest jsonArrayRequest = new RedditRequest(Request.Method.GET, commentURL, new Response.Listener<String>() {
 
                 @Override
                 public void onResponse(String response) {
@@ -133,6 +129,7 @@ public class Comments extends ActionBarActivity {
         try {
             comments = new JSONArray(response).getJSONObject(1).getJSONObject("data").getJSONArray("children");
             op = new JSONArray(response).getJSONObject(0).getJSONObject("data").getJSONArray("children").getJSONObject(0).getJSONObject("data").getString("author");
+            currentArticle = new Article(new JSONArray(response).getJSONObject(0).getJSONObject("data").getJSONArray("children").getJSONObject(0).getJSONObject("data"));
         } catch (JSONException e) {
             e.printStackTrace();
         }

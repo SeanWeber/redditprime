@@ -202,7 +202,7 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
             buttonDownvote.setImageResource(R.drawable.downvote);
         }
 
-        final String finalUrl = commentUrl;
+        final String finalUrl = "http://www.reddit.com" + commentUrl + ".json";
         buttonComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

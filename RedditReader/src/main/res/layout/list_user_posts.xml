@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:orientation="vertical"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:baselineAligned="false"
+android:id="@+id/linearLayoutComment" >
+
+<TextView
+    android:id="@+id/textViewArticle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#eee"
+    android:text="This is the title of the linked article in question"
+    android:layout_marginTop="4dp"
+    android:textColor="#369"
+    android:paddingTop="4dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingBottom="4dp"/>
+
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="New Text"
+    android:background="#eee"
+    android:id="@+id/textViewCommentInfo"
+
+    android:paddingTop="4dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingBottom="4dp"
+    android:textColor="#369" />
+
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="New Text"
+    android:id="@+id/textViewComment"
+    android:background="#eee"
+    android:paddingLeft="8dp"
+    android:paddingTop="4dp"
+    android:paddingRight="8dp"
+    android:paddingBottom="4dp" />
+
+<LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#ddd"
+    android:id="@+id/linearLayoutButtons">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonPermalink"
+        android:layout_weight="1"
+        android:background="#eee"
+        android:layout_marginRight="1dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:cropToPadding="false"
+        android:text="Permalink" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonContext"
+        android:layout_weight="1"
+        android:background="#eee"
+        android:layout_marginRight="1dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:text="Context" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonFullComments"
+        android:layout_weight="1"
+        android:background="#eee"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:text="Comments" />
+
+</LinearLayout>
+
+</LinearLayout>

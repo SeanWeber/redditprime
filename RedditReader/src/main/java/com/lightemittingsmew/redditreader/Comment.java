@@ -16,6 +16,9 @@ public class Comment implements java.io.Serializable{
     private String body;
     private String author;
     private String id;
+    private String linkTitle;
+    private String subreddit;
+    private String linkId;
     private int ups;
     private int downs;
     private String kind;
@@ -48,6 +51,17 @@ public class Comment implements java.io.Serializable{
             }
             isHidden = false;
             isCollapsed = false;
+
+            if(jsonComment.getJSONObject("data").has("link_title")){
+                linkTitle = jsonComment.getJSONObject("data").getString("link_title");
+            }
+            if(jsonComment.getJSONObject("data").has("subreddit")){
+                subreddit = jsonComment.getJSONObject("data").getString("subreddit");
+            }
+            if(jsonComment.getJSONObject("data").has("parent_id")){
+                String fullLinkId = jsonComment.getJSONObject("data").getString("link_id");
+                linkId = fullLinkId.substring(3, fullLinkId.length());
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -79,6 +93,25 @@ public class Comment implements java.io.Serializable{
 
     public String getFullName(){
         return "t1_" + id;
+    }
+
+    public String getLinkTitle(){
+        if(linkTitle == null){
+            return "";
+        }
+        return linkTitle;
+    }
+
+    public String getId(){
+        return id;
+    }
+
+    public String getSubreddit(){
+        return subreddit;
+    }
+
+    public String getlinkIdId(){
+        return linkId;
     }
 
     public int getReplyLevel(){

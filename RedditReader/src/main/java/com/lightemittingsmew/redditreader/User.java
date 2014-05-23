@@ -84,7 +84,7 @@ public class User extends ActionBarActivity {
     }
 
     public void writeComments(){
-        final CommentArrayAdapter commentAdapter = new CommentArrayAdapter(this, R.layout.list_comment, listComments);
+        final UserArrayAdapter commentAdapter = new UserArrayAdapter(this, R.layout.list_user_posts, listComments);
         listViewComments.setAdapter(commentAdapter);
     }
 }
