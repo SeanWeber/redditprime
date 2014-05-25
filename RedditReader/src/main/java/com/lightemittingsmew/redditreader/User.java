@@ -1,10 +1,13 @@
 package com.lightemittingsmew.redditreader;
 
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.android.volley.Request;
@@ -27,28 +30,40 @@ public class User extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
-
-        userName = VolleyRequest.user;
-        setTitle(userName);
         listViewComments = (ListView)findViewById(R.id.listViewUserPosts);
 
-        final String url = "http://www.reddit.com/user/" + userName + "/.json";
-        StringRequest jsonArrayRequest = new RedditRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        if (savedInstanceState == null) {
+            userName = VolleyRequest.user;
+            final String url = "http://www.reddit.com/user/" + userName + "/.json";
+            StringRequest jsonArrayRequest = new RedditRequest(Request.Method.GET, url, new Response.Listener<String>() {
 
-            @Override
-            public void onResponse(String response) {
-                parseComments(response);
-            }
-        }, new Response.ErrorListener() {
+                @Override
+                public void onResponse(String response) {
+                    parseComments(response);
+                }
+            }, new Response.ErrorListener() {
 
-            @Override
-            public void onErrorResponse(VolleyError error) {
-            }
-        });
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                }
+            });
 
-        VolleyRequest.queue.add(jsonArrayRequest);
+            VolleyRequest.queue.add(jsonArrayRequest);
+
+        } else {
+            VolleyRequest.initQueue(this.getApplication());
+            userName = VolleyRequest.user;
+            listComments = (ArrayList<Comment>)savedInstanceState.getSerializable("listUser");
+            writeComments();
+        }
+
+        setTitle(userName);
     }
 
+    @Override
+    protected void onSaveInstanceState(final Bundle outState) {
+        outState.putSerializable("listUser", listComments);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
