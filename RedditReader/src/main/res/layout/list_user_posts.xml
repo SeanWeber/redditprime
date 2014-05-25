@@ -18,7 +18,8 @@ android:id="@+id/linearLayoutComment" >
     android:paddingTop="4dp"
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
-    android:paddingBottom="4dp"/>
+    android:paddingBottom="4dp"
+    android:textStyle="bold" />
 
 <TextView
     android:layout_width="match_parent"
@@ -61,7 +62,8 @@ android:id="@+id/linearLayoutComment" >
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:cropToPadding="false"
-        android:text="Permalink" />
+        android:text="Permalink"
+        android:textSize="10sp" />
 
     <Button
         android:layout_width="match_parent"
@@ -72,7 +74,8 @@ android:id="@+id/linearLayoutComment" >
         android:layout_marginRight="1dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:text="Context" />
+        android:text="Context"
+        android:textSize="10sp" />
 
     <Button
         android:layout_width="match_parent"
@@ -82,7 +85,8 @@ android:id="@+id/linearLayoutComment" >
         android:background="#eee"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:text="Comments" />
+        android:text="Full Comments"
+        android:textSize="10sp" />
 
 </LinearLayout>
 
