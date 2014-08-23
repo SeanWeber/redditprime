@@ -88,18 +88,7 @@ public class UserArrayAdapter extends ArrayAdapter<Comment> {
     }
 
     private void setTopText(Comment comment){
-        String topText;
-
-        if(comment.isOp()){
-            topText = "<b><font color='#6666ee'>" +
-                    comment.getAuthor() + "</font></b> &nbsp; <span align='right'><small><b>" +
-                    comment.getScore() + "</b></small></span>";
-        } else {
-            topText = comment.getAuthor() + " &nbsp; <span align='right'><small><b>" +
-                    comment.getScore() + "</b></small></span>";
-        }
-
-        info.setText(Html.fromHtml(topText));
+        info.setText(Html.fromHtml(comment.getTopText()));
     }
 
     private void toggleCommentVisibility(Comment comment, int position){

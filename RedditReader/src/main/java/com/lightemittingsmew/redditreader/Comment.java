@@ -2,6 +2,7 @@ package com.lightemittingsmew.redditreader;
 
 import android.text.Html;
 import android.text.SpannableStringBuilder;
+import android.text.format.Time;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,6 +21,8 @@ public class Comment implements java.io.Serializable{
     private String subreddit;
     private String linkId;
     private int score;
+    private int gilded;
+    private long createdUTC;
     private String kind;
     private int replyLevel;
     private boolean isHidden;
@@ -27,6 +30,7 @@ public class Comment implements java.io.Serializable{
     private boolean isUpvoted;
     private boolean isDownvoted;
     private boolean isOp;
+    private String edited;
 
     Comment(JSONObject jsonComment){
         try {
@@ -36,6 +40,9 @@ public class Comment implements java.io.Serializable{
             author = jsonComment.getJSONObject("data").getString("author");
             id = jsonComment.getJSONObject("data").getString("id");
             score = jsonComment.getJSONObject("data").getInt("score");
+            createdUTC = jsonComment.getJSONObject("data").getLong("created_utc");
+            edited = jsonComment.getJSONObject("data").getString("edited");
+            gilded = jsonComment.getJSONObject("data").getInt("gilded");
 
             if(likes.equals("true")){
                 isUpvoted = true;
@@ -190,6 +197,94 @@ public class Comment implements java.io.Serializable{
         }
 
         VolleyRequest.vote(voteDirection, fullname);
+    }
+
+    public boolean isEdited(){
+        // This json element comes in as either "false" or the unix timestamp
+        // of the last time the comment was edited
+        return !edited.equals("false");
+    }
+
+    public String timeAgo(){
+        long SECOND = 1000;
+        long MINUTE = SECOND * 60;
+        long HOUR = MINUTE * 60;
+        long DAY = HOUR * 24;
+        long WEEK = DAY * 7;
+        long MONTH = DAY * 30;
+        long YEAR = DAY * 365;
+
+        String resultString;
+        String unit;
+        long unitsPast;
+
+        long currentTime = System.currentTimeMillis();
+        long timeDifference = currentTime - (createdUTC * 1000);
+
+        // Calculate which unit to display
+        if(timeDifference > YEAR){
+            unit = "year";
+            unitsPast = timeDifference / YEAR;
+        } else if (timeDifference > MONTH) {
+            unit = "month";
+            unitsPast = timeDifference / MONTH;
+        } else if (timeDifference > WEEK) {
+            unit = "week";
+            unitsPast = timeDifference / WEEK;
+        } else if (timeDifference > DAY) {
+            unit = "day";
+            unitsPast = timeDifference / DAY;
+        } else if (timeDifference > HOUR) {
+            unit = "hour";
+            unitsPast = timeDifference / HOUR;
+        } else if (timeDifference > MINUTE) {
+            unit = "minute";
+            unitsPast = timeDifference / MINUTE;
+        } else {
+            unit = "second";
+            unitsPast = timeDifference / SECOND;
+        }
+
+        // Use plural unit names if there is more than one
+        if(unitsPast == 1){
+            resultString = "1 " + unit + " ago";
+        } else {
+            resultString = unitsPast + " " + unit + "s ago";
+        }
+
+        return resultString;
+    }
+
+    public String getTopText(){
+        String topText;
+        String userNameString;
+        String pointsString;
+        String timeAgoString;
+        String editedString = "";
+        String gildedString = "";
+
+        // Highlight the original poster's name
+        if(isOp()){
+            userNameString = String.format("<b><font color='#6666ee'>%s</font></b> &nbsp; ", getAuthor());
+        } else {
+            userNameString = String.format("%s &nbsp; ", getAuthor());
+        }
+
+        pointsString = String.format("<span align='right'><small><b>%s points</b>&nbsp; ", getScore());
+
+        timeAgoString = String.format("%s</small></span>", timeAgo());
+
+        if(isEdited()){
+            editedString = "*";
+        }
+
+        // Indicate whether a comment received reddit gold
+        if(gilded > 0){
+            gildedString = String.format(" <font color='#aaaa00'>x%d</font>", gilded);
+        }
+
+        topText = userNameString + pointsString + timeAgoString + editedString + gildedString;
+        return topText;
     }
 
     public static ArrayList<Comment> parseCommentArray(JSONArray commentArray, String op, int level){
