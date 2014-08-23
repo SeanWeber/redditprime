@@ -93,14 +93,10 @@ public class UserArrayAdapter extends ArrayAdapter<Comment> {
         if(comment.isOp()){
             topText = "<b><font color='#6666ee'>" +
                     comment.getAuthor() + "</font></b> &nbsp; <span align='right'><small><b>" +
-                    comment.getScore() + "</b> ( <font color='#66aa66'>" +
-                    comment.getUps() + "</font> | <font color='#aa6666'>" +
-                    comment.getDowns() + "</font> )</small></span>";
+                    comment.getScore() + "</b></small></span>";
         } else {
             topText = comment.getAuthor() + " &nbsp; <span align='right'><small><b>" +
-                    comment.getScore() + "</b> ( <font color='#66aa66'>" +
-                    comment.getUps() + "</font> | <font color='#aa6666'>" +
-                    comment.getDowns() + "</font> )</small></span>";
+                    comment.getScore() + "</b></small></span>";
         }
 
         info.setText(Html.fromHtml(topText));

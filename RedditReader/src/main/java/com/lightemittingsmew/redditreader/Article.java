@@ -36,8 +36,6 @@ public class Article implements java.io.Serializable{
     private boolean isDownvoted;
     private boolean isImage;
 
-    private int ups;
-    private int downs;
     private int score;
     private int comments;
     private long created;
@@ -55,8 +53,6 @@ public class Article implements java.io.Serializable{
             thumbnail = jsonArticle.getString("thumbnail");
             isSelf = jsonArticle.getBoolean("is_self");
             score = jsonArticle.getInt("score");
-            ups = jsonArticle.getInt("ups");
-            downs = jsonArticle.getInt("downs");
             comments = jsonArticle.getInt("num_comments");
             created = jsonArticle.getLong("created_utc");
             isUpvoted = false;
@@ -129,15 +125,15 @@ public class Article implements java.io.Serializable{
 
         if(isUpvoted){
             voteDirection = "0";
-            ups--;
+            score--;
         } else{
             voteDirection = "1";
-            ups++;
+            score++;
         }
         isUpvoted = !isUpvoted;
         if(isDownvoted()){
             isDownvoted = false;
-            downs--;
+            score--;
         }
 
         VolleyRequest.vote(voteDirection, fullname);
@@ -149,15 +145,15 @@ public class Article implements java.io.Serializable{
 
         if(isDownvoted){
             voteDirection = "0";
-            downs--;
+            score++;
         } else{
             voteDirection = "-1";
-            downs++;
+            score--;
         }
         isDownvoted = !isDownvoted;
         if(isUpvoted){
             isUpvoted = false;
-            ups--;
+            score--;
         }
 
         VolleyRequest.vote(voteDirection, fullname);

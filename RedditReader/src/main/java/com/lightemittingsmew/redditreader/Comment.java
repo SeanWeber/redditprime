@@ -19,8 +19,7 @@ public class Comment implements java.io.Serializable{
     private String linkTitle;
     private String subreddit;
     private String linkId;
-    private int ups;
-    private int downs;
+    private int score;
     private String kind;
     private int replyLevel;
     private boolean isHidden;
@@ -36,8 +35,7 @@ public class Comment implements java.io.Serializable{
             body = jsonComment.getJSONObject("data").getString("body_html");
             author = jsonComment.getJSONObject("data").getString("author");
             id = jsonComment.getJSONObject("data").getString("id");
-            ups = jsonComment.getJSONObject("data").getInt("ups");
-            downs = jsonComment.getJSONObject("data").getInt("downs");
+            score = jsonComment.getJSONObject("data").getInt("score");
 
             if(likes.equals("true")){
                 isUpvoted = true;
@@ -71,16 +69,8 @@ public class Comment implements java.io.Serializable{
         return body;
     }
 
-    public String getUps(){
-        return String.valueOf(ups);
-    }
-
-    public String getDowns(){
-        return String.valueOf(downs);
-    }
-
     public String getScore(){
-        return String.valueOf(ups - downs);
+        return String.valueOf(score);
     }
 
     public String getAuthor(){
@@ -168,15 +158,15 @@ public class Comment implements java.io.Serializable{
 
         if(isUpvoted){
             voteDirection = "0";
-            ups--;
+            score--;
         } else{
             voteDirection = "1";
-            ups++;
+            score++;
         }
         isUpvoted = !isUpvoted;
         if(isDownvoted()){
             isDownvoted = false;
-            downs--;
+            score--;
         }
 
         VolleyRequest.vote(voteDirection, fullname);
@@ -188,15 +178,15 @@ public class Comment implements java.io.Serializable{
 
         if(isDownvoted){
             voteDirection = "0";
-            downs--;
+            score++;
         } else{
             voteDirection = "-1";
-            downs++;
+            score--;
         }
         isDownvoted = !isDownvoted;
         if(isUpvoted){
             isUpvoted = false;
-            ups--;
+            score--;
         }
 
         VolleyRequest.vote(voteDirection, fullname);
