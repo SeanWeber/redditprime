@@ -255,8 +255,29 @@ public class Comment implements java.io.Serializable{
         return resultString;
     }
 
+    /*
+    Generate a hexadecimal color string based on a comment's score
+    Color becomes more green with upvotes and red with downvotes
+     */
+    private String pointsColor(){
+        int red   = 64;
+        int green = 64;
+        int blue  = 64;
+
+        if(score < 0){
+            // Negative scores will gain saturation quicker as negative scoring
+            // comments are less likely to be seen
+            red -= score * 8;
+            red = Math.min(red, 192);
+        } else if(score > 0){
+            green += score * 2;
+            green = Math.min(green, 192);
+        }
+
+        return Integer.toHexString(red) + Integer.toHexString(green) + Integer.toHexString(blue);
+    }
+
     public String getTopText(){
-        String topText;
         String userNameString;
         String pointsString;
         String timeAgoString;
@@ -270,10 +291,14 @@ public class Comment implements java.io.Serializable{
             userNameString = String.format("%s &nbsp; ", getAuthor());
         }
 
-        pointsString = String.format("<span align='right'><small><b>%s points</b>&nbsp; ", getScore());
+        // Display the number of points and color the text
+        pointsString = String.format("<span align='right'><small><b><font color='#%s'>%s points</font></b>&nbsp; ",
+                pointsColor(), getScore());
 
+        // Display how long ago the comment was posted
         timeAgoString = String.format("%s</small></span>", timeAgo());
 
+        // Indicate whether the comment was edited
         if(isEdited()){
             editedString = "*";
         }
@@ -283,8 +308,7 @@ public class Comment implements java.io.Serializable{
             gildedString = String.format(" <font color='#aaaa00'>x%d</font>", gilded);
         }
 
-        topText = userNameString + pointsString + timeAgoString + editedString + gildedString;
-        return topText;
+        return userNameString + pointsString + timeAgoString + editedString + gildedString;
     }
 
     public static ArrayList<Comment> parseCommentArray(JSONArray commentArray, String op, int level){
