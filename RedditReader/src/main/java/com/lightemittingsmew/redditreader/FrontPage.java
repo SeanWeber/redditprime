@@ -151,7 +151,9 @@ public class FrontPage extends ActionBarActivity {
                     setTitle(subreddits.get(position));
                     mDrawerLayout.closeDrawer(mDrawerList);
 
-                    ((BaseAdapter)listViewStories.getAdapter()).notifyDataSetChanged();
+                    // Update the list view
+                    articleAdapter.notifyDataSetChanged();
+
                     progressbar.setVisibility(View.VISIBLE);
                     loadMore();
                 }
