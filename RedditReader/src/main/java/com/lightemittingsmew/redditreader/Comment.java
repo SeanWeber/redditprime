@@ -268,10 +268,10 @@ public class Comment implements java.io.Serializable{
             // Negative scores will gain saturation quicker as negative scoring
             // comments are less likely to be seen
             red -= score * 8;
-            red = Math.min(red, 192);
+            red = Math.min(red, 127);
         } else if(score > 0){
             green += score * 2;
-            green = Math.min(green, 192);
+            green = Math.min(green, 127);
         }
 
         return Integer.toHexString(red) + Integer.toHexString(green) + Integer.toHexString(blue);
