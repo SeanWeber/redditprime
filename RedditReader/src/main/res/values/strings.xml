@@ -14,5 +14,6 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="title_activity_user">User</string>
+    <string name="title_activity_subreddit_search">SubredditSearch</string>
 
 </resources>

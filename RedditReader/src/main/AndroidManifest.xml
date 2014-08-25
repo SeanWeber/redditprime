@@ -51,6 +51,10 @@
             android:name="com.lightemittingsmew.redditreader.User"
             android:label="@string/title_activity_user" >
         </activity>
+        <activity
+            android:name="com.lightemittingsmew.redditreader.SubredditSearch"
+            android:label="@string/title_activity_subreddit_search" >
+        </activity>
     </application>
 
 </manifest>

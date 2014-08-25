@@ -135,8 +135,13 @@ public class FrontPage extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(subreddits.get(position).equals("Search")){
+                    // close the drawer
                     mDrawerList.setItemChecked(position, true);
                     mDrawerLayout.closeDrawer(mDrawerList);
+
+                    // Go to the subreddit search page
+                    Intent intent = new Intent(context, SubredditSearch.class);
+                    context.startActivity(intent);
                 } else {
                     if(subreddits.get(position).equals("All")){
                         subreddit = "";
@@ -206,7 +211,7 @@ public class FrontPage extends ActionBarActivity {
                     .commit();
 
             subreddit = "";
-            //subreddits.add("Search");
+            subreddits.add("Search");
             subreddits.add("All");
             loadMore();
             fetchSubreddits("");
