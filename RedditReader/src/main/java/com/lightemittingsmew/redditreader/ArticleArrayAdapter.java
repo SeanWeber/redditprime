@@ -11,14 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.android.volley.toolbox.NetworkImageView;
-
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by smw on 12/19/13.
@@ -27,10 +24,10 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
     public static final String COMMENT_URL = "com.lightemittingsmew.redditreader.COMMENT_URL";
     public static final String ARTICLE_URL = "com.lightemittingsmew.redditreader.ARTICLE_URL";
     private Context thisContext;
-    private ArrayList<Article> articles;
+    private List<Article> articles;
     private FrontPage activity;
 
-    public ArticleArrayAdapter(Context context, ArrayList<Article> objects, FrontPage act) {
+    public ArticleArrayAdapter(Context context, List<Article> objects, FrontPage act) {
         thisContext = context;
         articles = objects;
         activity = act;

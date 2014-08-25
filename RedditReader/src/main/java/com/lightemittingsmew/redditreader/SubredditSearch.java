@@ -14,6 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SubredditSearch extends ActionBarActivity {
 
@@ -74,9 +75,9 @@ public class SubredditSearch extends ActionBarActivity {
     }
 
     private void populateResults(String response){
-        ArrayList<SubredditResult> subreddits = new ArrayList<SubredditResult>();
-        subreddits = SubredditResult.parseSubredditList(response);
+        List<SubredditResult> subreddits = SubredditResult.parseSubredditList(response);
 
+        // Add the list of subreddits to the list view
         final SubredditArrayAdapter commentAdapter = new SubredditArrayAdapter(this, R.layout.list_comment, subreddits);
         subredditResults.setAdapter(commentAdapter);
     }

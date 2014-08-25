@@ -12,8 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by smw on 12/23/13.
@@ -21,7 +20,7 @@ import java.util.ArrayList;
 public class CommentArrayAdapter extends ArrayAdapter<Comment> {
     public static final String PARENT_FULLNAME = "com.lightemittingsmew.redditreader.PARENT_FULLNAME";
     private Context thisContext;
-    private ArrayList<Comment> comments;
+    private List<Comment> comments;
     LayoutInflater inflater;
 
     LinearLayout layout;
@@ -32,7 +31,7 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
     TextView body;
     TextView info;
 
-    public CommentArrayAdapter(Context context, int textViewResourceId, ArrayList<Comment> objects){
+    public CommentArrayAdapter(Context context, int textViewResourceId, List<Comment> objects){
         super(context, textViewResourceId, objects);
         thisContext = context;
         comments = objects;
