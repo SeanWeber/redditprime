@@ -211,6 +211,17 @@ public class FrontPage extends ActionBarActivity {
                     .commit();
 
             subreddit = "";
+
+            // If we're coming from the Subreddit search activity, set the subreddit
+            Intent intent = getIntent();
+            if(intent != null){
+                final String foundSubreddit = intent.getStringExtra(SubredditArrayAdapter.FOUND_SUBREDDIT);
+
+                if(foundSubreddit != null){
+                    subreddit = foundSubreddit;
+                }
+            }
+
             subreddits.add("Search");
             subreddits.add("All");
             loadMore();
