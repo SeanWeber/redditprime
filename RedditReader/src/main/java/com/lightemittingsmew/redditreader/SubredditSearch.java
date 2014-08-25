@@ -1,10 +1,13 @@
 package com.lightemittingsmew.redditreader;
 
+import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -31,10 +34,12 @@ public class SubredditSearch extends ActionBarActivity {
         searchButton = (Button) findViewById(R.id.buttonSubredditSearch);
         subredditResults = (ListView) findViewById(R.id.listViewsubredditResults);
 
+        // Close the keyboard when the search button is pressed
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                search(searchQuery.getText().toString());
+            search(searchQuery.getText().toString());
+            hideSoftKeyboard(SubredditSearch.this);
             }
         });
     }
@@ -80,5 +85,10 @@ public class SubredditSearch extends ActionBarActivity {
         // Add the list of subreddits to the list view
         final SubredditArrayAdapter commentAdapter = new SubredditArrayAdapter(this, R.layout.list_comment, subreddits);
         subredditResults.setAdapter(commentAdapter);
+    }
+
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }
 }
