@@ -86,8 +86,10 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
         SpannableStringBuilder ssb = new SpannableStringBuilder();
         ssb.append(Html.fromHtml(Html.fromHtml(comment.getBody()).toString()));
 
-        // Strip the trailing newline characters that were generated
-        ssb.delete(ssb.length() - 2, ssb.length());
+        if(ssb.length() >= 2){
+            // Strip the trailing newline characters that were generated
+            ssb.delete(ssb.length() - 2, ssb.length());
+        }
 
         body.setText(ssb);
         body.setMovementMethod(LinkMovementMethod.getInstance()); // Make links clickable
