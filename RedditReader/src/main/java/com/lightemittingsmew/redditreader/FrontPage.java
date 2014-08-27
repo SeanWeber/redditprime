@@ -287,6 +287,11 @@ public class FrontPage extends ActionBarActivity {
                 context.startActivity(intent);
                 break;
             }
+            case R.id.action_message:{
+                Intent intent = new Intent(context, Inbox.class);
+                context.startActivity(intent);
+                break;
+            }
         }
 
         // Pass the event to ActionBarDrawerToggle, if it returns

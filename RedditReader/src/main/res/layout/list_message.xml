@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:id="@+id/linearLayoutMessages" >
+
+    <TextView
+        android:id="@+id/textViewMessageSource"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#eee"
+        android:text="This is the title of the linked article in question"
+        android:layout_marginTop="4dp"
+        android:textColor="#369"
+        android:paddingTop="4dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="4dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:background="#eee"
+        android:id="@+id/textViewMessageInfo"
+        android:paddingTop="4dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="4dp"
+        android:textColor="#369" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/textViewMessage"
+        android:background="#eee"
+        android:paddingLeft="8dp"
+        android:paddingTop="4dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="4dp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#ddd"
+        android:id="@+id/linearLayoutMessageButtons">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonMessageContext"
+            android:layout_weight="1"
+            android:background="#eee"
+            android:layout_marginRight="1dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:text="Context"
+            android:textSize="10sp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonMessageReply"
+            android:layout_weight="1"
+            android:background="#eee"
+            android:layout_marginRight="1dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:cropToPadding="false"
+            android:text="Reply"
+            android:textSize="10sp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonMessageComments"
+            android:layout_weight="1"
+            android:background="#eee"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:text="Full Comments"
+            android:textSize="10sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

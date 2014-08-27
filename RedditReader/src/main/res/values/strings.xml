@@ -16,5 +16,6 @@
     <string name="title_activity_user">User</string>
     <string name="title_activity_subreddit_search">SubredditSearch</string>
     <string name="action_message">Inbox</string>
+    <string name="title_activity_inbox">Inbox</string>
 
 </resources>

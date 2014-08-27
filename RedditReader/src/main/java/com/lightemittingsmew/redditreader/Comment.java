@@ -31,6 +31,7 @@ public class Comment implements java.io.Serializable{
     private boolean isDownvoted;
     private boolean isOp;
     private String edited;
+    private String context;
 
     Comment(JSONObject jsonComment){
         try {
@@ -39,10 +40,30 @@ public class Comment implements java.io.Serializable{
             body = jsonComment.getJSONObject("data").getString("body_html");
             author = jsonComment.getJSONObject("data").getString("author");
             id = jsonComment.getJSONObject("data").getString("id");
-            score = jsonComment.getJSONObject("data").getInt("score");
             createdUTC = jsonComment.getJSONObject("data").getLong("created_utc");
-            edited = jsonComment.getJSONObject("data").getString("edited");
-            gilded = jsonComment.getJSONObject("data").getInt("gilded");
+
+            if(jsonComment.getJSONObject("data").has("score")){
+                score = jsonComment.getJSONObject("data").getInt("score");
+            }
+            if(jsonComment.getJSONObject("data").has("edited")){
+                edited = jsonComment.getJSONObject("data").getString("edited");
+            }
+            if(jsonComment.getJSONObject("data").has("gilded")){
+                gilded = jsonComment.getJSONObject("data").getInt("gilded");
+            }
+            if(jsonComment.getJSONObject("data").has("link_title")){
+                linkTitle = jsonComment.getJSONObject("data").getString("link_title");
+            }
+            if(jsonComment.getJSONObject("data").has("subreddit")){
+                subreddit = jsonComment.getJSONObject("data").getString("subreddit");
+            }
+            if(jsonComment.getJSONObject("data").has("link_id")){
+                String fullLinkId = jsonComment.getJSONObject("data").getString("link_id");
+                linkId = fullLinkId.substring(3, fullLinkId.length());
+            }
+            if(jsonComment.getJSONObject("data").has("context")){
+                context = jsonComment.getJSONObject("data").getString("context");
+            }
 
             if(likes.equals("true")){
                 isUpvoted = true;
@@ -56,17 +77,6 @@ public class Comment implements java.io.Serializable{
             }
             isHidden = false;
             isCollapsed = false;
-
-            if(jsonComment.getJSONObject("data").has("link_title")){
-                linkTitle = jsonComment.getJSONObject("data").getString("link_title");
-            }
-            if(jsonComment.getJSONObject("data").has("subreddit")){
-                subreddit = jsonComment.getJSONObject("data").getString("subreddit");
-            }
-            if(jsonComment.getJSONObject("data").has("parent_id")){
-                String fullLinkId = jsonComment.getJSONObject("data").getString("link_id");
-                linkId = fullLinkId.substring(3, fullLinkId.length());
-            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -202,7 +212,15 @@ public class Comment implements java.io.Serializable{
     public boolean isEdited(){
         // This json element comes in as either "false" or the unix timestamp
         // of the last time the comment was edited
-        return !edited.equals("false");
+        Boolean result;
+
+        if(edited == null){
+            result = false;
+        } else {
+            result = !edited.equals("false");
+        }
+
+        return result;
     }
 
     public String timeAgo(){
@@ -309,6 +327,11 @@ public class Comment implements java.io.Serializable{
         }
 
         return userNameString + pointsString + timeAgoString + editedString + gildedString;
+    }
+
+    public String getContext(){
+        String[] parts = context.split("\\?");
+        return "http://www.reddit.com" + parts[0] + ".json";
     }
 
     public static ArrayList<Comment> parseCommentArray(JSONArray commentArray, String op, int level){
