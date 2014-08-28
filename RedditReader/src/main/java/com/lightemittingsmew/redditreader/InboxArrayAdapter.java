@@ -19,7 +19,6 @@ import java.util.ArrayList;
  * Created by smw on 8/26/14.
  */
 public class InboxArrayAdapter extends ArrayAdapter<Comment> {
-    public static final String PARENT_FULLNAME = "com.lightemittingsmew.redditreader.PARENT_FULLNAME";
     private Context thisContext;
     private ArrayList<Comment> comments;
     LayoutInflater inflater;
@@ -149,6 +148,15 @@ public class InboxArrayAdapter extends ArrayAdapter<Comment> {
                 final String url = comment.getContext() + "?context=3";
                 Intent intent = new Intent(thisContext, Comments.class);
                 intent.putExtra(ArticleArrayAdapter.COMMENT_URL, url);
+                thisContext.startActivity(intent);
+            }
+        });
+
+        buttonReply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(thisContext, Reply.class);
+                intent.putExtra(CommentArrayAdapter.PARENT_FULLNAME, comment.getFullName());
                 thisContext.startActivity(intent);
             }
         });
