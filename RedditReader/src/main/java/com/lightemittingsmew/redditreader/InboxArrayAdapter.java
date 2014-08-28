@@ -156,8 +156,14 @@ public class InboxArrayAdapter extends ArrayAdapter<Comment> {
         buttonComments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String url = "http://www.reddit.com/r/"+ subreddit + "/comments/"
-                        + parentId +".json";
+                String context = comment.getContext();
+
+                // remove the part of the URL linking to the specific comment
+                // by trimming everything after the last slash
+                int position = context.lastIndexOf("/");
+                String[] a =  {context.substring(0, position), context.substring(position)};
+                final String url = a[0] + ".json";
+
                 Intent intent = new Intent(thisContext, Comments.class);
                 intent.putExtra(ArticleArrayAdapter.COMMENT_URL, url);
                 thisContext.startActivity(intent);
