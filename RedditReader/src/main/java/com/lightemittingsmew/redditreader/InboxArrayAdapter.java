@@ -86,7 +86,17 @@ public class InboxArrayAdapter extends ArrayAdapter<Comment> {
     }
 
     private void setTopText(Comment comment){
-        info.setText(Html.fromHtml(comment.getTopText()));
+        String userNameString;
+        String timeAgoString;
+
+        // Display the sender's username
+        userNameString = String.format("%s &nbsp; ", comment.getAuthor());
+
+        // Display how long ago the comment was posted
+        timeAgoString = String.format("<span align='right'><small>%s</small></span>", comment.timeAgo());
+
+        String htmlText = userNameString + timeAgoString;
+        info.setText(Html.fromHtml(htmlText));
     }
 
     private void toggleCommentVisibility(Comment comment, int position){

@@ -1,9 +1,11 @@
 package com.lightemittingsmew.redditreader;
 
+import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 
 import com.android.volley.Request;
@@ -18,6 +20,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class Inbox extends ActionBarActivity {
+    final String urlAll = "http://www.reddit.com/message/inbox/.json";
+    final String urlUnread = "http://www.reddit.com/message/unread.json";
+    final String urlSent = "http://www.reddit.com/message/sent.json";
+
     ListView listViewComments;
     ArrayList<Comment> listComments;
     String userName;
@@ -31,21 +37,8 @@ public class Inbox extends ActionBarActivity {
 
         if (savedInstanceState == null) {
             userName = VolleyRequest.user;
-            final String url = "http://www.reddit.com/message/unread.json";
-            StringRequest jsonArrayRequest = new RedditRequest(Request.Method.GET, url, new Response.Listener<String>() {
 
-                @Override
-                public void onResponse(String response) {
-                    parseComments(response);
-                }
-            }, new Response.ErrorListener() {
-
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                }
-            });
-
-            VolleyRequest.queue.add(jsonArrayRequest);
+        loadInbox(urlUnread);
 
         } else {
             VolleyRequest.initQueue(this.getApplication());
@@ -54,7 +47,6 @@ public class Inbox extends ActionBarActivity {
             writeComments();
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -76,6 +68,23 @@ public class Inbox extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void loadInbox(String url){
+        StringRequest jsonArrayRequest = new RedditRequest(Request.Method.GET, url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                parseComments(response);
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        });
+
+        VolleyRequest.queue.add(jsonArrayRequest);
+    }
+
     private void parseComments(String response){
         JSONArray comments = new JSONArray();
         String op = "";
@@ -92,5 +101,30 @@ public class Inbox extends ActionBarActivity {
     public void writeComments(){
         final InboxArrayAdapter commentAdapter = new InboxArrayAdapter(this, R.layout.list_user_posts, listComments);
         listViewComments.setAdapter(commentAdapter);
+    }
+
+    public void onClickUnread(View v){
+        clearButtonColors();
+        v.setBackgroundColor(Color.LTGRAY);
+        loadInbox(urlUnread);
+    }
+
+    public void onClickAll(View v){
+        clearButtonColors();
+        v.setBackgroundColor(Color.LTGRAY);
+        loadInbox(urlAll);
+    }
+
+    public void onClickSent(View v){
+        clearButtonColors();
+        v.setBackgroundColor(Color.LTGRAY);
+        loadInbox(urlSent);
+    }
+
+    private void clearButtonColors(){
+        int inactiveColor = Color.GRAY;
+        findViewById(R.id.buttonUnreadMessages).setBackgroundColor(inactiveColor);
+        findViewById(R.id.buttonSentMessages).setBackgroundColor(inactiveColor);
+        findViewById(R.id.buttonAllMessages).setBackgroundColor(inactiveColor);
     }
 }

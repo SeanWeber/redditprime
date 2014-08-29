@@ -35,13 +35,17 @@ public class Comment implements java.io.Serializable{
 
     Comment(JSONObject jsonComment){
         try {
+            String likes = "";
+
             kind = jsonComment.getString("kind");
-            String likes = jsonComment.getJSONObject("data").getString("likes");
             body = jsonComment.getJSONObject("data").getString("body_html");
             author = jsonComment.getJSONObject("data").getString("author");
             id = jsonComment.getJSONObject("data").getString("id");
             createdUTC = jsonComment.getJSONObject("data").getLong("created_utc");
 
+            if(jsonComment.getJSONObject("data").has("score")){
+                likes = jsonComment.getJSONObject("data").getString("likes");
+            }
             if(jsonComment.getJSONObject("data").has("score")){
                 score = jsonComment.getJSONObject("data").getInt("score");
             }
@@ -353,6 +357,9 @@ public class Comment implements java.io.Serializable{
                             .getJSONObject("data").getJSONObject("replies").getJSONObject("data")
                             .getJSONArray("children"), op, level + 1);
                     listComments.addAll(replyList);
+                } else if(tempComment.getKind().equals("t4")){
+                    // Sent message
+                    listComments.add(tempComment);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
