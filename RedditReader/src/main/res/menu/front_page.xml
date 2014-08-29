@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/action_message"
+    <item android:id="@+id/action_new_message"
         android:icon="@drawable/message"
         android:title="@string/action_message"
         app:showAsAction="always" />
@@ -19,6 +19,10 @@
         app:showAsAction="never" />
     <item android:id="@+id/action_user"
         android:title="@string/action_user"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item android:id="@+id/action_message"
+        android:title="@string/action_message"
         android:orderInCategory="100"
         app:showAsAction="never" />
 </menu>

@@ -70,6 +70,10 @@ public class InboxArrayAdapter extends ArrayAdapter<Comment> {
             buttons.setVisibility(View.GONE);
         }
 
+        if(currentComment.getKind().equals("t4")){
+            buttons.setVisibility(View.GONE);
+        }
+
         return convertView;
     }
 

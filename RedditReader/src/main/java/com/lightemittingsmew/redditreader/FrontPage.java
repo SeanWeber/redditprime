@@ -35,7 +35,6 @@ import java.util.List;
 
 
 public class FrontPage extends ActionBarActivity {
-
     private Context context;
     ExpandableListView listViewStories;
     ArrayList<Article> listStories;
@@ -284,6 +283,12 @@ public class FrontPage extends ActionBarActivity {
             }
             case R.id.action_user:{
                 Intent intent = new Intent(context, User.class);
+                context.startActivity(intent);
+                break;
+            }
+            case R.id.action_new_message:{
+                Intent intent = new Intent(context, Inbox.class);
+                intent.putExtra(Inbox.NEW_MESSAGE, "true");
                 context.startActivity(intent);
                 break;
             }

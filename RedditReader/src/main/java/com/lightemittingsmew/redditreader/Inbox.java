@@ -1,11 +1,13 @@
 package com.lightemittingsmew.redditreader;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -22,9 +24,15 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class Inbox extends ActionBarActivity {
+    public static final String NEW_MESSAGE = "com.lightemittingsmew.redditreader.NEW_MESSAGE";
+
     final String urlAll = "http://www.reddit.com/message/inbox/.json";
     final String urlUnread = "http://www.reddit.com/message/unread.json";
     final String urlSent = "http://www.reddit.com/message/sent.json";
+
+    Button buttonUnreadMessages;
+    Button buttonSentMessages;
+    Button buttonAllMessages;
 
     ProgressBar progressBar;
     ListView listViewComments;
@@ -41,10 +49,21 @@ public class Inbox extends ActionBarActivity {
         progressBar = (ProgressBar)findViewById(R.id.progressBarInbox);
         emptyMessage = (TextView)findViewById(R.id.textViewEmptyMessage);
 
+        buttonUnreadMessages = (Button)findViewById(R.id.buttonUnreadMessages);
+        buttonSentMessages = (Button)findViewById(R.id.buttonSentMessages);
+        buttonAllMessages = (Button)findViewById(R.id.buttonAllMessages);
+
         if (savedInstanceState == null) {
             userName = VolleyRequest.user;
 
-        loadInbox(urlUnread);
+            Intent intent = getIntent();
+            final String newMessage = intent.getStringExtra(NEW_MESSAGE);
+
+            if(newMessage == null){
+                onClickAll(buttonAllMessages);
+            } else {
+                onClickUnread(buttonUnreadMessages);
+            }
 
         } else {
             VolleyRequest.initQueue(this.getApplication());
