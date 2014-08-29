@@ -19,7 +19,7 @@ import com.google.ads.AdRequest;
 import com.google.ads.AdSize;
 import com.google.ads.AdView;
 
-public class Articles extends ActionBarActivity {
+public class Articles extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,61 +48,6 @@ public class Articles extends ActionBarActivity {
 
         webView.loadUrl(url);
         addBanner();
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.article, menu);
-        MenuItem logout = menu.findItem(R.id.action_logout);
-        MenuItem login = menu.findItem(R.id.action_login);
-        MenuItem user = menu.findItem(R.id.action_user);
-
-        if(VolleyRequest.cookie == null || VolleyRequest.cookie.equals("")){
-            user.setVisible(false);
-            logout.setVisible(false);
-            login.setVisible(true);
-        } else {
-            user.setVisible(true);
-            logout.setVisible(true);
-            login.setVisible(false);
-
-            // Set the title the the username of the logged in user
-            user.setTitle(VolleyRequest.user);
-        }
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                return true;
-            case R.id.action_logout:{
-                VolleyRequest.logout(this);
-                finish();
-                startActivity(getIntent());
-                break;
-            }
-            case R.id.action_login:{
-                Intent intent = new Intent(this, Login.class);
-                this.startActivity(intent);
-                break;
-            }
-            case R.id.action_user:{
-                Intent intent = new Intent(this, User.class);
-                this.startActivity(intent);
-                break;
-            }
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     /**

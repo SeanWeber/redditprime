@@ -59,6 +59,10 @@
             android:name="com.lightemittingsmew.redditreader.Inbox"
             android:label="@string/title_activity_inbox" >
         </activity>
+        <activity
+            android:name="com.lightemittingsmew.redditreader.BaseActivity"
+            android:label="@string/title_activity_base" >
+        </activity>
     </application>
 
 </manifest>

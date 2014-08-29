@@ -23,7 +23,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class Inbox extends ActionBarActivity {
+public class Inbox extends BaseActivity {
     public static final String NEW_MESSAGE = "com.lightemittingsmew.redditreader.NEW_MESSAGE";
 
     final String urlAll = "http://www.reddit.com/message/inbox/.json";
@@ -71,26 +71,6 @@ public class Inbox extends ActionBarActivity {
             listComments = (ArrayList<Comment>)savedInstanceState.getSerializable("listUser");
             writeComments();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.inbox, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private void loadInbox(String url){

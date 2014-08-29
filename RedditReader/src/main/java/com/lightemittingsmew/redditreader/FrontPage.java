@@ -8,9 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +21,6 @@ import android.widget.ProgressBar;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
@@ -31,10 +28,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
-public class FrontPage extends ActionBarActivity {
+public class FrontPage extends BaseActivity {
     private Context context;
     ExpandableListView listViewStories;
     ArrayList<Article> listStories;
@@ -232,73 +228,12 @@ public class FrontPage extends ActionBarActivity {
             addStories("");
             writeSubreddits();
         }
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.front_page, menu);
-        MenuItem logout = menu.findItem(R.id.action_logout);
-        MenuItem login = menu.findItem(R.id.action_login);
-        MenuItem user = menu.findItem(R.id.action_user);
-        MenuItem settings = menu.findItem(R.id.action_settings);
-
-        settings.setVisible(false);
-
-        if(VolleyRequest.cookie == null || VolleyRequest.cookie.equals("")){
-            user.setVisible(false);
-            logout.setVisible(false);
-            login.setVisible(true);
-        } else {
-            user.setVisible(true);
-            logout.setVisible(true);
-            login.setVisible(false);
-
-            // Set the title the the username of the logged in user
-            user.setTitle(VolleyRequest.user);
-        }
-
-        return true;
+        checkNewMessages();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                return true;
-            case R.id.action_logout:{
-                VolleyRequest.logout(this);
-                finish();
-                startActivity(getIntent());
-                break;
-            }
-            case R.id.action_login:{
-                Intent intent = new Intent(context, Login.class);
-                context.startActivity(intent);
-                break;
-            }
-            case R.id.action_user:{
-                Intent intent = new Intent(context, User.class);
-                context.startActivity(intent);
-                break;
-            }
-            case R.id.action_new_message:{
-                Intent intent = new Intent(context, Inbox.class);
-                intent.putExtra(Inbox.NEW_MESSAGE, "true");
-                context.startActivity(intent);
-                break;
-            }
-            case R.id.action_message:{
-                Intent intent = new Intent(context, Inbox.class);
-                context.startActivity(intent);
-                break;
-            }
-        }
-
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
         if (mDrawerToggle.onOptionsItemSelected(item)) {
@@ -343,4 +278,31 @@ public class FrontPage extends ActionBarActivity {
         }
     }
 
+    private void checkNewMessages(){
+        final String url = "http://www.reddit.com/message/unread/.json";
+
+        final StringRequest messageRequest = new RedditRequest(Request.Method.GET, url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                updateNewMessages(response);
+            }
+        });
+
+        VolleyRequest.queue.add(messageRequest);
+    }
+
+    private void updateNewMessages(String response){
+        try {
+            JSONArray newMessages = new JSONObject(response).getJSONObject("data").getJSONArray("children");
+
+            if(newMessages.length() > 0){
+                VolleyRequest.hasNewMessage = true;
+                supportInvalidateOptionsMenu();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

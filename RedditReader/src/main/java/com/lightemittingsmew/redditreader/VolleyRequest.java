@@ -28,6 +28,7 @@ public class VolleyRequest {
     public static String user;
     public static ImageLoader imageLoader;
     public static boolean loadHdThumbnails;
+    public static boolean hasNewMessage;
     public static final String EMPTY_STRING = "";
 
     public static void initQueue(Context context){
