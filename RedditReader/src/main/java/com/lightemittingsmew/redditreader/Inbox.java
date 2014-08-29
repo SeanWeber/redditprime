@@ -7,6 +7,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -24,7 +26,9 @@ public class Inbox extends ActionBarActivity {
     final String urlUnread = "http://www.reddit.com/message/unread.json";
     final String urlSent = "http://www.reddit.com/message/sent.json";
 
+    ProgressBar progressBar;
     ListView listViewComments;
+    TextView emptyMessage;
     ArrayList<Comment> listComments;
     String userName;
 
@@ -34,6 +38,8 @@ public class Inbox extends ActionBarActivity {
         setContentView(R.layout.activity_inbox);
 
         listViewComments = (ListView)findViewById(R.id.listViewMessages);
+        progressBar = (ProgressBar)findViewById(R.id.progressBarInbox);
+        emptyMessage = (TextView)findViewById(R.id.textViewEmptyMessage);
 
         if (savedInstanceState == null) {
             userName = VolleyRequest.user;
@@ -101,30 +107,44 @@ public class Inbox extends ActionBarActivity {
     public void writeComments(){
         final InboxArrayAdapter commentAdapter = new InboxArrayAdapter(this, R.layout.list_user_posts, listComments);
         listViewComments.setAdapter(commentAdapter);
+
+        if(listComments.size() == 0){
+            emptyMessage.setVisibility(View.VISIBLE);
+        }
+
+        progressBar.setVisibility(View.GONE);
+        listViewComments.setVisibility(View.VISIBLE);
     }
 
     public void onClickUnread(View v){
         clearButtonColors();
-        v.setBackgroundColor(Color.LTGRAY);
+        v.setBackgroundColor(Color.GRAY);
+
         loadInbox(urlUnread);
     }
 
     public void onClickAll(View v){
         clearButtonColors();
-        v.setBackgroundColor(Color.LTGRAY);
+        v.setBackgroundColor(Color.GRAY);
+
         loadInbox(urlAll);
     }
 
     public void onClickSent(View v){
         clearButtonColors();
-        v.setBackgroundColor(Color.LTGRAY);
+        v.setBackgroundColor(Color.GRAY);
+
         loadInbox(urlSent);
     }
 
     private void clearButtonColors(){
-        int inactiveColor = Color.GRAY;
+        int inactiveColor = Color.LTGRAY;
         findViewById(R.id.buttonUnreadMessages).setBackgroundColor(inactiveColor);
         findViewById(R.id.buttonSentMessages).setBackgroundColor(inactiveColor);
         findViewById(R.id.buttonAllMessages).setBackgroundColor(inactiveColor);
+
+        progressBar.setVisibility(View.VISIBLE);
+        listViewComments.setVisibility(View.GONE);
+        emptyMessage.setVisibility(View.GONE);
     }
 }

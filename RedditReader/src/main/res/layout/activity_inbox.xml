@@ -46,6 +46,22 @@
             android:onClick="onClickSent" />
     </LinearLayout>
 
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBarInbox"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No new messages"
+        android:id="@+id/textViewEmptyMessage"
+        android:layout_gravity="center"
+        android:paddingTop="32dp"
+        android:visibility="gone" />
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
