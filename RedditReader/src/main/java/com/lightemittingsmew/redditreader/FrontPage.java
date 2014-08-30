@@ -228,7 +228,11 @@ public class FrontPage extends BaseActivity {
             addStories("");
             writeSubreddits();
         }
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         checkNewMessages();
     }
 
@@ -299,6 +303,8 @@ public class FrontPage extends BaseActivity {
             if(newMessages.length() > 0){
                 VolleyRequest.hasNewMessage = true;
                 supportInvalidateOptionsMenu();
+            } else {
+                VolleyRequest.hasNewMessage = false;
             }
         } catch (JSONException e) {
             e.printStackTrace();

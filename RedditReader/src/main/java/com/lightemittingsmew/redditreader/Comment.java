@@ -103,7 +103,7 @@ public class Comment implements java.io.Serializable{
     }
 
     public String getFullName(){
-        return "t1_" + id;
+        return kind + "_" + id;
     }
 
     public String getLinkTitle(){

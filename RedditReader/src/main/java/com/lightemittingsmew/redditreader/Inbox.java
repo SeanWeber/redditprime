@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -22,6 +23,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Inbox extends BaseActivity {
     public static final String NEW_MESSAGE = "com.lightemittingsmew.redditreader.NEW_MESSAGE";
@@ -39,6 +43,7 @@ public class Inbox extends BaseActivity {
     TextView emptyMessage;
     ArrayList<Comment> listComments;
     String userName;
+    Boolean markCommentsRead = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,11 +118,17 @@ public class Inbox extends BaseActivity {
 
         progressBar.setVisibility(View.GONE);
         listViewComments.setVisibility(View.VISIBLE);
+
+        if(markCommentsRead){
+            markMessagesRead();
+        }
     }
 
     public void onClickUnread(View v){
         clearButtonColors();
         v.setBackgroundColor(Color.GRAY);
+
+        markCommentsRead = true;
 
         loadInbox(urlUnread);
     }
@@ -145,5 +156,53 @@ public class Inbox extends BaseActivity {
         progressBar.setVisibility(View.VISIBLE);
         listViewComments.setVisibility(View.GONE);
         emptyMessage.setVisibility(View.GONE);
+    }
+
+    private void markMessagesRead(){
+        String names = "";
+        for(Comment c : listComments){
+            names += c.getFullName();
+            names += ",";
+        }
+
+        final String fullnames = names;
+        StringRequest readRequest = new StringRequest(Request.Method.POST, "http://www.reddit.com/api/read_message", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                markCommentsRead = false;
+                VolleyRequest.hasNewMessage = false;
+                supportInvalidateOptionsMenu();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = super.getHeaders();
+
+                if (headers == null || headers.equals(Collections.emptyMap())) {
+                    headers = new HashMap<String, String>();
+                }
+
+                headers.put("Cookie", VolleyRequest.cookie);
+                headers.put("User-Agent", VolleyRequest.APP_VERSION);
+
+                return headers;
+            }
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+
+                params.put("id", fullnames);
+                params.put("uh", VolleyRequest.modhash);
+
+                return params;
+            }
+        };
+
+        VolleyRequest.queue.add(readRequest);
     }
 }

@@ -7,6 +7,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class BaseActivity extends ActionBarActivity {
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        supportInvalidateOptionsMenu();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 

@@ -29,6 +29,7 @@ public class VolleyRequest {
     public static ImageLoader imageLoader;
     public static boolean loadHdThumbnails;
     public static boolean hasNewMessage;
+    public static final String APP_VERSION = "redditReader02";
     public static final String EMPTY_STRING = "";
 
     public static void initQueue(Context context){
@@ -77,7 +78,7 @@ public class VolleyRequest {
                 }
 
                 headers.put("Cookie", cookie);
-                headers.put("User-Agent", "redditReader01");
+                headers.put("User-Agent", APP_VERSION);
 
                 return headers;
             }
