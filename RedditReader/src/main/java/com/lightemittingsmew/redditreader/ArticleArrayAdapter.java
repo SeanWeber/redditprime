@@ -162,14 +162,7 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
             SpannableStringBuilder ssb;
             txtListChild.setVisibility(View.VISIBLE);
 
-            // Generate text with HTML formatting
-            ssb = new SpannableStringBuilder();
-            ssb.append(Html.fromHtml(Html.fromHtml(openedArticle.getSelftext()).toString()));
-
-            // Strip the trailing newline characters that were generated
-            ssb.delete(ssb.length() - 2, ssb.length());
-
-            txtListChild.setText(ssb);
+            txtListChild.setText(openedArticle.getParsedBody(thisContext));
             txtListChild.setMovementMethod(LinkMovementMethod.getInstance()); // Make links clickable
         } else {
             txtListChild.setText("");
