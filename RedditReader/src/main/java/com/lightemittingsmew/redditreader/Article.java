@@ -162,6 +162,60 @@ public class Article implements java.io.Serializable{
         return String.valueOf(score);
     }
 
+    public int getComments(){
+        return comments;
+    }
+
+    public String timeAgo(){
+        long SECOND = 1000;
+        long MINUTE = SECOND * 60;
+        long HOUR = MINUTE * 60;
+        long DAY = HOUR * 24;
+        long WEEK = DAY * 7;
+        long MONTH = DAY * 30;
+        long YEAR = DAY * 365;
+
+        String resultString;
+        String unit;
+        long unitsPast;
+
+        long currentTime = System.currentTimeMillis();
+        long timeDifference = currentTime - (created * 1000);
+
+        // Calculate which unit to display
+        if(timeDifference > YEAR){
+            unit = "year";
+            unitsPast = timeDifference / YEAR;
+        } else if (timeDifference > MONTH) {
+            unit = "month";
+            unitsPast = timeDifference / MONTH;
+        } else if (timeDifference > WEEK) {
+            unit = "week";
+            unitsPast = timeDifference / WEEK;
+        } else if (timeDifference > DAY) {
+            unit = "day";
+            unitsPast = timeDifference / DAY;
+        } else if (timeDifference > HOUR) {
+            unit = "hour";
+            unitsPast = timeDifference / HOUR;
+        } else if (timeDifference > MINUTE) {
+            unit = "minute";
+            unitsPast = timeDifference / MINUTE;
+        } else {
+            unit = "second";
+            unitsPast = timeDifference / SECOND;
+        }
+
+        // Use plural unit names if there is more than one
+        if(unitsPast == 1){
+            resultString = "1 " + unit + " ago";
+        } else {
+            resultString = unitsPast + " " + unit + "s ago";
+        }
+
+        return resultString;
+    }
+
     public static ArrayList<Article> parseArticleList(String stories){
         ArrayList<Article> articleList = new ArrayList<Article>();
         JSONArray jsonArrayStories = new JSONArray();
