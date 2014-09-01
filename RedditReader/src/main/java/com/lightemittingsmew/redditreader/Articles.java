@@ -1,6 +1,7 @@
 package com.lightemittingsmew.redditreader;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -23,6 +24,9 @@ public class Articles extends BaseActivity {
 
     public static final String ARTICLE_URL   = "com.lightemittingsmew.redditreader.ARTICLE_URL";
     public static final String ARTICLE_TITLE = "com.lightemittingsmew.redditreader.ARTICLE_TITLE";
+    String url;
+    String title;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,8 +39,8 @@ public class Articles extends BaseActivity {
         }
 
         Intent intent = getIntent();
-        final String url = intent.getStringExtra(Articles.ARTICLE_URL);
-        final String title = intent.getStringExtra(Articles.ARTICLE_TITLE);
+        url = intent.getStringExtra(Articles.ARTICLE_URL);
+        title = intent.getStringExtra(Articles.ARTICLE_TITLE);
 
         if(title != null){
             setTitle(title);
@@ -103,5 +107,32 @@ public class Articles extends BaseActivity {
 
         adRequest.addTestDevice("78FB22283FE01E5A9C965A552245DAB5"); // Galaxy S4
         adView.loadAd(adRequest);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.article, menu);
+
+        super.onCreateOptionsMenu(menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            case R.id.action_launch_browser:{
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(browserIntent);
+                break;
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -3,28 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Article" >
 
-    <item android:id="@+id/action_new_message"
-        android:icon="@drawable/message"
-        android:title="@string/action_message"
+
+    <item android:id="@+id/action_launch_browser"
+        android:icon="@drawable/ic_action_web_site"
+        android:title="@string/action_launch_browser"
         app:showAsAction="always" />
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
-    <item android:id="@+id/action_user"
-        android:title="@string/action_user"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
-    <item android:id="@+id/action_message"
-        android:title="@string/action_message"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
-    <item android:id="@+id/action_login"
-        android:title="@string/action_login"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
-    <item android:id="@+id/action_logout"
-        android:title="@string/action_logout"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
 </menu>
