@@ -38,10 +38,15 @@ public class SubredditArrayAdapter extends ArrayAdapter<SubredditResult>{
         LinearLayout listing = (LinearLayout) convertView.findViewById(R.id.layoutSubreddit);
         TextView name = (TextView) convertView.findViewById(R.id.textViewSubredditName);
         TextView description = (TextView) convertView.findViewById(R.id.textViewSubredditDescription);
+        TextView info = (TextView) convertView.findViewById(R.id.textViewSubredditInfo);
+
+        String infoText = String.format("%d subscribers, a community for %s",
+                subreddit.getSubscribers(), subreddit.timeAgo());
 
         // Display info on the subreddit
         name.setText(subreddit.getName());
         description.setText(subreddit.getDescription());
+        info.setText(infoText);
 
         // When a subreddit is clicked, navigate to that subreddit
         View.OnClickListener goToSubreddit = new View.OnClickListener(){
