@@ -62,7 +62,9 @@ public class UserArrayAdapter extends ArrayAdapter<Comment> {
 
         layout.setPadding(16 * currentComment.getReplyLevel(), 0, 0, 0);
 
-        setBody(currentComment);
+        body.setText(currentComment.getParsedBody(thisContext));
+        body.setMovementMethod(LinkMovementMethod.getInstance()); // Make links clickable
+
         setTopText(currentComment);
         toggleCommentVisibility(currentComment, position);
         setOnClickListeners(currentComment, adapter);
@@ -73,18 +75,6 @@ public class UserArrayAdapter extends ArrayAdapter<Comment> {
         }
 
         return convertView;
-    }
-
-    private void setBody(Comment comment){
-        // Generate text with HTML formatting
-        SpannableStringBuilder ssb = new SpannableStringBuilder();
-        ssb.append(Html.fromHtml(Html.fromHtml(comment.getBody()).toString()));
-
-        // Strip the trailing newline characters that were generated
-        ssb.delete(ssb.length() - 2, ssb.length());
-
-        body.setText(ssb);
-        body.setMovementMethod(LinkMovementMethod.getInstance()); // Make links clickable
     }
 
     private void setTopText(Comment comment){

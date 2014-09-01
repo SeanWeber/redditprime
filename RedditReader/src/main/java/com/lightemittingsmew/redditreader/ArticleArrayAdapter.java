@@ -22,7 +22,6 @@ import java.util.List;
  */
 public class ArticleArrayAdapter extends BaseExpandableListAdapter {
     public static final String COMMENT_URL = "com.lightemittingsmew.redditreader.COMMENT_URL";
-    public static final String ARTICLE_URL = "com.lightemittingsmew.redditreader.ARTICLE_URL";
     private Context thisContext;
     private List<Article> articles;
     private FrontPage activity;
@@ -215,7 +214,7 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(thisContext, Articles.class);
-                intent.putExtra(ARTICLE_URL, finalArticleUrl);
+                intent.putExtra(Articles.ARTICLE_URL, finalArticleUrl);
                 thisContext.startActivity(intent);
             }
         });

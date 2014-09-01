@@ -21,6 +21,8 @@ import com.google.ads.AdView;
 
 public class Articles extends BaseActivity {
 
+    public static final String ARTICLE_URL   = "com.lightemittingsmew.redditreader.ARTICLE_URL";
+    public static final String ARTICLE_TITLE = "com.lightemittingsmew.redditreader.ARTICLE_TITLE";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +35,12 @@ public class Articles extends BaseActivity {
         }
 
         Intent intent = getIntent();
-        final String url = intent.getStringExtra(ArticleArrayAdapter.ARTICLE_URL);
+        final String url = intent.getStringExtra(Articles.ARTICLE_URL);
+        final String title = intent.getStringExtra(Articles.ARTICLE_TITLE);
+
+        if(title != null){
+            setTitle(title);
+        }
 
         WebView webView = (WebView) findViewById(R.id.webViewArticle);
 
@@ -64,6 +71,11 @@ public class Articles extends BaseActivity {
             View rootView = inflater.inflate(R.layout.fragment_article, container, false);
             return rootView;
         }
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        getSupportActionBar().setTitle(title);
     }
 
     private void addBanner(){
