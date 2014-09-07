@@ -2,10 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.lightemittingsmew.redditreader.Submit">
 
     <LinearLayout
@@ -16,7 +12,8 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="#ccc">
 
             <Button
                 android:layout_width="match_parent"
@@ -24,7 +21,9 @@
                 android:text="Link"
                 android:id="@+id/buttonLink"
                 android:layout_weight="1"
-                android:onClick="buttonLinkClick" />
+                android:onClick="buttonLinkClick"
+                android:background="#eee"
+                android:layout_marginRight="1dp"/>
 
             <Button
                 android:layout_width="match_parent"
@@ -32,62 +31,81 @@
                 android:text="Text"
                 android:id="@+id/buttonText"
                 android:layout_weight="1"
-                android:onClick="buttonTextClick" />
+                android:onClick="buttonTextClick"
+                android:background="#eee"
+                android:layout_marginLeft="1dp"/>
         </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Title"
-            android:id="@+id/textViewTitle" />
+            android:id="@+id/textViewTitle"
+            android:textSize="18sp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp" />
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
             android:ems="10"
-            android:id="@+id/editTextTitle" />
+            android:id="@+id/editTextTitle"
+            android:layout_margin="8dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="URL"
-            android:id="@+id/textViewUrl" />
+            android:id="@+id/textViewUrl"
+            android:textSize="18sp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp" />
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editTextUrl" />
+            android:id="@+id/editTextUrl"
+            android:layout_margin="8dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textViewText"
-            android:text="Text (optional)" />
+            android:text="Text (optional)"
+            android:textSize="18sp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp" />
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
             android:ems="10"
-            android:id="@+id/editTextText" />
+            android:id="@+id/editTextText"
+            android:layout_margin="8dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Choose Subreddit"
-            android:id="@+id/textViewChooseSubreddit" />
+            android:id="@+id/textViewChooseSubreddit"
+            android:textSize="18sp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp" />
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editTextChoseSubreddit" />
+            android:id="@+id/editTextChoseSubreddit"
+            android:layout_margin="8dp" />
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Send replies to my inbox"
-            android:id="@+id/checkBoxSendReplies" />
+            android:id="@+id/checkBoxSendReplies"
+            android:layout_margin="16dp" />
 
     </LinearLayout>
 

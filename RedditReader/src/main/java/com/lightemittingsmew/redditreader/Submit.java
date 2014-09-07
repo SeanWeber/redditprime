@@ -1,5 +1,6 @@
 package com.lightemittingsmew.redditreader;
 
+import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -79,6 +80,9 @@ public class Submit extends ActionBarActivity {
     }
 
     public void buttonLinkClick(View view){
+        linkButton.setBackgroundColor(Color.GRAY);
+        textButton.setBackgroundColor(Color.LTGRAY);
+
         urlTitle.setVisibility(View.VISIBLE);
         urlText.setVisibility(View.VISIBLE);
 
@@ -89,6 +93,9 @@ public class Submit extends ActionBarActivity {
     }
 
     public void buttonTextClick(View view){
+        linkButton.setBackgroundColor(Color.LTGRAY);
+        textButton.setBackgroundColor(Color.GRAY);
+
         urlTitle.setVisibility(View.GONE);
         urlText.setVisibility(View.GONE);
 
