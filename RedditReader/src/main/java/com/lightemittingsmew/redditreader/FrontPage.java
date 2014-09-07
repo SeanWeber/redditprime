@@ -242,6 +242,15 @@ public class FrontPage extends BaseActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.front_page, menu);
 
+        MenuItem submit = menu.findItem(R.id.action_submit);
+
+        if(VolleyRequest.cookie == null || VolleyRequest.cookie.equals("")){
+            submit.setVisible(false);
+
+        } else {
+            submit.setVisible(true);
+        }
+
         super.onCreateOptionsMenu(menu);
 
         return true;

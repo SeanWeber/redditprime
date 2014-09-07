@@ -24,16 +24,21 @@ public class BaseActivity extends ActionBarActivity {
         MenuItem user = menu.findItem(R.id.action_user);
         MenuItem settings = menu.findItem(R.id.action_settings);
         MenuItem newMessage = menu.findItem(R.id.action_new_message);
+        MenuItem inbox = menu.findItem(R.id.action_message);
 
         settings.setVisible(false);
 
         if(VolleyRequest.cookie == null || VolleyRequest.cookie.equals("")){
             user.setVisible(false);
             logout.setVisible(false);
+            inbox.setVisible(false);
+
             login.setVisible(true);
         } else {
             user.setVisible(true);
             logout.setVisible(true);
+            inbox.setVisible(true);
+
             login.setVisible(false);
 
             // Set the title the the username of the logged in user
