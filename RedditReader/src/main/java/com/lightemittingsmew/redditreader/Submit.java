@@ -1,6 +1,5 @@
 package com.lightemittingsmew.redditreader;
 
-import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +17,10 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -123,15 +126,29 @@ public class Submit extends ActionBarActivity {
         StringRequest submitRequest = new StringRequest(Request.Method.POST, "http://www.reddit.com/api/submit", new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Toast.makeText(getApplicationContext(), "Post Successful", Toast.LENGTH_SHORT).show();
                 Log.d("SubmitPost", s);
-                finish();
+
+                String errors = "";
+                try {
+                    errors = new JSONObject(s).getJSONObject("json").getJSONArray("errors").getJSONArray(0).getString(1);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                // Show the user whether the post succeeded
+                if(!errors.equals("")){
+                    Toast.makeText(getApplicationContext(), errors, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Post Successful", Toast.LENGTH_SHORT).show();
+
+                    // Return to the previous activity
+                    finish();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 Toast.makeText(getApplicationContext(), "Network error", Toast.LENGTH_SHORT).show();
-                Log.e("SubmitPost", volleyError.getMessage());
             }
         }){
             @Override
