@@ -1,16 +1,13 @@
 package com.lightemittingsmew.redditreader;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Html;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -160,7 +157,7 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
             public void onClick(View v) {
                 Intent intent = new Intent(thisContext, Reply.class);
                 intent.putExtra(PARENT_FULLNAME, comment.getFullName());
-                thisContext.startActivity(intent);
+                ((Activity) thisContext).startActivityForResult(intent, Comments.COMMENT_REPLY_REQUEST);
             }
         });
     }
