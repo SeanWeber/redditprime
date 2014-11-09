@@ -1,5 +1,7 @@
 package com.lightemittingsmew.redditreader;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,7 +48,10 @@ public class Settings extends BaseActivity {
     }
 
     public void setTheme(View view){
-        recreate();
+        // The recreate method is only available in API 11 or greater
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            recreate();
+        }
     }
 
     class ThemeSelectedListener implements AdapterView.OnItemSelectedListener {

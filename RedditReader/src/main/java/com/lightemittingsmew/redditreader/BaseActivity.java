@@ -1,6 +1,7 @@
 package com.lightemittingsmew.redditreader;
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -23,8 +24,12 @@ public class BaseActivity extends ActionBarActivity {
     protected void onResume() {
         //Check if the user selected a new style
         if( style != VolleyRequest.style ){
-            recreate();
+            // The recreate method is only available in API 11 or greater
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                recreate();
+            }
         }
+
         super.onResume();
         supportInvalidateOptionsMenu();
     }
