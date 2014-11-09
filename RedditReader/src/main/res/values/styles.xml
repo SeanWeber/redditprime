@@ -5,4 +5,35 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <color name="dark_background">#222</color>
+    <color name="dark_foreground">#ddd</color>
+
+    <style name="Dark" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+
+        <item name="android:listViewStyle">@style/DarkListView</item>
+        <item name="android:textViewStyle">@style/DarkTextView</item>
+        <item name="android:imageButtonStyle">@style/DarkImageButton</item>
+
+
+        <item name="android:windowBackground">@color/dark_background</item>
+        <item name="android:colorBackground">@color/dark_background</item>
+        <item name="android:textColor">@color/dark_foreground</item>
+    </style>
+
+    <style name="DarkListView" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:background">@color/dark_background</item>
+    </style>
+
+    <style name="DarkTextView" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:background">#333</item>
+    </style>
+
+    <style name="DarkImageButton" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:background">#333</item>
+    </style>
+
+    <style name="Light" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+    </style>
 </resources>

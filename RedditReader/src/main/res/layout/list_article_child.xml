@@ -6,15 +6,13 @@
     android:id="@+id/linearLayoutArticleChild"
     android:paddingLeft="20dp"
     android:paddingRight="5dp"
-    android:paddingBottom="5dp"
-    android:background="#ddd">
+    android:paddingBottom="5dp">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="hi"
         android:id="@+id/textViewChild"
-        android:background="#eee"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:paddingTop="8dp" />
@@ -28,7 +26,6 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#aaaaaa"
         android:id="@+id/linearLayoutButtonArea">
 
         <ImageButton
@@ -38,7 +35,6 @@
             android:id="@+id/buttonUpvote"
             android:src="@drawable/upvote"
             android:textSize="12sp"
-            android:background="#eee"
             android:layout_marginRight="1dp"
             android:layout_weight="1"
             android:paddingTop="8dp"
@@ -51,9 +47,10 @@
             android:id="@+id/buttonDownvote"
             android:src="@drawable/downvote"
             android:textSize="12sp"
-            android:background="#eee"
             android:layout_marginRight="1dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"/>
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -62,9 +59,10 @@
             android:id="@+id/buttonComments"
             android:src="@drawable/reply"
             android:textSize="12sp"
-            android:background="#eee"
             android:layout_marginRight="1dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp" />
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -73,7 +71,8 @@
             android:id="@+id/buttonArticle"
             android:src="@drawable/article"
             android:textSize="12sp"
-            android:background="#eee"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp" />
     </LinearLayout>
 </LinearLayout>

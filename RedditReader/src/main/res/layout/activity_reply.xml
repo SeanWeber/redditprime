@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Reply"
-    tools:ignore="MergeRootFrame"
-    android:background="#dddddd" >
+    tools:ignore="MergeRootFrame" >
 
     <LinearLayout
         android:orientation="vertical"
@@ -22,7 +21,6 @@
             android:minLines="8"
             android:minWidth="400dp"
             android:gravity="top"
-            android:background="#eeeeee"
             android:layout_margin="8dp"
             android:padding="8dp"
             android:layout_weight="1" />

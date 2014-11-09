@@ -5,11 +5,26 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 public class BaseActivity extends ActionBarActivity {
+    static final int None = 0;
+    int style;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        style = VolleyRequest.style;
+        setTheme(style);
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     protected void onResume() {
+        //Check if the user selected a new style
+        if( style != VolleyRequest.style ){
+            recreate();
+        }
         super.onResume();
         supportInvalidateOptionsMenu();
     }
@@ -22,11 +37,8 @@ public class BaseActivity extends ActionBarActivity {
         MenuItem logout = menu.findItem(R.id.action_logout);
         MenuItem login = menu.findItem(R.id.action_login);
         MenuItem user = menu.findItem(R.id.action_user);
-        MenuItem settings = menu.findItem(R.id.action_settings);
         MenuItem newMessage = menu.findItem(R.id.action_new_message);
         MenuItem inbox = menu.findItem(R.id.action_message);
-
-        settings.setVisible(false);
 
         if(VolleyRequest.cookie == null || VolleyRequest.cookie.equals("")){
             user.setVisible(false);
@@ -60,8 +72,11 @@ public class BaseActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
-            case R.id.action_settings:
-                return true;
+            case R.id.action_settings:{
+                Intent intent = new Intent(this, Settings.class);
+                this.startActivity(intent);
+                break;
+            }
             case R.id.action_logout:{
                 VolleyRequest.logout(this);
                 finish();

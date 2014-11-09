@@ -10,7 +10,6 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#bbb"
         android:layout_marginBottom="8dp"
         android:paddingBottom="1dp">
 
@@ -20,7 +19,6 @@
             android:text="Unread"
             android:id="@+id/buttonUnreadMessages"
             android:layout_weight="1"
-            android:background="#eee"
             android:paddingRight="8dp"
             android:layout_marginRight="1dp"
             android:onClick="onClickUnread" />
@@ -31,7 +29,6 @@
             android:text="All"
             android:id="@+id/buttonAllMessages"
             android:layout_weight="1"
-            android:background="#eee"
             android:paddingRight="1dp"
             android:layout_marginRight="1dp"
             android:onClick="onClickAll" />
@@ -42,7 +39,6 @@
             android:text="Sent"
             android:id="@+id/buttonSentMessages"
             android:layout_weight="1"
-            android:background="#eee"
             android:onClick="onClickSent" />
     </LinearLayout>
 

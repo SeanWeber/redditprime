@@ -12,8 +12,7 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="#ccc">
+            android:layout_height="wrap_content">
 
             <Button
                 android:layout_width="match_parent"
@@ -22,7 +21,6 @@
                 android:id="@+id/buttonLink"
                 android:layout_weight="1"
                 android:onClick="buttonLinkClick"
-                android:background="#eee"
                 android:layout_marginRight="1dp"/>
 
             <Button
@@ -32,7 +30,6 @@
                 android:id="@+id/buttonText"
                 android:layout_weight="1"
                 android:onClick="buttonTextClick"
-                android:background="#eee"
                 android:layout_marginLeft="1dp"/>
         </LinearLayout>
 

@@ -21,5 +21,6 @@
     <string name="action_launch_browser"></string>
     <string name="action_submit">Submit a new post</string>
     <string name="title_activity_submit">Submit</string>
+    <string name="title_activity_settings">Settings</string>
 
 </resources>

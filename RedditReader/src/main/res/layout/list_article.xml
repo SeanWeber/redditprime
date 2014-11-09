@@ -5,7 +5,6 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#ddd"
     android:minHeight="70dp"
     android:paddingTop="4dp"
     android:paddingLeft="4dp"
@@ -23,7 +22,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#eee"
         android:minHeight="70dp" >
 
         <TextView
@@ -34,7 +32,7 @@
             android:paddingLeft="8dp"
             android:paddingTop="8dp"
             android:paddingRight="8dp"
-            android:paddingBottom="32dp" />
+            android:paddingBottom="40dp" />
 
         <TextView
             android:layout_width="match_parent"

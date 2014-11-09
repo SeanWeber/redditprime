@@ -10,7 +10,6 @@
         android:id="@+id/listViewUserPosts"
         android:layout_gravity="left|top"
         android:divider="@null"
-        android:background="#ccc"
         android:paddingLeft="4dp"
         android:paddingRight="4dp" />
 
