@@ -6,34 +6,82 @@
     </style>
 
     <color name="dark_background">#222</color>
+    <color name="dark_midground">#444</color>
     <color name="dark_foreground">#ddd</color>
 
+    <color name="light_background">#ddd</color>
+    <color name="light_midground">#ccc</color>
+    <color name="light_foreground">#222</color>
+
     <style name="Dark" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-
         <item name="android:listViewStyle">@style/DarkListView</item>
-        <item name="android:textViewStyle">@style/DarkTextView</item>
         <item name="android:imageButtonStyle">@style/DarkImageButton</item>
-
 
         <item name="android:windowBackground">@color/dark_background</item>
         <item name="android:colorBackground">@color/dark_background</item>
         <item name="android:textColor">@color/dark_foreground</item>
+        <item name="android:editTextStyle">@style/DarkEditText</item>
+
+        <item name="articleTitle">@style/DarkTextView</item>
+        <item name="articleChild">@style/DarkTextView</item>
+        <item name="commentText">@style/DarkTextView</item>
+        <item name="commentInfo">@style/DarkTextView</item>
+    </style>
+
+    <style name="Light" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:listViewStyle">@style/LightListView</item>
+        <item name="android:imageButtonStyle">@style/LightImageButton</item>
+
+        <item name="android:windowBackground">@color/light_background</item>
+        <item name="android:colorBackground">@color/light_background</item>
+        <item name="android:textColor">@color/light_foreground</item>
+        <item name="android:editTextStyle">@style/LightEditText</item>
+
+        <item name="articleTitle">@style/LightTextView</item>
+        <item name="articleChild">@style/LightTextView</item>
+        <item name="commentText">@style/LightTextView</item>
+        <item name="commentInfo">@style/LightTextView</item>
     </style>
 
     <style name="DarkListView" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:background">@color/dark_background</item>
+        <item name="android:textViewStyle">@style/DarkTextView</item>
     </style>
 
     <style name="DarkTextView" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:background">#333</item>
+        <item name="android:background">@color/dark_midground</item>
     </style>
 
     <style name="DarkImageButton" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:background">#333</item>
+        <item name="android:background">@color/dark_midground</item>
+        <item name="android:textColor">@color/dark_foreground</item>
     </style>
 
-    <style name="Light" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <style name="DarkEditText" parent="@android:style/Widget.EditText">
+        <item name="android:textColor">@color/dark_foreground</item>
+    </style>
+
+    <style name="LightListView" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:background">@color/light_background</item>
+        <item name="android:textViewStyle">@style/LightTextView</item>
+    </style>
+
+    <style name="LightImageButton" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:background">@color/light_midground</item>
+        <item name="android:textColor">@color/light_foreground</item>
+    </style>
+
+    <style name="LightTextView" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:background">@color/light_midground</item>
+    </style>
+
+    <style name="eStyle" parent="@android:style/Widget.EditText">
+        <item name="android:textColor">@color/dark_foreground</item>
+        <item name="android:background">@color/dark_midground</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="LightEditText" parent="@android:style/Widget.EditText">
+        <item name="android:textColor">@color/light_foreground</item>
     </style>
 </resources>

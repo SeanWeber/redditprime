@@ -23,7 +23,8 @@
             android:gravity="top"
             android:layout_margin="8dp"
             android:padding="8dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            style="?commentText" />
 
         <LinearLayout
             android:orientation="horizontal"

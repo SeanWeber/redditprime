@@ -29,10 +29,11 @@ public class VolleyRequest {
     public static ImageLoader imageLoader;
     public static boolean loadHdThumbnails;
     public static boolean hasNewMessage;
+    public static boolean disableScoreColor;
     public static final String APP_VERSION = "redditReader02";
     public static final String EMPTY_STRING = "";
 
-    public static int style = R.style.Light;
+    public static int style = R.style.Dark;
 
     public static void initQueue(Context context){
         queue = com.android.volley.toolbox.Volley.newRequestQueue(context);

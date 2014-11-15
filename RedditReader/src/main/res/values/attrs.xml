@@ -1,0 +1,6 @@
+<resources>
+    <attr name="articleTitle" format="reference"/>
+    <attr name="articleChild" format="reference"/>
+    <attr name="commentText" format="reference"/>
+    <attr name="commentInfo" format="reference"/>
+</resources>

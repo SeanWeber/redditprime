@@ -16,7 +16,8 @@
         android:paddingLeft="8dp"
         android:paddingTop="4dp"
         android:paddingRight="8dp"
-        android:paddingBottom="4dp" />
+        android:paddingBottom="4dp"
+        style="?commentInfo" />
 
     <TextView
         android:layout_width="match_parent"
@@ -26,7 +27,8 @@
         android:paddingLeft="8dp"
         android:paddingTop="4dp"
         android:paddingRight="8dp"
-        android:paddingBottom="4dp" />
+        android:paddingBottom="4dp"
+        style="?commentText" />
 
     <LinearLayout
         android:orientation="horizontal"

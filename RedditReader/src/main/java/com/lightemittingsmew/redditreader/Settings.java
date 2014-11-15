@@ -14,6 +14,7 @@ import android.widget.Spinner;
 public class Settings extends BaseActivity {
     Spinner themeSelect;
     String  themes[] = {"Light", "Dark"};
+    int newStyle = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,10 @@ public class Settings extends BaseActivity {
     }
 
     public void setTheme(View view){
+        if(newStyle != 0){
+            VolleyRequest.style = newStyle;
+        }
+
         // The recreate method is only available in API 11 or greater
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             recreate();
@@ -58,9 +63,9 @@ public class Settings extends BaseActivity {
 
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
             if(pos == 0){
-                VolleyRequest.style = R.style.Light;
+                newStyle = R.style.Light;
             } else if(pos == 1){
-                VolleyRequest.style = R.style.Dark;
+                newStyle = R.style.Dark;
             }
         }
 

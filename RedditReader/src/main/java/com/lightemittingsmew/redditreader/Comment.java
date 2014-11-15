@@ -288,21 +288,26 @@ public class Comment implements java.io.Serializable{
     Color becomes more green with upvotes and red with downvotes
      */
     private String pointsColor(){
-        int red   = 64;
-        int green = 64;
-        int blue  = 64;
+        String color = "777";
 
-        if(score < 0){
-            // Negative scores will gain saturation quicker as negative scoring
-            // comments are less likely to be seen
-            red -= score * 8;
-            red = Math.min(red, 127);
-        } else if(score > 0){
-            green += score * 2;
-            green = Math.min(green, 127);
+        if(!VolleyRequest.disableScoreColor){
+            int red   = 120;
+            int green = 120;
+            int blue  = 120;
+
+            if(score < 0){
+                // Negative scores will gain saturation quicker as negative scoring
+                // comments are less likely to be seen
+                red -= score * 8;
+                red = Math.min(red, 190);
+            } else if(score > 0){
+                green += score * 2;
+                green = Math.min(green, 150);
+            }
+            color = Integer.toHexString(red) + Integer.toHexString(green) + Integer.toHexString(blue);
         }
 
-        return Integer.toHexString(red) + Integer.toHexString(green) + Integer.toHexString(blue);
+        return color;
     }
 
     public String getTopText(){

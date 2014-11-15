@@ -15,7 +15,8 @@
         android:id="@+id/textViewChild"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:paddingTop="8dp" />
+        android:paddingTop="8dp"
+        style="?articleChild" />
 
     <com.android.volley.toolbox.NetworkImageView
         android:layout_width="match_parent"
