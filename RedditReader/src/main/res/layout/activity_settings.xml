@@ -31,6 +31,7 @@
         android:layout_below="@+id/spinnerThemeSelect"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:onClick="setTheme" />
+        android:onClick="setTheme"
+        style="?button"/>
 
 </RelativeLayout>

@@ -64,6 +64,7 @@
         android:id="@+id/listViewMessages"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:dividerHeight="4sp" />
 
 </LinearLayout>

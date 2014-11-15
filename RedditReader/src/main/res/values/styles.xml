@@ -8,10 +8,14 @@
     <color name="dark_background">#222</color>
     <color name="dark_midground">#444</color>
     <color name="dark_foreground">#ddd</color>
+    <color name="dark_link">#689</color>
+    <color name="dark_button">#333</color>
 
     <color name="light_background">#ddd</color>
     <color name="light_midground">#ccc</color>
     <color name="light_foreground">#222</color>
+    <color name="light_link">#123</color>
+    <color name="light_button">#ddd</color>
 
     <style name="Dark" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:listViewStyle">@style/DarkListView</item>
@@ -26,6 +30,9 @@
         <item name="articleChild">@style/DarkTextView</item>
         <item name="commentText">@style/DarkTextView</item>
         <item name="commentInfo">@style/DarkTextView</item>
+        <item name="userPosts">@style/DarkUserPosts</item>
+        <item name="link">@style/DarkLink</item>
+        <item name="button">@style/DarkButton</item>
     </style>
 
     <style name="Light" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -41,6 +48,9 @@
         <item name="articleChild">@style/LightTextView</item>
         <item name="commentText">@style/LightTextView</item>
         <item name="commentInfo">@style/LightTextView</item>
+        <item name="userPosts">@style/LightTextView</item>
+        <item name="link">@style/LightLink</item>
+        <item name="button">@style/LightButton</item>
     </style>
 
     <style name="DarkListView" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -59,7 +69,24 @@
 
     <style name="DarkEditText" parent="@android:style/Widget.EditText">
         <item name="android:textColor">@color/dark_foreground</item>
+        <item name="android:background">@color/dark_midground</item>
     </style>
+
+    <style name="DarkUserPosts" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:background">@color/dark_midground</item>
+        <item name="android:textColor">@color/dark_foreground</item>
+    </style>
+
+    <style name="DarkLink" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textColor">@color/dark_link</item>
+    </style>
+
+    <style name="DarkButton" parent="@android:style/Widget.Button">
+        <item name="android:textColor">@color/dark_foreground</item>
+        <item name="android:background">@color/dark_button</item>
+        <item name="android:layout_margin">4dp</item>
+    </style>
+
 
     <style name="LightListView" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:background">@color/light_background</item>
@@ -83,5 +110,21 @@
 
     <style name="LightEditText" parent="@android:style/Widget.EditText">
         <item name="android:textColor">@color/light_foreground</item>
+        <item name="android:background">@color/light_midground</item>
+    </style>
+
+    <style name="LightUserPosts" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:background">@color/light_midground</item>
+        <item name="android:textColor">@color/light_foreground</item>
+    </style>
+
+    <style name="LightLink" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textColor">@color/light_link</item>
+    </style>
+
+    <style name="LightButton" parent="@android:style/Widget.Button">
+        <item name="android:textColor">@color/light_foreground</item>
+        <item name="android:background">@color/light_button</item>
+        <item name="android:layout_margin">4dp</item>
     </style>
 </resources>

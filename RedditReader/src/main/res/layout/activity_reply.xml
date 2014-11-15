@@ -23,8 +23,7 @@
             android:gravity="top"
             android:layout_margin="8dp"
             android:padding="8dp"
-            android:layout_weight="1"
-            style="?commentText" />
+            android:layout_weight="1" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -38,7 +37,8 @@
                 android:text="Reply"
                 android:id="@+id/buttonReply"
                 android:layout_weight="1"
-                android:layout_marginLeft="8dp" />
+                android:layout_marginLeft="8dp"
+                style="?button"/>
 
             <Button
                 android:layout_width="match_parent"
@@ -46,7 +46,8 @@
                 android:text="Cancel"
                 android:id="@+id/buttonCancel"
                 android:layout_weight="1"
-                android:layout_marginRight="8dp" />
+                android:layout_marginRight="8dp"
+                style="?button"/>
         </LinearLayout>
     </LinearLayout>
 

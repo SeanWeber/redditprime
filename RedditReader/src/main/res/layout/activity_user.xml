@@ -11,6 +11,7 @@
         android:layout_gravity="left|top"
         android:divider="@null"
         android:paddingLeft="4dp"
-        android:paddingRight="4dp" />
+        android:paddingRight="4dp"
+        android:dividerHeight="4sp" />
 
 </RelativeLayout>

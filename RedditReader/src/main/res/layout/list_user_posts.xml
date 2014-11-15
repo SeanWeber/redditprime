@@ -5,7 +5,8 @@ android:orientation="vertical"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:baselineAligned="false"
-android:id="@+id/linearLayoutComment" >
+android:id="@+id/linearLayoutComment"
+style="?userPosts" >
 
 <TextView
     android:id="@+id/textViewArticle"
@@ -13,24 +14,23 @@ android:id="@+id/linearLayoutComment" >
     android:layout_height="wrap_content"
     android:text="This is the title of the linked article in question"
     android:layout_marginTop="4dp"
-    android:textColor="#369"
     android:paddingTop="4dp"
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
     android:paddingBottom="4dp"
-    android:textStyle="bold" />
+    android:textStyle="bold"
+    style="?link" />
 
 <TextView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="New Text"
+    android:text="Username 9001 points 10 years ago"
     android:id="@+id/textViewCommentInfo"
-
     android:paddingTop="4dp"
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
     android:paddingBottom="4dp"
-    android:textColor="#369" />
+    android:textSize="10sp" />
 
 <TextView
     android:layout_width="match_parent"
@@ -58,7 +58,8 @@ android:id="@+id/linearLayoutComment" >
         android:paddingBottom="8dp"
         android:cropToPadding="false"
         android:text="Permalink"
-        android:textSize="10sp" />
+        android:textSize="10sp"
+        style="?button" />
 
     <Button
         android:layout_width="match_parent"
@@ -69,7 +70,8 @@ android:id="@+id/linearLayoutComment" >
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:text="Context"
-        android:textSize="10sp" />
+        android:textSize="10sp"
+        style="?button" />
 
     <Button
         android:layout_width="match_parent"
@@ -79,7 +81,8 @@ android:id="@+id/linearLayoutComment" >
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:text="Full Comments"
-        android:textSize="10sp" />
+        android:textSize="10sp"
+        style="?button" />
 
 </LinearLayout>
 

@@ -22,7 +22,8 @@
             android:layout_height="wrap_content"
             android:text="Search"
             android:id="@+id/buttonSubredditSearch"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            style="?button"/>
     </LinearLayout>
 
     <ListView

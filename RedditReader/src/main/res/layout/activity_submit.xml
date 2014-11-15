@@ -21,7 +21,8 @@
                 android:id="@+id/buttonLink"
                 android:layout_weight="1"
                 android:onClick="buttonLinkClick"
-                android:layout_marginRight="1dp"/>
+                android:layout_marginRight="1dp"
+                style="?button"/>
 
             <Button
                 android:layout_width="match_parent"
@@ -30,7 +31,8 @@
                 android:id="@+id/buttonText"
                 android:layout_weight="1"
                 android:onClick="buttonTextClick"
-                android:layout_marginLeft="1dp"/>
+                android:layout_marginLeft="1dp"
+                style="?button"/>
         </LinearLayout>
 
         <TextView
@@ -113,5 +115,6 @@
         android:id="@+id/buttonSubmitPost"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:onClick="buttonSubmitClick" />
+        android:onClick="buttonSubmitClick"
+        style="?button"/>
 </RelativeLayout>

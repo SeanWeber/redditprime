@@ -30,6 +30,7 @@
             android:text="Login"
             android:id="@+id/buttonLogin"
             android:onClick="buttonLoginClick"
-            android:layout_gravity="left|bottom" />
+            android:layout_gravity="left|bottom"
+            style="?button"/>
     </LinearLayout>
 </FrameLayout>

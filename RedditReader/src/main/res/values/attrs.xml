@@ -3,4 +3,7 @@
     <attr name="articleChild" format="reference"/>
     <attr name="commentText" format="reference"/>
     <attr name="commentInfo" format="reference"/>
+    <attr name="userPosts" format="reference"/>
+    <attr name="link" format="reference"/>
+    <attr name="button" format="reference"/>
 </resources>
