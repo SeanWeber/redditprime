@@ -33,6 +33,11 @@ public class VolleyRequest {
     public static final String APP_VERSION = "redditReader02";
     public static final String EMPTY_STRING = "";
 
+    public static int loadHdThumbnailSetting;
+    public static final int AlwaysLoad = 0;
+    public static final int WifiLoad   = 1;
+    public static final int NeverLoad  = 2;
+
     public static int style = R.style.Dark;
 
     public static void initQueue(Context context){

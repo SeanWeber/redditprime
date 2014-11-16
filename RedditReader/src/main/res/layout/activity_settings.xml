@@ -36,37 +36,37 @@
         android:onClick="setTheme"
         android:layout_toRightOf="@+id/spinnerThemeSelect"
         style="?button"
-        android:padding="8dp"
-         />
+        android:padding="8dp" />
 
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Colorize comment scores"
-        android:id="@+id/checkBox"
+        android:id="@+id/checkBoxColorize"
         android:layout_below="@+id/spinnerThemeSelect"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:onClick="onColorizeClicked" />
 
     <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_below="@+id/checkBox"
+        android:layout_below="@+id/checkBoxColorize"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         >
-        <RadioButton android:id="@+id/radio_pirates"
+        <RadioButton android:id="@+id/radio_load_hd_always"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Always"
-            android:onClick="onRadioButtonClicked"/>
-        <RadioButton android:id="@+id/radio_ninjas"
+            android:onClick="onRadioButtonClicked" />
+        <RadioButton android:id="@+id/radio_load_hd_wifi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Wi-fi only"
             android:onClick="onRadioButtonClicked"/>
-        <RadioButton android:id="@+id/radio_ninjas"
+        <RadioButton android:id="@+id/radio_load_hd_never"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Never"

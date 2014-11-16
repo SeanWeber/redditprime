@@ -288,7 +288,7 @@ public class Comment implements java.io.Serializable{
     Color becomes more green with upvotes and red with downvotes
      */
     private String pointsColor(){
-        String color = "777";
+        String color = "777777";
 
         if(!VolleyRequest.disableScoreColor){
             int red   = 120;

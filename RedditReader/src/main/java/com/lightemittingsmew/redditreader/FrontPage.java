@@ -192,9 +192,14 @@ public class FrontPage extends BaseActivity {
         ConnectivityManager cManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         VolleyRequest.initQueue(this.getApplication());
 
-        // Only load HD thumbnails when connected to wi-fi
-        VolleyRequest.loadHdThumbnails = cManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
-                .isConnectedOrConnecting();
+        // Decide whether HD thumbnails should be loaded
+        if(VolleyRequest.loadHdThumbnailSetting == VolleyRequest.AlwaysLoad){
+            VolleyRequest.loadHdThumbnails = true;
+        } else if(VolleyRequest.loadHdThumbnailSetting == VolleyRequest.WifiLoad){
+            VolleyRequest.loadHdThumbnails = cManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnectedOrConnecting();
+        } else {
+            VolleyRequest.loadHdThumbnails = false;
+        }
 
         context = this;
         listViewStories = (ExpandableListView) findViewById(R.id.listViewStories);
