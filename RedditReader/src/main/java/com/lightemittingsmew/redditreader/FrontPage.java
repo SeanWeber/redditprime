@@ -186,11 +186,14 @@ public class FrontPage extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        VolleyRequest.initQueue(this.getApplication());
+        style = VolleyRequest.style;
+        setTheme(style);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_front_page);
 
         ConnectivityManager cManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        VolleyRequest.initQueue(this.getApplication());
 
         // Decide whether HD thumbnails should be loaded
         if(VolleyRequest.loadHdThumbnailSetting == VolleyRequest.AlwaysLoad){

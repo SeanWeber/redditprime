@@ -1,7 +1,9 @@
 package com.lightemittingsmew.redditreader;
 
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,11 +17,13 @@ public class Settings extends BaseActivity {
     Spinner themeSelect;
     String  themes[] = {"Reddit Silver", "Night Shift"};
     int newStyle = 0;
+    SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Set up the theme select spinner
         themeSelect = (Spinner)findViewById(R.id.spinnerThemeSelect);
@@ -78,11 +82,16 @@ public class Settings extends BaseActivity {
     public void setTheme(View view){
         if(newStyle != 0){
             VolleyRequest.style = newStyle;
-        }
 
-        // The recreate method is only available in API 11 or greater
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            recreate();
+            // Save the value so it persists after the app is closed
+            SharedPreferences.Editor prefEditor = preferences.edit();
+            prefEditor.putInt("Style", newStyle);
+            prefEditor.commit();
+
+            // The recreate method is only available in API 11 or greater
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                recreate();
+            }
         }
     }
 
@@ -108,11 +117,21 @@ public class Settings extends BaseActivity {
                 }
                 break;
         }
+
+        // Save the value so it persists after the app is closed
+        SharedPreferences.Editor prefEditor = preferences.edit();
+        prefEditor.putInt("LoadHdThumbnailSetting", VolleyRequest.loadHdThumbnailSetting);
+        prefEditor.commit();
     }
 
     public void onColorizeClicked(View view){
         boolean checked = ((CheckBox) view).isChecked();
         VolleyRequest.disableScoreColor = !checked;
+
+        // Save the value so it persists after the app is closed
+        SharedPreferences.Editor prefEditor = preferences.edit();
+        prefEditor.putBoolean("DisableScoreColor", VolleyRequest.disableScoreColor);
+        prefEditor.commit();
     }
 
     class ThemeSelectedListener implements AdapterView.OnItemSelectedListener {

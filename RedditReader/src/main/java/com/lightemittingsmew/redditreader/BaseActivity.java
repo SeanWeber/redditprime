@@ -15,13 +15,18 @@ public class BaseActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        style = VolleyRequest.style;
-        setTheme(style);
+        if( style != VolleyRequest.style ){
+            style = VolleyRequest.style;
+            setTheme(style);
+        }
         super.onCreate(savedInstanceState);
     }
 
     @Override
     protected void onResume() {
+        super.onResume();
+        supportInvalidateOptionsMenu();
+
         //Check if the user selected a new style
         if( style != VolleyRequest.style ){
             // The recreate method is only available in API 11 or greater
@@ -29,9 +34,6 @@ public class BaseActivity extends ActionBarActivity {
                 recreate();
             }
         }
-
-        super.onResume();
-        supportInvalidateOptionsMenu();
     }
 
     @Override

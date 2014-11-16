@@ -48,6 +48,10 @@ public class VolleyRequest {
             cookie = preferences.getString("Cookie", "");
             modhash = preferences.getString("Modhash", "");
             user = preferences.getString("User", "");
+
+            loadHdThumbnailSetting = preferences.getInt("LoadHdThumbnailSetting", WifiLoad);
+            style = preferences.getInt("Style", R.style.Dark);
+            disableScoreColor = preferences.getBoolean("DisableScoreColor", false);
         }
 
         imageLoader = new ImageLoader(VolleyRequest.queue, new ImageLoader.ImageCache() {
