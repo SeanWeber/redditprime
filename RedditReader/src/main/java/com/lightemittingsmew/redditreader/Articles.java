@@ -26,6 +26,7 @@ public class Articles extends BaseActivity {
     public static final String ARTICLE_TITLE = "com.lightemittingsmew.redditreader.ARTICLE_TITLE";
     String url;
     String title;
+    WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class Articles extends BaseActivity {
             setTitle(title);
         }
 
-        WebView webView = (WebView) findViewById(R.id.webViewArticle);
+        webView = (WebView) findViewById(R.id.webViewArticle);
 
         // Enable javascript
         webView.getSettings().setJavaScriptEnabled(true);
@@ -59,6 +60,16 @@ public class Articles extends BaseActivity {
 
         webView.loadUrl(url);
         addBanner();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            // The webview thread must be manually closed
+            webView.onPause();
+        }
     }
 
     /**
