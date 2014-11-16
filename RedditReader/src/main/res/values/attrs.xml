@@ -6,4 +6,5 @@
     <attr name="userPosts" format="reference"/>
     <attr name="link" format="reference"/>
     <attr name="button" format="reference"/>
+    <attr name="dropDown" format="reference"/>
 </resources>

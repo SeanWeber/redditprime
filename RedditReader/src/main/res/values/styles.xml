@@ -33,6 +33,7 @@
         <item name="userPosts">@style/DarkUserPosts</item>
         <item name="link">@style/DarkLink</item>
         <item name="button">@style/DarkButton</item>
+        <item name="dropDown">@style/DarkDropDown</item>
     </style>
 
     <style name="Light" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -51,6 +52,7 @@
         <item name="userPosts">@style/LightTextView</item>
         <item name="link">@style/LightLink</item>
         <item name="button">@style/LightButton</item>
+        <item name="dropDown">@style/DarkDropDown</item>
     </style>
 
     <style name="DarkListView" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -86,6 +88,14 @@
         <item name="android:background">@color/dark_button</item>
         <item name="android:layout_margin">4dp</item>
     </style>
+
+    <style name="DarkDropDown" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:background">@color/dark_midground</item>
+        <item name="android:textColor">@color/dark_foreground</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:padding">12dp</item>
+    </style>
+
 
 
     <style name="LightListView" parent="Theme.AppCompat.Light.DarkActionBar">

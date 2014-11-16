@@ -13,7 +13,7 @@ import android.widget.Spinner;
 
 public class Settings extends BaseActivity {
     Spinner themeSelect;
-    String  themes[] = {"Light", "Dark"};
+    String  themes[] = {"Reddit Silver", "Night Shift"};
     int newStyle = 0;
 
     @Override
@@ -23,6 +23,7 @@ public class Settings extends BaseActivity {
 
         themeSelect = (Spinner)findViewById(R.id.spinnerThemeSelect);
         ArrayAdapter<String> themeAdaptor = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, themes);
+        themeAdaptor.setDropDownViewResource(R.layout.spinner_dropdown_item);
         themeSelect.setAdapter(themeAdaptor);
         themeSelect.setOnItemSelectedListener(new ThemeSelectedListener());
     }
