@@ -110,7 +110,11 @@ public class VolleyRequest {
     }
 
     public static void logout(Context context){
-        // Save the cookie so the user does not need to log in each time
+        cookie = "";
+        modhash = "";
+        user = "";
+
+        // Delete the user's credentials
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor prefEditor = preferences.edit();
         prefEditor.putString("Cookie", EMPTY_STRING);

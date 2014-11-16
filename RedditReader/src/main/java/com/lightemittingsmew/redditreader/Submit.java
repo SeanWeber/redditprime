@@ -27,7 +27,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Submit extends ActionBarActivity {
+public class Submit extends BaseActivity {
     Button textButton;
     Button linkButton;
     Button submitButton;

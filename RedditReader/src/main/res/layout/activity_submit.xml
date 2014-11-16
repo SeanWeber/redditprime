@@ -104,7 +104,8 @@
             android:layout_height="wrap_content"
             android:text="Send replies to my inbox"
             android:id="@+id/checkBoxSendReplies"
-            android:layout_margin="16dp" />
+            android:layout_margin="16dp"
+            android:textColor="#777" />
 
     </LinearLayout>
 

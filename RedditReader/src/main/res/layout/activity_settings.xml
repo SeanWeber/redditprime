@@ -13,20 +13,11 @@
         android:text="Theme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView"
+        android:id="@+id/textViewTheme"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinnerThemeSelect"
-        android:layout_below="@+id/textView"
-        android:layout_alignBottom="@+id/buttonSetTheme"
-        android:layout_alignTop="@+id/buttonSetTheme"
-        android:padding="8dp"
-        android:paddingRight="40dp" />
+        android:layout_alignParentStart="true"
+        android:textSize="20sp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -34,25 +25,59 @@
         android:text="Set theme"
         android:id="@+id/buttonSetTheme"
         android:onClick="setTheme"
-        android:layout_toRightOf="@+id/spinnerThemeSelect"
-        style="?button"
-        android:padding="8dp" />
+        android:padding="8dp"
+        android:layout_below="@+id/textViewTheme"
+        style="?button" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerThemeSelect"
+        android:layout_below="@+id/textView"
+        android:layout_alignBottom="@+id/buttonSetTheme"
+        android:layout_alignTop="@+id/buttonSetTheme"
+        android:padding="8dp"
+        android:paddingRight="40dp"
+        android:layout_toRightOf="@+id/buttonSetTheme"/>
+
+    <TextView
+        android:text="Colorize comment scores"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewColorize"
+        android:layout_below="@+id/spinnerThemeSelect"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp" />
 
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Colorize comment scores"
         android:id="@+id/checkBoxColorize"
-        android:layout_below="@+id/spinnerThemeSelect"
+        android:layout_below="@+id/textViewColorize"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:onClick="onColorizeClicked" />
+        android:onClick="onColorizeClicked"
+        android:textColor="#777" />
+
+    <TextView
+        android:text="Load high resolution thumbnails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewLoadHdSelect"
+        android:layout_below="@+id/checkBoxColorize"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp" />
 
     <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_below="@+id/checkBoxColorize"
+        android:layout_below="@+id/textViewLoadHdSelect"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         >
@@ -60,17 +85,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Always"
-            android:onClick="onRadioButtonClicked" />
+            android:onClick="onRadioButtonClicked"
+            android:textColor="#777" />
         <RadioButton android:id="@+id/radio_load_hd_wifi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Wi-fi only"
-            android:onClick="onRadioButtonClicked"/>
+            android:onClick="onRadioButtonClicked"
+            android:textColor="#777" />
         <RadioButton android:id="@+id/radio_load_hd_never"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Never"
-            android:onClick="onRadioButtonClicked"/>
+            android:onClick="onRadioButtonClicked"
+            android:textColor="#777" />
     </RadioGroup>
 
 </RelativeLayout>
