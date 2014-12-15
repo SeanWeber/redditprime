@@ -193,7 +193,7 @@ public class Comment implements java.io.Serializable{
         isUpvoted = !isUpvoted;
         if(isDownvoted()){
             isDownvoted = false;
-            score--;
+            score++;
         }
 
         VolleyRequest.vote(voteDirection, fullname);
