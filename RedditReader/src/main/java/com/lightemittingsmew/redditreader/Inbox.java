@@ -30,9 +30,9 @@ import java.util.Map;
 public class Inbox extends BaseActivity {
     public static final String NEW_MESSAGE = "com.lightemittingsmew.redditreader.NEW_MESSAGE";
 
-    final String urlAll = "http://www.reddit.com/message/inbox/.json";
-    final String urlUnread = "http://www.reddit.com/message/unread.json";
-    final String urlSent = "http://www.reddit.com/message/sent.json";
+    final String urlAll = "https://www.reddit.com/message/inbox/.json";
+    final String urlUnread = "https://www.reddit.com/message/unread.json";
+    final String urlSent = "https://www.reddit.com/message/sent.json";
 
     Button buttonUnreadMessages;
     Button buttonSentMessages;
@@ -166,7 +166,7 @@ public class Inbox extends BaseActivity {
         }
 
         final String fullnames = names;
-        StringRequest readRequest = new StringRequest(Request.Method.POST, "http://www.reddit.com/api/read_message", new Response.Listener<String>() {
+        StringRequest readRequest = new StringRequest(Request.Method.POST, "https://www.reddit.com/api/read_message", new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 markCommentsRead = false;

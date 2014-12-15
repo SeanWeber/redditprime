@@ -138,7 +138,7 @@ public class Comments extends BaseActivity {
     private void addNewComment(String parentFullname){
         final String parentName = parentFullname.substring(3);
 
-        final String commentURL = "http://www.reddit.com/r/"+ currentArticle.getSubreddit() + "/comments/"
+        final String commentURL = "https://www.reddit.com/r/"+ currentArticle.getSubreddit() + "/comments/"
                 + currentArticle.getId() +".json?comment=" + parentName;
 
         StringRequest commentReplyRequest = new RedditRequest(Request.Method.GET, commentURL, new Response.Listener<String>() {

@@ -46,7 +46,7 @@ public class SubredditSearch extends BaseActivity {
     }
 
     private void search(String query){
-        String url = "http://www.reddit.com/subreddits/search.json?q=" + query;
+        String url = "https://www.reddit.com/subreddits/search.json?q=" + query;
 
         final StringRequest subredditRequest = new RedditRequest(Request.Method.GET, url, new Response.Listener<String>() {
 

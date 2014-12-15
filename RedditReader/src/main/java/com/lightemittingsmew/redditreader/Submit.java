@@ -109,7 +109,7 @@ public class Submit extends BaseActivity {
     }
 
     public void submit(final String kind, final Boolean sendReplies, final String subreddit, final String text, final String title, final String url){
-        StringRequest submitRequest = new StringRequest(Request.Method.POST, "http://www.reddit.com/api/submit", new Response.Listener<String>() {
+        StringRequest submitRequest = new StringRequest(Request.Method.POST, "https://www.reddit.com/api/submit", new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 Log.d("SubmitPost", s);
@@ -146,7 +146,7 @@ public class Submit extends BaseActivity {
                 }
 
                 headers.put("Cookie", VolleyRequest.cookie);
-                headers.put("User-Agent", "redditReader01");
+                headers.put("User-Agent", VolleyRequest.APP_VERSION);
 
                 return headers;
             }

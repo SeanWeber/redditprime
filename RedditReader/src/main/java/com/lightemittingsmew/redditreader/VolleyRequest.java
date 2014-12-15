@@ -30,7 +30,7 @@ public class VolleyRequest {
     public static boolean loadHdThumbnails;
     public static boolean hasNewMessage;
     public static boolean disableScoreColor;
-    public static final String APP_VERSION = "redditReader02";
+    public static final String APP_VERSION = "redditReader0.3 by smew";
     public static final String EMPTY_STRING = "";
 
     public static int loadHdThumbnailSetting;
@@ -70,7 +70,7 @@ public class VolleyRequest {
     }
 
     public static void vote(final String voteDirection, final String fullname){
-        StringRequest upvoteRequest = new StringRequest(Request.Method.POST, "http://www.reddit.com/api/vote", new Response.Listener<String>() {
+        StringRequest upvoteRequest = new StringRequest(Request.Method.POST, "https://www.reddit.com/api/vote", new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
 

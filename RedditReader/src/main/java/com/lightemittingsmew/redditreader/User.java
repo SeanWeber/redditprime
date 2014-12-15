@@ -35,7 +35,7 @@ public class User extends BaseActivity {
 
         if (savedInstanceState == null) {
             userName = VolleyRequest.user;
-            final String url = "http://www.reddit.com/user/" + userName + "/.json";
+            final String url = "https://www.reddit.com/user/" + userName + "/.json";
             StringRequest jsonArrayRequest = new RedditRequest(Request.Method.GET, url, new Response.Listener<String>() {
 
                 @Override

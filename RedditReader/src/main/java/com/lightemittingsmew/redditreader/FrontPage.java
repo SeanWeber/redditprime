@@ -58,7 +58,7 @@ public class FrontPage extends BaseActivity {
     }
 
     public void loadMore(){
-        String url = "http://www.reddit.com" + subreddit + "/.json";
+        String url = "https://www.reddit.com" + subreddit + "/.json";
 
         if(listStories == null){
             listStories = new ArrayList<Article>();
@@ -79,10 +79,10 @@ public class FrontPage extends BaseActivity {
     }
 
     public void fetchSubreddits(String after){
-        String url = "http://www.reddit.com/subreddits/.json";
+        String url = "https://www.reddit.com/subreddits/.json";
 
         if(!VolleyRequest.cookie.equals("")){
-            url = "http://www.reddit.com/subreddits/mine/subscriber/.json";
+            url = "https://www.reddit.com/subreddits/mine/subscriber/.json";
             if(!after.equals("")){
                 url = url + "?after=" + after;
             }
@@ -319,7 +319,7 @@ public class FrontPage extends BaseActivity {
     }
 
     private void checkNewMessages(){
-        final String url = "http://www.reddit.com/message/unread/.json";
+        final String url = "https://www.reddit.com/message/unread/.json";
 
         final StringRequest messageRequest = new RedditRequest(Request.Method.GET, url, new Response.Listener<String>() {
 

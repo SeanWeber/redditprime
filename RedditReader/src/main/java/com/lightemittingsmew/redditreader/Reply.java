@@ -82,7 +82,7 @@ public class Reply extends BaseActivity {
     }
 
     public void reply(final String replyText, final String fullname, final Context context){
-        StringRequest replyRequest = new StringRequest(Request.Method.POST, "http://www.reddit.com/api/comment", new Response.Listener<String>() {
+        StringRequest replyRequest = new StringRequest(Request.Method.POST, "https://www.reddit.com/api/comment", new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 Log.d("CommentReply", s);
@@ -122,7 +122,7 @@ public class Reply extends BaseActivity {
                 }
 
                 headers.put("Cookie", VolleyRequest.cookie);
-                headers.put("User-Agent", "redditReader01");
+                headers.put("User-Agent", VolleyRequest.APP_VERSION);
 
                 return headers;
             }

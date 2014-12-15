@@ -138,7 +138,7 @@ public class UserArrayAdapter extends ArrayAdapter<Comment> {
             @Override
             public void onClick(View v) {
 
-                final String url = "http://www.reddit.com/r/"+ subreddit + "/comments/"
+                final String url = "https://www.reddit.com/r/"+ subreddit + "/comments/"
                         + parentId +".json?comment=" + id;
                 Intent intent = new Intent(thisContext, Comments.class);
                 intent.putExtra(ArticleArrayAdapter.COMMENT_URL, url);
@@ -149,7 +149,7 @@ public class UserArrayAdapter extends ArrayAdapter<Comment> {
         buttonContext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String url = "http://www.reddit.com/r/"+ subreddit + "/comments/"
+                final String url = "https://www.reddit.com/r/"+ subreddit + "/comments/"
                         + parentId +".json?comment=" + id + "&context=3";
                 Intent intent = new Intent(thisContext, Comments.class);
                 intent.putExtra(ArticleArrayAdapter.COMMENT_URL, url);
@@ -160,7 +160,7 @@ public class UserArrayAdapter extends ArrayAdapter<Comment> {
         buttonComments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String url = "http://www.reddit.com/r/"+ subreddit + "/comments/"
+                final String url = "https://www.reddit.com/r/"+ subreddit + "/comments/"
                         + parentId +".json";
                 Intent intent = new Intent(thisContext, Comments.class);
                 intent.putExtra(ArticleArrayAdapter.COMMENT_URL, url);

@@ -346,7 +346,7 @@ public class Comment implements java.io.Serializable{
 
     public String getContext(){
         String[] parts = contextLink.split("\\?");
-        return "http://www.reddit.com" + parts[0] + ".json";
+        return "https://www.reddit.com" + parts[0] + ".json";
     }
 
     public Spanned getParsedBody(Context context){
