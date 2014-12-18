@@ -17,7 +17,7 @@
     <color name="light_link">#123</color>
     <color name="light_button">#aaa</color>
 
-    <style name="Dark" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="Dark" parent="Theme.AppCompat">
         <item name="android:listViewStyle">@style/DarkListView</item>
         <item name="android:imageButtonStyle">@style/DarkImageButton</item>
 
@@ -55,16 +55,16 @@
         <item name="dropDown">@style/LightDropDown</item>
     </style>
 
-    <style name="DarkListView" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="DarkListView" parent="Theme.AppCompat">
         <item name="android:background">@color/dark_background</item>
         <item name="android:textViewStyle">@style/DarkTextView</item>
     </style>
 
-    <style name="DarkTextView" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="DarkTextView" parent="Theme.AppCompat">
         <item name="android:background">@color/dark_midground</item>
     </style>
 
-    <style name="DarkImageButton" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="DarkImageButton" parent="Theme.AppCompat">
         <item name="android:background">@color/dark_midground</item>
         <item name="android:textColor">@color/dark_foreground</item>
     </style>
@@ -74,12 +74,12 @@
         <item name="android:background">@color/dark_midground</item>
     </style>
 
-    <style name="DarkUserPosts" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="DarkUserPosts" parent="Theme.AppCompat">
         <item name="android:background">@color/dark_midground</item>
         <item name="android:textColor">@color/dark_foreground</item>
     </style>
 
-    <style name="DarkLink" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="DarkLink" parent="Theme.AppCompat">
         <item name="android:textColor">@color/dark_link</item>
     </style>
 
@@ -89,7 +89,7 @@
         <item name="android:layout_margin">4dp</item>
     </style>
 
-    <style name="DarkDropDown" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="DarkDropDown" parent="Theme.AppCompat">
         <item name="android:background">@color/dark_midground</item>
         <item name="android:textColor">@color/dark_foreground</item>
         <item name="android:layout_gravity">center</item>
