@@ -11,15 +11,16 @@
 
         <EditText
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/textSubredditSearch"
             android:layout_weight="5"
             android:inputType="text"
-            android:padding="8dp" />
+            android:padding="7dp"
+            android:layout_margin="4dp" />
 
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="Search"
             android:id="@+id/buttonSubredditSearch"
             android:layout_weight="1"
@@ -30,6 +31,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/listViewsubredditResults"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:drawSelectorOnTop="false"
+        android:footerDividersEnabled="true"
+        android:headerDividersEnabled="true" />
 
 </LinearLayout>

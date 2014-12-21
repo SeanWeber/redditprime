@@ -3,7 +3,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/layoutSubreddit">
+    android:id="@+id/layoutSubreddit"
+    android:layout_marginBottom="4dp">
 
     <TextView
         android:layout_width="match_parent"
@@ -11,10 +12,10 @@
         android:text="Subreddit Name"
         android:id="@+id/textViewSubredditName"
         android:layout_gravity="center_horizontal"
-        android:textColor="#369"
         android:textStyle="bold"
         android:textSize="20dp"
-        android:layout_margin="8dp" />
+        android:padding="8dp"
+        style="?articleTitle"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -22,16 +23,18 @@
         android:text="Subreddit Description"
         android:id="@+id/textViewSubredditDescription"
         android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp" />
+        android:padding="8dp"
+        style="?articleTitle"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Subreddit info"
         android:id="@+id/textViewSubredditInfo"
-        android:layout_margin="8dp"
-        android:textSize="8sp"
+        android:padding="8dp"
+        android:layout_marginBottom="4dp"
+        android:textSize="10sp"
         android:textColor="#666666"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        style="?articleTitle"/>
 </LinearLayout>
