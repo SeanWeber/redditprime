@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/spinnerThemeSelect"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/textViewTheme"
         android:layout_alignBottom="@+id/buttonSetTheme"
         android:layout_alignTop="@+id/buttonSetTheme"
         android:padding="8dp"
