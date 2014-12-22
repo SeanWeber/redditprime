@@ -62,7 +62,7 @@ public class UserArrayAdapter extends ArrayAdapter<Comment> {
 
         layout.setPadding(16 * currentComment.getReplyLevel(), 0, 0, 0);
 
-        body.setText(currentComment.getParsedBody(thisContext));
+        body.setText(currentComment.getParsedBody());
         body.setMovementMethod(LinkMovementMethod.getInstance()); // Make links clickable
 
         setTopText(currentComment);

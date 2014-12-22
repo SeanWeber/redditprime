@@ -28,6 +28,7 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
     ImageButton upvote;
     ImageButton downvote;
     ImageButton reply;
+
     TextView body;
     TextView info;
 
@@ -56,12 +57,29 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
 
         layout.setPadding(16 * currentComment.getReplyLevel(), 0, 0, 0);
 
-        body.setText(currentComment.getParsedBody(thisContext));
+        body.setText(currentComment.getParsedBody());
         body.setMovementMethod(LinkMovementMethod.getInstance()); // Make links clickable
 
-        setTopText(currentComment);
-        toggleCommentVisibility(currentComment, position);
-        setOnClickListeners(currentComment, adapter);
+        info.setText(currentComment.getParsedHeader());
+
+        if(currentComment.isHidden()){
+            // Hide the entire comment
+            info.setVisibility(View.GONE);
+            body.setVisibility(View.GONE);
+            buttons.setVisibility(View.GONE);
+        } else if(currentComment.isCollapsed()){
+            // Only show the top bar
+            info.setVisibility(View.VISIBLE);
+            body.setVisibility(View.GONE);
+            buttons.setVisibility(View.GONE);
+        } else {
+            // Show everything
+            info.setVisibility(View.VISIBLE);
+            body.setVisibility(View.VISIBLE);
+            buttons.setVisibility(View.VISIBLE);
+        }
+
+        setOnClickListeners(currentComment, adapter, position);
 
         if(currentComment.isUpvoted()){
             upvote.setImageResource(R.drawable.upvoteactive);
@@ -83,10 +101,6 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
         return convertView;
     }
 
-    private void setTopText(Comment comment){
-        info.setText(Html.fromHtml(comment.getTopText()));
-    }
-
     private void toggleCommentVisibility(Comment comment, int position){
         if(comment.isCollapsed()) {
             // Hide all child comments
@@ -105,30 +119,14 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
                 nextComment++;
             }
         }
-
-        if(comment.isHidden()){
-            // Hide the entire comment
-            info.setVisibility(View.GONE);
-            body.setVisibility(View.GONE);
-            buttons.setVisibility(View.GONE);
-        } else if(comment.isCollapsed()){
-            // Only show the top bar
-            info.setVisibility(View.VISIBLE);
-            body.setVisibility(View.GONE);
-            buttons.setVisibility(View.GONE);
-        } else {
-            // Show everything
-            info.setVisibility(View.VISIBLE);
-            body.setVisibility(View.VISIBLE);
-            buttons.setVisibility(View.VISIBLE);
-        }
     }
 
-    private void setOnClickListeners(final Comment comment, final CommentArrayAdapter adapter){
+    private void setOnClickListeners(final Comment comment, final CommentArrayAdapter adapter, final int position){
         View.OnClickListener toggleVisibility = new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 comment.toggle();
+                toggleCommentVisibility(comment, position);
                 adapter.notifyDataSetChanged();
             }
         };
@@ -140,6 +138,7 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
             @Override
             public void onClick(View v) {
                 comment.upVote();
+                comment.parseHeaderText();
                 adapter.notifyDataSetChanged();
             }
         });
@@ -148,6 +147,7 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
             @Override
             public void onClick(View v) {
                 comment.downVote();
+                comment.parseHeaderText();
                 adapter.notifyDataSetChanged();
             }
         });

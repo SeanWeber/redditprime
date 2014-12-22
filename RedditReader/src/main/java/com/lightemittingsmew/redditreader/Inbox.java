@@ -105,6 +105,14 @@ public class Inbox extends BaseActivity {
             e.printStackTrace();
         }
         listComments = Comment.parseCommentArray(comments, op, 0);
+
+        // Parse the comment HTML and format it
+        for(Comment comment : listComments)
+        {
+            comment.parseHeaderText();
+            comment.parseBodyText(this);
+        }
+
         writeComments();
     }
 
