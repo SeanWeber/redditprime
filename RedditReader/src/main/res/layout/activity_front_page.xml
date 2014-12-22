@@ -31,7 +31,8 @@ android:layout_height="match_parent">
                 android:id="@+id/listViewStories"
                 android:layout_gravity="center_horizontal"
                 android:groupIndicator="@null"
-                android:divider="#00000000" />
+                android:divider="#10FFFFFF"
+                android:dividerHeight="1dp" />
         </LinearLayout>
     </FrameLayout>
 <!-- The navigation drawer -->
@@ -40,5 +41,6 @@ android:layout_height="match_parent">
     android:layout_height="match_parent"
     android:layout_gravity="start"
     android:choiceMode="singleChoice"
-    />
+    android:dividerHeight="1dp"
+    android:divider="#66666666" />
 </android.support.v4.widget.DrawerLayout>

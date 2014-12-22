@@ -212,9 +212,7 @@ public class Comments extends BaseActivity {
         LinearLayout buttonArea = (LinearLayout) child.findViewById(R.id.linearLayoutButtonArea);
 
         String thumbnailUrl = article.getThumbnail();
-        String score = "<font color='#666666'>" + article.getScore() +
-                " points by " + article.getAuthor() + " in /r/" +
-                article.getSubreddit() + "</font>";
+        String score = String.format("%s points by %s in /r/%s", article.getScore(), article.getAuthor(), article.getSubreddit());
 
         textViewTitle.setText(article.getTitle());
         textViewScore.setText(Html.fromHtml(score));

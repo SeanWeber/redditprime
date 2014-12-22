@@ -62,9 +62,12 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
         Article currentArticle = articles.get(groupPosition);
         String thumbnailUrl = currentArticle.getThumbnail();
         String title = currentArticle.getTitle();
-        String score = String.format("<font color='#666666'>%s points by %s in /r/%s %s<br>%d comments</font>",
-                currentArticle.getScore(), currentArticle.getAuthor(),
-                currentArticle.getSubreddit(), currentArticle.timeAgo(), currentArticle.getComments());
+        String score = String.format("%s points by %s %s<br>%d comments in /r/%s",
+                                     currentArticle.getScore(),
+                                     currentArticle.getAuthor(),
+                                     currentArticle.timeAgo(),
+                                     currentArticle.getComments(),
+                                     currentArticle.getSubreddit());
 
         holder.textListChild.setText(title);
         holder.textViewScore.setText(Html.fromHtml(score));

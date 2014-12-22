@@ -41,8 +41,9 @@
             android:text="1234"
             android:id="@+id/textViewScore"
             android:padding="8dp"
-            android:textSize="8sp"
-            android:layout_alignParentBottom="true"/>
+            android:textSize="9sp"
+            android:layout_alignParentBottom="true"
+            android:alpha=".5" />
 
     </RelativeLayout>
 
