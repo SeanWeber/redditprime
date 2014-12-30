@@ -31,8 +31,7 @@ android:layout_height="match_parent">
                 android:id="@+id/listViewStories"
                 android:layout_gravity="center_horizontal"
                 android:groupIndicator="@null"
-                android:divider="#10FFFFFF"
-                android:dividerHeight="1dp" />
+                android:divider="#10FFFFFF" />
         </LinearLayout>
     </FrameLayout>
 <!-- The navigation drawer -->

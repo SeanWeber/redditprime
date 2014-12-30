@@ -19,7 +19,7 @@
         android:paddingRight="8dp"
         android:paddingBottom="4dp"
         android:textStyle="bold"
-        style="?link" />
+        />
 
     <TextView
         android:layout_width="match_parent"
@@ -30,7 +30,7 @@
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:paddingBottom="4dp"
-        android:textColor="#369" />
+        />
 
     <TextView
         android:layout_width="match_parent"
@@ -54,11 +54,9 @@
             android:id="@+id/buttonMessageContext"
             android:layout_weight="1"
             android:layout_marginRight="1dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
             android:text="Context"
             android:textSize="10sp"
-            style="?button"/>
+            />
 
         <Button
             android:layout_width="match_parent"
@@ -66,23 +64,19 @@
             android:id="@+id/buttonMessageReply"
             android:layout_weight="1"
             android:layout_marginRight="1dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
             android:cropToPadding="false"
             android:text="Reply"
             android:textSize="10sp"
-            style="?button" />
+            />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/buttonMessageComments"
             android:layout_weight="1"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
             android:text="Full Comments"
             android:textSize="10sp"
-            style="?button"/>
+            />
 
     </LinearLayout>
 

@@ -83,7 +83,7 @@ public class User extends BaseActivity {
             comment.parseHeaderText();
             comment.parseBodyText(this);
         }
-        
+
         writeComments();
     }
 
