@@ -7,7 +7,9 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,7 +33,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-public class FrontPage extends BaseActivity {
+public class FrontPage extends BaseActivity implements ActionBar.TabListener{
     private Context context;
     ExpandableListView listViewStories;
     ArrayList<Article> listStories;
@@ -39,8 +41,11 @@ public class FrontPage extends BaseActivity {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     String subreddit;
+    String sortBy;
     ProgressBar progressbar;
     final ArrayList<String> subreddits = new ArrayList<String>();
+
+    final String TabHot = "Hot";
 
     private void addStories(String stories){
         ArrayList<Article> newStories = Article.parseArticleList(stories);
@@ -58,7 +63,7 @@ public class FrontPage extends BaseActivity {
     }
 
     public void loadMore(){
-        String url = "https://www.reddit.com" + subreddit + "/.json";
+        String url = "https://www.reddit.com" + subreddit + sortBy + "/.json";
 
         if(listStories == null){
             listStories = new ArrayList<Article>();
@@ -193,6 +198,20 @@ public class FrontPage extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_front_page);
 
+        // Set up the action bar to show tabs.
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+        // for each of the sections in the app, add a tab to the action bar.
+        actionBar.addTab(actionBar.newTab().setText("hot")
+                .setTabListener(this));
+        actionBar.addTab(actionBar.newTab().setText("new")
+                .setTabListener(this));
+        actionBar.addTab(actionBar.newTab().setText("controversial")
+                .setTabListener(this));
+        actionBar.addTab(actionBar.newTab().setText("top")
+                .setTabListener(this));
+
         ConnectivityManager cManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 
         // Decide whether HD thumbnails should be loaded
@@ -215,6 +234,7 @@ public class FrontPage extends BaseActivity {
                     .commit();
 
             subreddit = "";
+            sortBy = "";
 
             // If we're coming from the Subreddit search activity, set the subreddit
             Intent intent = getIntent();
@@ -300,6 +320,23 @@ public class FrontPage extends BaseActivity {
     protected void onSaveInstanceState(final Bundle outState) {
         outState.putSerializable("listStories", listStories);
         outState.putSerializable("subreddits", subreddits);
+    }
+
+    @Override
+    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+        sortBy = "/" + tab.getText().toString();
+        if(listStories != null) {
+            listStories.clear();
+        }
+        loadMore();
+    }
+
+    @Override
+    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+    }
+
+    @Override
+    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
 
     /**
