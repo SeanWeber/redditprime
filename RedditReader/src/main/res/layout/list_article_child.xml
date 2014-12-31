@@ -26,20 +26,19 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/linearLayoutButtonArea">
 
         <ImageButton
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="30dp"
             android:text="Upvote"
             android:id="@+id/buttonUpvote"
             android:src="@drawable/upvote"
             android:textSize="12sp"
             android:layout_marginRight="1dp"
             android:layout_weight="1"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp" />
+            />
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -50,8 +49,7 @@
             android:textSize="12sp"
             android:layout_marginRight="1dp"
             android:layout_weight="1"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"/>
+            />
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -62,18 +60,16 @@
             android:textSize="12sp"
             android:layout_marginRight="1dp"
             android:layout_weight="1"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp" />
+            />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Article"
             android:id="@+id/buttonArticle"
-            android:src="@drawable/article"
+            android:src="@drawable/ic_action_web_site"
             android:textSize="12sp"
             android:layout_weight="1"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp" />
+            />
     </LinearLayout>
 </LinearLayout>

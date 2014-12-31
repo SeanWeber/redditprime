@@ -38,33 +38,30 @@
 
         <ImageButton
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:id="@+id/imageButtonCommentUpvote"
             android:src="@drawable/upvote"
             android:layout_weight="1"
             android:layout_marginRight="1dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:cropToPadding="false" />
+            android:cropToPadding="false"
+            />
 
         <ImageButton
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/imageButtonCommentDownvote"
             android:src="@drawable/downvote"
             android:layout_weight="1"
             android:layout_marginRight="1dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp" />
+            />
 
         <ImageButton
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/imageButtonCommentReply"
             android:src="@drawable/reply"
             android:layout_weight="1"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp" />
+            />
 
     </LinearLayout>
 
