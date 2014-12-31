@@ -40,12 +40,11 @@ public class FrontPage extends BaseActivity implements ActionBar.TabListener{
     ArticleArrayAdapter articleAdapter;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
-    String subreddit;
-    String sortBy;
+    String subreddit = "";
+    String sortBy = "";
     ProgressBar progressbar;
     final ArrayList<String> subreddits = new ArrayList<String>();
-
-    final String TabHot = "Hot";
+    private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
 
     private void addStories(String stories){
         ArrayList<Article> newStories = Article.parseArticleList(stories);
@@ -233,9 +232,6 @@ public class FrontPage extends BaseActivity implements ActionBar.TabListener{
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
 
-            subreddit = "";
-            sortBy = "";
-
             // If we're coming from the Subreddit search activity, set the subreddit
             Intent intent = getIntent();
             if(intent != null){
@@ -320,6 +316,18 @@ public class FrontPage extends BaseActivity implements ActionBar.TabListener{
     protected void onSaveInstanceState(final Bundle outState) {
         outState.putSerializable("listStories", listStories);
         outState.putSerializable("subreddits", subreddits);
+
+        // Serialize the current tab position.
+        outState.putInt(STATE_SELECTED_NAVIGATION_ITEM, getSupportActionBar()
+                .getSelectedNavigationIndex());
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        // Restore the previously serialized current tab position.
+        if (savedInstanceState.containsKey(STATE_SELECTED_NAVIGATION_ITEM)) {
+            getSupportActionBar().setSelectedNavigationItem(savedInstanceState.getInt(STATE_SELECTED_NAVIGATION_ITEM));
+        }
     }
 
     @Override
@@ -327,8 +335,8 @@ public class FrontPage extends BaseActivity implements ActionBar.TabListener{
         sortBy = "/" + tab.getText().toString();
         if(listStories != null) {
             listStories.clear();
+            loadMore();
         }
-        loadMore();
     }
 
     @Override

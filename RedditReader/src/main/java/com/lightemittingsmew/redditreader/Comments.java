@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
@@ -30,7 +32,7 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-public class Comments extends BaseActivity {
+public class Comments extends BaseActivity implements ActionBar.TabListener{
     public static final String ARTICLE_URL = "com.lightemittingsmew.redditreader.ARTICLE_URL";
     public static final String PARENT_FULLNAME = "com.lightemittingsmew.redditreader.PARENT_FULLNAME";
     public static final int COMMENT_REPLY_REQUEST = 1;
@@ -39,6 +41,10 @@ public class Comments extends BaseActivity {
     ProgressBar progressBar;
     Article currentArticle;
     CommentArrayAdapter commentAdapter;
+    String commentURL = "";
+    String sortBy = "";
+    boolean headerIsSet = false;
+    private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,28 +54,32 @@ public class Comments extends BaseActivity {
         listViewComments = (ListView)findViewById(R.id.listViewComments);
         progressBar = (ProgressBar) findViewById(R.id.progressBarComment);
         Intent intent = getIntent();
+        commentURL = intent.getStringExtra(ArticleArrayAdapter.COMMENT_URL);
+
+        // Set up the action bar to show tabs.
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+        // Add tabs to sort stories
+        actionBar.addTab(actionBar.newTab().setText("best")
+                .setTabListener(this));
+        actionBar.addTab(actionBar.newTab().setText("new")
+                .setTabListener(this));
+        actionBar.addTab(actionBar.newTab().setText("controversial")
+                .setTabListener(this));
+        actionBar.addTab(actionBar.newTab().setText("top")
+                .setTabListener(this));
+        actionBar.addTab(actionBar.newTab().setText("hot")
+                .setTabListener(this));
+        actionBar.addTab(actionBar.newTab().setText("old")
+                .setTabListener(this));
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
 
-            final String commentURL = intent.getStringExtra(ArticleArrayAdapter.COMMENT_URL);
-
-            StringRequest jsonArrayRequest = new RedditRequest(Request.Method.GET, commentURL, new Response.Listener<String>() {
-
-                @Override
-                public void onResponse(String response) {
-                    parseComments(response);
-                }
-            }, new Response.ErrorListener() {
-
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                }
-            });
-
-            VolleyRequest.queue.add(jsonArrayRequest);
+            //loadComments();
         } else {
             VolleyRequest.initQueue(this.getApplication());
             listComments = (ArrayList<Comment>)savedInstanceState.getSerializable("listComments");
@@ -82,6 +92,18 @@ public class Comments extends BaseActivity {
     protected void onSaveInstanceState(final Bundle outState) {
         outState.putSerializable("listComments", listComments);
         outState.putSerializable("currentArticle", currentArticle);
+
+        // Save the tab position
+        outState.putInt(STATE_SELECTED_NAVIGATION_ITEM, getSupportActionBar()
+                .getSelectedNavigationIndex());
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        // Restore the previously selected tab
+        if (savedInstanceState.containsKey(STATE_SELECTED_NAVIGATION_ITEM)) {
+            getSupportActionBar().setSelectedNavigationItem(savedInstanceState.getInt(STATE_SELECTED_NAVIGATION_ITEM));
+        }
     }
 
     @Override
@@ -112,6 +134,41 @@ public class Comments extends BaseActivity {
         }
     }
 
+    @Override
+    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+        sortBy = "?sort=" + tab.getText().toString();
+        //if(listComments != null) {
+        //    listComments.clear();
+        //}
+        loadComments();
+    }
+
+    @Override
+    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+    }
+
+    @Override
+    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+    }
+
+    private void loadComments(){
+        String url = commentURL + sortBy;
+        StringRequest jsonArrayRequest = new RedditRequest(Request.Method.GET, url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                parseComments(response);
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        });
+
+        VolleyRequest.queue.add(jsonArrayRequest);
+    }
+
     private void parseComments(String response){
         JSONArray comments = new JSONArray();
         String op = "";
@@ -136,7 +193,10 @@ public class Comments extends BaseActivity {
     }
 
     public void writeComments(){
-        listViewComments.addHeaderView(headerView());
+        if(!headerIsSet) {
+            listViewComments.addHeaderView(headerView());
+            headerIsSet = true;
+        }
         commentAdapter = new CommentArrayAdapter(this, R.layout.list_comment, listComments);
         listViewComments.setAdapter(commentAdapter);
 
