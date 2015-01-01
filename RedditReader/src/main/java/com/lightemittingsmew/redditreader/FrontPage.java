@@ -335,6 +335,7 @@ public class FrontPage extends BaseActivity implements ActionBar.TabListener{
         sortBy = tab.getText().toString();
         if(listStories != null) {
             listStories.clear();
+            articleAdapter.notifyDataSetChanged();
             loadMore();
         }
     }
