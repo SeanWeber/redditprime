@@ -54,19 +54,7 @@ public class VolleyRequest {
             disableScoreColor = preferences.getBoolean("DisableScoreColor", false);
         }
 
-        imageLoader = new ImageLoader(VolleyRequest.queue, new ImageLoader.ImageCache() {
-            private final LruCache<String, Bitmap> mCache = new LruCache<String, Bitmap>(25);
-
-            @Override
-            public void putBitmap(String key, Bitmap value) {
-                mCache.put(key, value);
-            }
-
-            @Override
-            public Bitmap getBitmap(String key) {
-                return mCache.get(key);
-            }
-        });
+        imageLoader = new ImageLoader(VolleyRequest.queue, new BitmapLruCache());
     }
 
     public static void vote(final String voteDirection, final String fullname){
