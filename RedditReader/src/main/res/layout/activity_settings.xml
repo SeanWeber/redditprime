@@ -19,26 +19,15 @@
         android:layout_alignParentStart="true"
         android:textSize="20sp" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Set theme"
-        android:id="@+id/buttonSetTheme"
-        android:onClick="setTheme"
-        android:padding="8dp"
-        android:layout_below="@+id/textViewTheme"
-        style="?button" />
-
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/spinnerThemeSelect"
         android:layout_below="@+id/textViewTheme"
-        android:layout_alignBottom="@+id/buttonSetTheme"
-        android:layout_alignTop="@+id/buttonSetTheme"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:padding="8dp"
-        android:paddingRight="40dp"
-        android:layout_toRightOf="@+id/buttonSetTheme"/>
+        style="?dropDown"/>
 
     <TextView
         android:text="Colorize comment scores"
@@ -100,5 +89,15 @@
             android:onClick="onRadioButtonClicked"
             android:textColor="#777" />
     </RadioGroup>
-
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Apply Changes"
+        android:id="@+id/buttonSetTheme"
+        android:onClick="setTheme"
+        android:padding="8dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        style="?button" />
 </RelativeLayout>
