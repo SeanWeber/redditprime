@@ -2,6 +2,8 @@ package com.lightemittingsmew.redditreader;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -27,16 +29,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Inbox extends BaseActivity {
+public class Inbox extends BaseActivity implements ActionBar.TabListener{
     public static final String NEW_MESSAGE = "com.lightemittingsmew.redditreader.NEW_MESSAGE";
 
     final String urlAll = "https://www.reddit.com/message/inbox/.json";
     final String urlUnread = "https://www.reddit.com/message/unread.json";
     final String urlSent = "https://www.reddit.com/message/sent.json";
-
-    Button buttonUnreadMessages;
-    Button buttonSentMessages;
-    Button buttonAllMessages;
 
     ProgressBar progressBar;
     ListView listViewComments;
@@ -54,9 +52,17 @@ public class Inbox extends BaseActivity {
         progressBar = (ProgressBar)findViewById(R.id.progressBarInbox);
         emptyMessage = (TextView)findViewById(R.id.textViewEmptyMessage);
 
-        buttonUnreadMessages = (Button)findViewById(R.id.buttonUnreadMessages);
-        buttonSentMessages = (Button)findViewById(R.id.buttonSentMessages);
-        buttonAllMessages = (Button)findViewById(R.id.buttonAllMessages);
+        // Set up the action bar to show tabs.
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+        // for each of the sections in the app, add a tab to the action bar.
+        actionBar.addTab(actionBar.newTab().setText("all")
+                .setTabListener(this));
+        actionBar.addTab(actionBar.newTab().setText("unread")
+                .setTabListener(this));
+        actionBar.addTab(actionBar.newTab().setText("sent")
+                .setTabListener(this));
 
         if (savedInstanceState == null) {
             userName = VolleyRequest.user;
@@ -65,9 +71,9 @@ public class Inbox extends BaseActivity {
             final String newMessage = intent.getStringExtra(NEW_MESSAGE);
 
             if(newMessage == null){
-                onClickAll(buttonAllMessages);
+                loadInbox(urlAll);
             } else {
-                onClickUnread(buttonUnreadMessages);
+                loadInbox(urlUnread);
             }
 
         } else {
@@ -76,6 +82,30 @@ public class Inbox extends BaseActivity {
             listComments = (ArrayList<Comment>)savedInstanceState.getSerializable("listUser");
             writeComments();
         }
+    }
+
+    @Override
+    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+        progressBar.setVisibility(View.VISIBLE);
+        listViewComments.setVisibility(View.GONE);
+        emptyMessage.setVisibility(View.GONE);
+
+        if(tab.getText().toString().equals("unread")){
+            markCommentsRead = true;
+            loadInbox(urlUnread);
+        } else if(tab.getText().toString().equals("all")){
+            loadInbox(urlAll);
+        } else if(tab.getText().toString().equals("sent")){
+            loadInbox(urlSent);
+        }
+    }
+
+    @Override
+    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+    }
+
+    @Override
+    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
 
     private void loadInbox(String url){
@@ -130,40 +160,6 @@ public class Inbox extends BaseActivity {
         if(markCommentsRead){
             markMessagesRead();
         }
-    }
-
-    public void onClickUnread(View v){
-        clearButtonColors();
-        v.setBackgroundColor(Color.GRAY);
-
-        markCommentsRead = true;
-
-        loadInbox(urlUnread);
-    }
-
-    public void onClickAll(View v){
-        clearButtonColors();
-        v.setBackgroundColor(Color.GRAY);
-
-        loadInbox(urlAll);
-    }
-
-    public void onClickSent(View v){
-        clearButtonColors();
-        v.setBackgroundColor(Color.GRAY);
-
-        loadInbox(urlSent);
-    }
-
-    private void clearButtonColors(){
-        int inactiveColor = Color.LTGRAY;
-        findViewById(R.id.buttonUnreadMessages).setBackgroundColor(inactiveColor);
-        findViewById(R.id.buttonSentMessages).setBackgroundColor(inactiveColor);
-        findViewById(R.id.buttonAllMessages).setBackgroundColor(inactiveColor);
-
-        progressBar.setVisibility(View.VISIBLE);
-        listViewComments.setVisibility(View.GONE);
-        emptyMessage.setVisibility(View.GONE);
     }
 
     private void markMessagesRead(){

@@ -5,43 +5,6 @@
     android:layout_height="match_parent"
     tools:context="com.lightemittingsmew.redditreader.Inbox">
 
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:paddingBottom="1dp">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Unread"
-            android:id="@+id/buttonUnreadMessages"
-            android:layout_weight="1"
-            android:paddingRight="8dp"
-            android:layout_marginRight="1dp"
-            android:onClick="onClickUnread" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="All"
-            android:id="@+id/buttonAllMessages"
-            android:layout_weight="1"
-            android:paddingRight="1dp"
-            android:layout_marginRight="1dp"
-            android:onClick="onClickAll" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sent"
-            android:id="@+id/buttonSentMessages"
-            android:layout_weight="1"
-            android:onClick="onClickSent" />
-    </LinearLayout>
-
     <ProgressBar
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
