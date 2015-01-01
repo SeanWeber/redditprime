@@ -1,6 +1,8 @@
 package com.lightemittingsmew.redditreader;
 
 import android.graphics.Color;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,9 +29,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Submit extends BaseActivity {
-    Button textButton;
-    Button linkButton;
+public class Submit extends BaseActivity implements ActionBar.TabListener{
     Button submitButton;
 
     TextView urlTitle;
@@ -45,8 +45,6 @@ public class Submit extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submit);
 
-        textButton = (Button) findViewById(R.id.buttonText);
-        linkButton = (Button) findViewById(R.id.buttonLink);
         submitButton = (Button) findViewById(R.id.buttonSubmitPost);
 
         urlTitle = (TextView) findViewById(R.id.textViewUrl);
@@ -55,33 +53,44 @@ public class Submit extends BaseActivity {
         textTitle = (TextView) findViewById(R.id.textViewText);
         textText = (EditText) findViewById(R.id.editTextText);
 
-        buttonLinkClick(linkButton);
+        // Set up the action bar to show tabs.
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+        // for each of the sections in the app, add a tab to the action bar.
+        actionBar.addTab(actionBar.newTab().setText("link")
+                .setTabListener(this));
+        actionBar.addTab(actionBar.newTab().setText("text")
+                .setTabListener(this));
     }
 
-    public void buttonLinkClick(View view){
-        linkButton.setBackgroundColor(Color.GRAY);
-        textButton.setBackgroundColor(Color.LTGRAY);
+    @Override
+    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+        if(tab.getText().toString().equals("link")){
+            urlTitle.setVisibility(View.VISIBLE);
+            urlText.setVisibility(View.VISIBLE);
 
-        urlTitle.setVisibility(View.VISIBLE);
-        urlText.setVisibility(View.VISIBLE);
+            textTitle.setVisibility(View.GONE);
+            textText.setVisibility(View.GONE);
 
-        textTitle.setVisibility(View.GONE);
-        textText.setVisibility(View.GONE);
+            isTextPost = false;
+        } else {
+            urlTitle.setVisibility(View.GONE);
+            urlText.setVisibility(View.GONE);
 
-        isTextPost = false;
+            textTitle.setVisibility(View.VISIBLE);
+            textText.setVisibility(View.VISIBLE);
+
+            isTextPost = true;
+        }
     }
 
-    public void buttonTextClick(View view){
-        linkButton.setBackgroundColor(Color.LTGRAY);
-        textButton.setBackgroundColor(Color.GRAY);
+    @Override
+    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+    }
 
-        urlTitle.setVisibility(View.GONE);
-        urlText.setVisibility(View.GONE);
-
-        textTitle.setVisibility(View.VISIBLE);
-        textText.setVisibility(View.VISIBLE);
-
-        isTextPost = true;
+    @Override
+    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
 
     public void buttonSubmitClick(View view){

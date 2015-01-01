@@ -9,32 +9,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Link"
-                android:id="@+id/buttonLink"
-                android:layout_weight="1"
-                android:onClick="buttonLinkClick"
-                android:layout_marginRight="1dp"
-                style="?button"/>
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Text"
-                android:id="@+id/buttonText"
-                android:layout_weight="1"
-                android:onClick="buttonTextClick"
-                android:layout_marginLeft="1dp"
-                style="?button"/>
-        </LinearLayout>
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
