@@ -40,7 +40,7 @@ public class FrontPage extends BaseActivity implements ActionBar.TabListener{
     ArticleArrayAdapter articleAdapter;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
-    String subreddit = "";
+    String subreddit = "/";
     String sortBy = "";
     ProgressBar progressbar;
     final ArrayList<String> subreddits = new ArrayList<String>();
@@ -146,7 +146,7 @@ public class FrontPage extends BaseActivity implements ActionBar.TabListener{
                     if(subreddits.get(position).equals("All")){
                         subreddit = "";
                     } else {
-                        subreddit = subreddits.get(position);
+                        subreddit = subreddits.get(position) + "/";
                     }
 
                     listStories.clear();
@@ -332,7 +332,7 @@ public class FrontPage extends BaseActivity implements ActionBar.TabListener{
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-        sortBy = "/" + tab.getText().toString();
+        sortBy = tab.getText().toString();
         if(listStories != null) {
             listStories.clear();
             loadMore();
