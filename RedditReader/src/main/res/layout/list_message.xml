@@ -40,13 +40,14 @@
         android:paddingLeft="8dp"
         android:paddingTop="4dp"
         android:paddingRight="8dp"
-        android:paddingBottom="4dp" />
+        android:paddingBottom="12dp" />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/linearLayoutMessageButtons">
+        android:id="@+id/linearLayoutMessageButtons"
+        android:background="#666">
 
         <Button
             android:layout_width="match_parent"
@@ -54,9 +55,10 @@
             android:id="@+id/buttonMessageContext"
             android:layout_weight="1"
             android:layout_marginRight="1dp"
+            android:layout_marginTop="1dp"
             android:text="Context"
             android:textSize="10sp"
-            />
+            style="?commentText" />
 
         <Button
             android:layout_width="match_parent"
@@ -64,19 +66,21 @@
             android:id="@+id/buttonMessageReply"
             android:layout_weight="1"
             android:layout_marginRight="1dp"
+            android:layout_marginTop="1dp"
             android:cropToPadding="false"
             android:text="Reply"
             android:textSize="10sp"
-            />
+            style="?commentText" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/buttonMessageComments"
             android:layout_weight="1"
+            android:layout_marginTop="1dp"
             android:text="Full Comments"
             android:textSize="10sp"
-            />
+            style="?commentText" />
 
     </LinearLayout>
 
