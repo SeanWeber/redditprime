@@ -78,8 +78,6 @@ public class Comments extends BaseActivity implements ActionBar.TabListener{
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
-
-            //loadComments();
         } else {
             VolleyRequest.initQueue(this.getApplication());
             listComments = (ArrayList<Comment>)savedInstanceState.getSerializable("listComments");
@@ -137,9 +135,13 @@ public class Comments extends BaseActivity implements ActionBar.TabListener{
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
         sortBy = "?sort=" + tab.getText().toString();
-        //if(listComments != null) {
-        //    listComments.clear();
-        //}
+        if(listComments != null) {
+            listComments.clear();
+            commentAdapter.notifyDataSetChanged();
+        }
+
+        progressBar.setVisibility(View.VISIBLE);
+        listViewComments.setVisibility(View.GONE);
         loadComments();
     }
 
@@ -201,6 +203,7 @@ public class Comments extends BaseActivity implements ActionBar.TabListener{
         listViewComments.setAdapter(commentAdapter);
 
         progressBar.setVisibility(View.GONE);
+        listViewComments.setVisibility(View.VISIBLE);
     }
 
     private void addNewComment(String parentFullname){

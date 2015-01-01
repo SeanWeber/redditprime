@@ -336,6 +336,8 @@ public class FrontPage extends BaseActivity implements ActionBar.TabListener{
         if(listStories != null) {
             listStories.clear();
             articleAdapter.notifyDataSetChanged();
+
+            progressbar.setVisibility(View.VISIBLE);
             loadMore();
         }
     }
