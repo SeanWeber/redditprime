@@ -75,7 +75,6 @@ public class ArticleArrayAdapter extends BaseExpandableListAdapter {
         holder.imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         holder.imageView.setBackgroundColor(Color.parseColor("#336699"));
         holder.imageView.setDefaultImageResId(R.drawable.rr5);
-        holder.imageView.setErrorImageResId(R.drawable.errorthumbnail);
         holder.imageView.setImageUrl(null, VolleyRequest.imageLoader);
 
         if(thumbnailUrl.equals("default") || thumbnailUrl.equals("")){}
