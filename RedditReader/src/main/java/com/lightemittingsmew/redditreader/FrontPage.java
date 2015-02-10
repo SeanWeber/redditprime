@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -144,7 +145,7 @@ public class FrontPage extends BaseActivity implements ActionBar.TabListener{
                     context.startActivity(intent);
                 } else {
                     if(subreddits.get(position).equals("All")){
-                        subreddit = "";
+                        subreddit = "/";
                     } else {
                         subreddit = subreddits.get(position) + "/";
                     }
