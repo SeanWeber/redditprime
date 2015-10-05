@@ -58,6 +58,9 @@ public class Articles extends BaseActivity {
         // Make it so links open in the same view
         webView.setWebViewClient(new WebViewClient());
 
+        // This is necessary to load imgur albums
+        webView.getSettings().setDomStorageEnabled(true);
+        
         webView.loadUrl(url);
         addBanner();
     }
