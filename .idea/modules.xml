@@ -3,10 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/RedditReader/RedditReader.iml" filepath="$PROJECT_DIR$/RedditReader/RedditReader.iml" />
-      <module fileurl="file://$PROJECT_DIR$/RedditReaderProject.iml" filepath="$PROJECT_DIR$/RedditReaderProject.iml" />
       <module fileurl="file://$PROJECT_DIR$/reddit-reader.iml" filepath="$PROJECT_DIR$/reddit-reader.iml" />
-      <module fileurl="file://$PROJECT_DIR$/redditPrime.iml" filepath="$PROJECT_DIR$/redditPrime.iml" />
     </modules>
   </component>
 </project>
-
