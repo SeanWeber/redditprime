@@ -135,7 +135,7 @@ public class FrontPage extends BaseActivity implements ActionBar.TabListener{
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(subreddits.get(position).equals("Search")){
+                if (subreddits.get(position).equals("Search")) {
                     // close the drawer
                     mDrawerList.setItemChecked(position, true);
                     mDrawerLayout.closeDrawer(mDrawerList);
@@ -144,7 +144,7 @@ public class FrontPage extends BaseActivity implements ActionBar.TabListener{
                     Intent intent = new Intent(context, SubredditSearch.class);
                     context.startActivity(intent);
                 } else {
-                    if(subreddits.get(position).equals("All")){
+                    if (subreddits.get(position).equals("All")) {
                         subreddit = "/";
                     } else {
                         subreddit = subreddits.get(position) + "/";
@@ -336,7 +336,10 @@ public class FrontPage extends BaseActivity implements ActionBar.TabListener{
         sortBy = tab.getText().toString();
         if(listStories != null) {
             listStories.clear();
-            articleAdapter.notifyDataSetChanged();
+
+            if(articleAdapter != null) {
+                articleAdapter.notifyDataSetChanged();
+            }
 
             progressbar.setVisibility(View.VISIBLE);
             loadMore();
